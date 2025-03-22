@@ -61,6 +61,20 @@ public class Stanza {
     		    this.numeroStanzeAdiacenti++;
     		}
     }
+    
+    /**
+     * imposta un atrezzo nella stanza
+     * 
+     * @param stanza stanza in cui deve essere aggiutno l'attrezzo
+     * @param atrezzzo attrezzo da aggiungere
+     */
+    
+    public void impostaAttrezzo() {
+    	
+    }
+    
+    
+    
 
     /**
      * Restituisce la stanza adiacente nella direzione specificata
@@ -127,8 +141,8 @@ public class Stanza {
     		if (direzione!=null)
     			risultato.append(" " + direzione);
     	risultato.append("\nAttrezzi nella stanza: ");
-    	for (Attrezzo attrezzo : this.attrezzi) {
-    		risultato.append(attrezzo.toString()+" ");
+    	for (int i=0; i<NUMERO_MASSIMO_ATTREZZI && this.attrezzi[i]!=null; i++) { 
+    		risultato.append(this.attrezzi.toString()+" ");
     	}
     	return risultato.toString();
     }
