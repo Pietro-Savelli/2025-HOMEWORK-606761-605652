@@ -63,20 +63,6 @@ public class Stanza {
     }
     
     /**
-     * imposta un atrezzo nella stanza
-     * 
-     * @param stanza stanza in cui deve essere aggiutno l'attrezzo
-     * @param atrezzzo attrezzo da aggiungere
-     */
-    
-    public void impostaAttrezzo() {
-    	
-    }
-    
-    
-    
-
-    /**
      * Restituisce la stanza adiacente nella direzione specificata
      * @param direzione
      */
