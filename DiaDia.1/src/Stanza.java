@@ -128,7 +128,7 @@ public class Stanza {
     			risultato.append(" " + direzione);
     	risultato.append("\nAttrezzi nella stanza: ");
     	for (int i=0; i<NUMERO_MASSIMO_ATTREZZI && this.attrezzi[i]!=null; i++) { 
-    		risultato.append(this.attrezzi.toString()+" ");
+    		risultato.append(this.attrezzi[i].getDescrizioneAttrezzo()+" ");
     	}
     	return risultato.toString();
     }

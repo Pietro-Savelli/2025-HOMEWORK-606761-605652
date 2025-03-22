@@ -42,7 +42,7 @@ public class Attrezzo {
 	public int getPeso() {
 		return this.peso;
 	}
-
+	
 	/**
 	 * Restituisce una rappresentazione stringa di questo attrezzo
 	 * @return la rappresentazione stringa
@@ -50,5 +50,16 @@ public class Attrezzo {
 	public String toString() {
 		return this.getNome()+" ("+this.getPeso()+"kg)";
 	}
+	
 
+	// POTREBBE ESSERE PIU' CHIARO MA NON SO SE E' UNA RIPETIZIONE
+	/** 
+	 * Restituisce le caratteristiche dell'attrezzo nome, peso
+	 * @return la descrizione dell'attrezzo
+	 */
+	public String getDescrizioneAttrezzo() {
+        return this.toString();
+    }
+	
+	
 }
