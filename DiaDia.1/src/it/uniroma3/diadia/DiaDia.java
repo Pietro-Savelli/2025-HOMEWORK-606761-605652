@@ -52,7 +52,7 @@ public class DiaDia {
 	/**
 	 * Processa una istruzione 
 	 *
-	 * @param istruzione e'-una-stringa
+	 * @param istruzione e'una stringa
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
 	private boolean processaIstruzione(String istruzione) {
