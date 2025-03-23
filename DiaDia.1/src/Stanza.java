@@ -127,11 +127,13 @@ public class Stanza {
     		if (direzione!=null)
     			risultato.append(" " + direzione);
     	risultato.append("\nAttrezzi nella stanza: ");
-    	for (int i=0; i<NUMERO_MASSIMO_ATTREZZI && this.attrezzi[i]!=null; i++) { 
-    		risultato.append(this.attrezzi[i].getDescrizioneAttrezzo()+" ");
+    	for (Attrezzo attrezzo : this.attrezzi) {
+    		if(attrezzo!=null)
+    			risultato.append(attrezzo.getDescrizioneAttrezzo()+" ");
+    		}
+    		return risultato.toString();
     	}
-    	return risultato.toString();
-    }
+    	
 
     /**
 	* Controlla se un attrezzo esiste nella stanza (uguaglianza sul nome).
