@@ -50,20 +50,27 @@ public class DiaDia {
 	/**
 	 * Processa una istruzione 
 	 *
+	 * @param istruzione e'-una-stringa
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire = new Comando(istruzione);
-
+		
+		if(comandoDaEseguire.getNome() == null) {	// gestisce-il-problema-del-null-pointer-nel-caso-di-invio-senza-nessun-comando
+			return false;
+		}
+		
 		if (comandoDaEseguire.getNome().equals("fine")) {
 			this.fine(); 
 			return true;
-		} else if (comandoDaEseguire.getNome().equals("vai"))
+		}
+		else if (comandoDaEseguire.getNome().equals("vai"))
 			this.vai(comandoDaEseguire.getParametro());
 		else if (comandoDaEseguire.getNome().equals("aiuto"))
 			this.aiuto();
 		else
 			System.out.println("Comando sconosciuto");
+		
 		if (this.partita.vinta()) {
 			System.out.println("Hai vinto!");
 			return true;
