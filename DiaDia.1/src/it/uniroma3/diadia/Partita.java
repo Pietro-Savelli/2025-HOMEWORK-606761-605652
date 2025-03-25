@@ -16,18 +16,14 @@ import it.uniroma3.diadia.giocatore.Giocatore;
 
 public class Partita {
 
-	//static final private int CFU_INIZIALI = 20;
-
 	private Stanza stanzaCorrente;
 	private boolean finita;
-	//private int cfu;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
 	
 	public Partita(){
 		creaLabirinto();  
 		this.finita = false;
-		//this.cfu = CFU_INIZIALI;
 		this.stanzaCorrente = labirinto.getStanzaIniziale();	// inizializzo la stanza corrente all'ingresso
 		this.giocatore = new Giocatore();
 	}
