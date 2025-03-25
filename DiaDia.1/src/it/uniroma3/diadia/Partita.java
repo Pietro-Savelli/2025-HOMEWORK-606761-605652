@@ -77,9 +77,13 @@ public class Partita {
 	public void setFinita() {
 		this.finita = true;
 	}
-
-
-	public void mossa() {
-		giocatore.setCfu(giocatore.getCfu()-1);
-	}
+	
+	/**
+	 * Questo metodo consente di ottenere il riferimento al giocatore attuale
+	 * in gioco.
+	 * @return Restituisce l'oggetto Giocatore associato alla partita
+	 */
+    public Giocatore getGiocatore() {
+        return this.giocatore;
+    }
 }

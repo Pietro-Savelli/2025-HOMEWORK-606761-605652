@@ -3,6 +3,7 @@ package it.uniroma3.diadia;
 
 import java.util.Scanner;
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.giocatore.Giocatore;
 
 
 /**
@@ -109,8 +110,9 @@ public class DiaDia {
 		if (prossimaStanza == null)
 			System.out.println("Direzione inesistente");
 		else {
+			Giocatore giocatore = partita.getGiocatore();	// salvo il giocatore attuale in giocatore
 			this.partita.setStanzaCorrente(prossimaStanza);
-			this.partita.mossa();	// ogni volta che Giocatore cambia stanza chiamato mossa
+			giocatore.setCfu(giocatore.getCfu()-1);	// ogni volta che Giocatore cambia stanza chiamato mossa
 		}
 		System.out.println(partita.getStanzaCorrente().getDescrizione());
 	}
