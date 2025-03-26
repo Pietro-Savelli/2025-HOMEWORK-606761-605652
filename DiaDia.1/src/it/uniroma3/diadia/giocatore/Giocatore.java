@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.giocatore;
 
+import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 /**
  * Questa classe si occupa di creare un giocatore e gestire i cfu e la borsa a disposizione
@@ -71,5 +72,6 @@ public class Giocatore {
 	public boolean hasAttrezzo(String nomeAttrezzo) {
 		return this.borsa.hasAttrezzo(nomeAttrezzo);
 	}
+	
 }
 

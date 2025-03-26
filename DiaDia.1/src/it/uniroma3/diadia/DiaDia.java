@@ -3,6 +3,7 @@ package it.uniroma3.diadia;
 
 import java.util.Scanner;
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
 
@@ -30,7 +31,7 @@ public class DiaDia {
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine"};
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "aggiungi", "lascia"};
 
 	private Partita partita;
 
@@ -70,8 +71,13 @@ public class DiaDia {
 		}
 		else if (comandoDaEseguire.getNome().equals("vai"))
 			this.vai(comandoDaEseguire.getParametro());
+		
 		else if (comandoDaEseguire.getNome().equals("aiuto"))
 			this.aiuto();
+		
+		else if(comandoDaEseguire.getNome().equals("aggiungi")) {
+			this.aggiungi(comandoDaEseguire.getParametro());
+		}
 		else
 			System.out.println("Comando sconosciuto");
 		
@@ -88,6 +94,21 @@ public class DiaDia {
 	}   
 
 	// implementazioni dei comandi dell'utente:
+
+	private void aggiungi(String oggetto) {
+		// TODO Auto-generated method stub
+		if(oggetto==null)
+			System.out.println("cosa vuoi prendere");
+		//partita.getStanzaCorrente().getAttrezzo(oggetto);
+		//Giocatore giocatore = partita.getGiocatore();
+		else {
+			Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);
+			partita.getGiocatore().addAttrezzo(attrezzo);
+			System.out.println("attrezzo aggiunto alla borsa");
+			System.out.println(partita.getGiocatore().getBorsa().toString());
+		}
+		
+	}
 
 	/**
 	 * Stampa informazioni di aiuto.
