@@ -30,8 +30,8 @@ public class DiaDia {
 			"puoi raccoglierli, usarli, posarli quando ti sembrano inutili\n" +
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
-	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "aggiungi", "lascia"};
+
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "raccogli", "lascia"};
 
 	private Partita partita;
 
@@ -60,27 +60,27 @@ public class DiaDia {
 	 */
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire = new Comando(istruzione);
-		
+
 		if(comandoDaEseguire.getNome() == null) {	// gestisce-il-problema-del-null-pointer-nel-caso-di-invio-senza-nessun-comando
 			return false;
 		}
-		
+
 		if (comandoDaEseguire.getNome().equals("fine")) {
 			this.fine(); 
 			return true;
 		}
 		else if (comandoDaEseguire.getNome().equals("vai"))
 			this.vai(comandoDaEseguire.getParametro());
-		
+
 		else if (comandoDaEseguire.getNome().equals("aiuto"))
 			this.aiuto();
-		
-		else if(comandoDaEseguire.getNome().equals("aggiungi")) {
-			this.aggiungi(comandoDaEseguire.getParametro());
+
+		else if(comandoDaEseguire.getNome().equals("raccogli")) {
+			this.raccogli(comandoDaEseguire.getParametro());
 		}
 		else
 			System.out.println("Comando sconosciuto");
-		
+
 		if (this.partita.isFinita()) {
 			if(this.partita.vinta())
 				System.out.println("Hai vinto!");
@@ -93,23 +93,39 @@ public class DiaDia {
 			return false;
 	}   
 
+	
+	
 	// implementazioni dei comandi dell'utente:
 
-	private void aggiungi(String oggetto) {
+	
+	
+	/**
+	 * Permette al giocatore di raccogliere un attrezzo dalla stanza corrente e aggiungerlo alla propria borsa,
+	 * se presente viene aggiunto, stampata la borsa e rimosso dalla stanza, altrimenti viene stampato un messaggio di avviso
+	 * 
+	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
+	 */
+	
+	private void raccogli(String oggetto) {
 		// TODO Auto-generated method stub
-		if(oggetto==null)
+		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
 			System.out.println("cosa vuoi prendere");
-		//partita.getStanzaCorrente().getAttrezzo(oggetto);
-		//Giocatore giocatore = partita.getGiocatore();
-		else {
-			Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);
-			partita.getGiocatore().addAttrezzo(attrezzo);
-			System.out.println("attrezzo aggiunto alla borsa");
-			System.out.println(partita.getGiocatore().getBorsa().toString());
-		}
 		
+		else {
+			Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);	// cerco l'attrezzo nella stanza corrente
+			if(attrezzo == null)
+				System.out.println("l'attrezzo cercato non e' presente nella stanza");
+			else {
+				partita.getGiocatore().addAttrezzo(attrezzo);	//aggiungo l'attrezzo nella borsa
+				partita.getStanzaCorrente().removeAttrezzo(attrezzo); 	// rimuovo l'attrezzo dalla stanza
+				System.out.println("attrezzo aggiunto alla borsa");
+				System.out.println(partita.getGiocatore().getBorsa().toString());
+			}
+		}
+
 	}
 
+	
 	/**
 	 * Stampa informazioni di aiuto.
 	 */
@@ -118,7 +134,7 @@ public class DiaDia {
 			System.out.print(elencoComandi[i]+" ");
 		System.out.println();
 	}
-
+	
 	/**
 	 * Cerca di andare in una direzione. Se c'e' una stanza ci entra 
 	 * e ne stampa il nome, altrimenti stampa un messaggio di errore

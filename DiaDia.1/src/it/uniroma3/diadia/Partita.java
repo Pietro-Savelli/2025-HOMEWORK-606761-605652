@@ -49,7 +49,7 @@ public class Partita {
 	}
 	
     /**
-     * Restiruisce
+     * Restiruisce la stanza corrente
      */
 	public Stanza getStanzaCorrente() {
 		return this.stanzaCorrente;

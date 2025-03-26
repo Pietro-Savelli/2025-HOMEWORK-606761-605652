@@ -160,7 +160,7 @@ public class Stanza {
 		Attrezzo attrezzoCercato;
 		attrezzoCercato = null;
 		for (Attrezzo attrezzo : this.attrezzi) {
-			if (attrezzo.getNome().equals(nomeAttrezzo))
+			if (attrezzo!= null && attrezzo.getNome().equals(nomeAttrezzo)) // aggiunto il controllo che (attrezzo !=null)
 				attrezzoCercato = attrezzo;
 		}
 		return attrezzoCercato;	
@@ -172,7 +172,8 @@ public class Stanza {
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		// TODO da implementare
+		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
