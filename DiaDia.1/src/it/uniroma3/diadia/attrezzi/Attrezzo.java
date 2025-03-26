@@ -60,7 +60,6 @@ public class Attrezzo {
 	 */
 	public String getDescrizioneAttrezzo() {
         return this.toString();
-    }
-	
+    }	
 	
 }

@@ -168,15 +168,19 @@ public class Stanza {
 
 	/**
 	 * Rimuove un attrezzo dalla stanza (ricerca in base al nome).
-	 * @param nomeAttrezzo
-	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
+	 * @param attrezzo Attrezzo da eliminare
+	 * @return true se l'attrezzo è stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		// TODO Auto-generated method stub
-		
-		return false;
+	    for (int i = 0; i < this.attrezzi.length; i++) {
+	        if (this.attrezzi[i].getNome().equals(attrezzo.getNome())) {
+	            this.attrezzi[i] = null; 	// Rimuove l'attrezzo dalla lista
+	            this.numeroAttrezzi--;
+	            return true;
+	        }
+	    }
+	    return false;
 	}
-
 
 	public String[] getDirezioni() {
 		String[] direzioni = new String[this.numeroStanzeAdiacenti];

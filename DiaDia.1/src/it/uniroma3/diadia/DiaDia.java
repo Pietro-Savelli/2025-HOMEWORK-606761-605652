@@ -115,6 +115,7 @@ public class DiaDia {
 			Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);	// cerco l'attrezzo nella stanza corrente
 			if(attrezzo == null)
 				System.out.println("l'attrezzo cercato non e' presente nella stanza");
+			
 			else {
 				partita.getGiocatore().addAttrezzo(attrezzo);	//aggiungo l'attrezzo nella borsa
 				partita.getStanzaCorrente().removeAttrezzo(attrezzo); 	// rimuovo l'attrezzo dalla stanza
