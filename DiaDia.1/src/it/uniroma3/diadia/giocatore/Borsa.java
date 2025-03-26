@@ -105,11 +105,24 @@ public class Borsa {
 		return this.getAttrezzo(nomeAttrezzo)!=null;
 	}
 
-
+	/**
+	 * 
+	 * questa funzione scorre la borsa fino a trovare un attrezzo con il nome indicato,
+	 * rimuove quell attrezzo e fa scalare tutti gli altri di 1.
+	 * 
+	 */
 	public Attrezzo removeAttrezzo(String nomeAttrezzo) {
-		Attrezzo a = null;
-		// --->  TODO (implementare questo metodo) <--
-		return a;
+	    for (int i = 0; i < this.numeroAttrezzi; i++) {
+	        if (this.attrezzi[i].getNome().equals(nomeAttrezzo)) {
+	            Attrezzo attrezzoRimosso = this.attrezzi[i];
+	            // Spostiamo l'ultimo attrezzo nella posizione liberata
+	            this.attrezzi[i] = this.attrezzi[this.numeroAttrezzi - 1];
+	            this.attrezzi[this.numeroAttrezzi - 1] = null; 
+	            this.numeroAttrezzi--;
+	            return attrezzoRimosso;
+	        }
+	    }
+	    return null; // Se l'attrezzo non è presente
 	}
 
 
