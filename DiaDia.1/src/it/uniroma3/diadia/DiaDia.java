@@ -31,7 +31,7 @@ public class DiaDia {
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "raccogli", "lascia", "borsa"};
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa", "borsa"};
 
 	private Partita partita;
 
@@ -75,12 +75,12 @@ public class DiaDia {
 		else if (comandoDaEseguire.getNome().equals("aiuto"))
 			this.aiuto();
 
-		else if(comandoDaEseguire.getNome().equals("raccogli")) {
-			this.raccogli(comandoDaEseguire.getParametro());
+		else if(comandoDaEseguire.getNome().equals("prendi")) {
+			this.prendi(comandoDaEseguire.getParametro());
 		}
 		
-		else if(comandoDaEseguire.getNome().equals("lascia")) {
-			this.lascia(comandoDaEseguire.getParametro());
+		else if(comandoDaEseguire.getNome().equals("posa")) {
+			this.posa(comandoDaEseguire.getParametro());
 		}
 		else if(comandoDaEseguire.getNome().equals("borsa")) {
 			System.out.println(partita.getGiocatore().getBorsa().toString());
@@ -114,7 +114,7 @@ public class DiaDia {
 	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
 	 */
 	
-	private void lascia(String oggetto) {
+	private void posa(String oggetto) {
 		// TODO Auto-generated method stub
 		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
 			System.out.println("cosa vuoi lasciare");
@@ -139,7 +139,7 @@ public class DiaDia {
 	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
 	 */
 	
-	private void raccogli(String oggetto) {
+	private void prendi(String oggetto) {
 		// TODO Auto-generated method stub
 		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
 			System.out.println("cosa vuoi prendere");
