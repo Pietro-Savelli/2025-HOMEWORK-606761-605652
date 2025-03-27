@@ -18,14 +18,21 @@ public class Giocatore {
 	private int cfu;
 	private Borsa borsa;
 	
+	// cotruttore base
 	public Giocatore() {
 		this(CFU_INIZIALI);	
 	}
 	
+	/**
+	 * cotruttore giocatore
+	 * 
+	 * @param cfu_iniziali che sono una variabile fissa
+	 */
 	public Giocatore(int cfu_iniziali) {
 		this.cfu = cfu_iniziali;
 		borsa = new Borsa();
 	}
+	
 
 	public int getCfu() {
 		return cfu;
