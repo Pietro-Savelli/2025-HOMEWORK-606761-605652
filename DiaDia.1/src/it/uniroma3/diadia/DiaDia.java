@@ -151,7 +151,7 @@ public class DiaDia {
 			
 			else {
 				partita.getGiocatore().addAttrezzo(attrezzo);	//aggiungo l'attrezzo nella borsa
-				partita.getStanzaCorrente().removeAttrezzo(attrezzo); 	// rimuovo l'attrezzo dalla stanza
+				partita.getStanzaCorrente().removeAttrezzo(oggetto); 	// rimuovo l'attrezzo dalla stanza
 				System.out.println("attrezzo aggiunto alla borsa");
 				System.out.println(partita.getGiocatore().getBorsa().toString());
 			}
