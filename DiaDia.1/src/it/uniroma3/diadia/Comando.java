@@ -27,21 +27,29 @@ public class Comando {
 		if (scannerDiParole.hasNext())
 			this.nome = scannerDiParole.next(); 
 
-		// seconda parola: eventuale parametro
+		// seconda parola: eventuale parametro(nome del direzione,nome
 		if (scannerDiParole.hasNext())
 			this.parametro = scannerDiParole.next();
 		scannerDiParole.close();
     }
-
+    
+    /**
+     * 
+     * @return il nome del comando
+     */
     public String getNome() {
         return this.nome;
     }
 
+    /**
+     * 
+     * @return parametro su cui si applica il comando
+     */
     public String getParametro() {
         return this.parametro;
     }
 
     public boolean sconosciuto() {
-        return (this.nome == null);
+        return this.nome == null;
     }
 }

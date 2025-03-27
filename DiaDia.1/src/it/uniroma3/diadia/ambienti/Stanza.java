@@ -182,6 +182,10 @@ public class Stanza {
 	    return false;
 	}
 
+	/**
+	 * 
+	 * @return un array di stringhe contenente le direzioni delle stanze adiacenti.
+	 */
 	public String[] getDirezioni() {
 		String[] direzioni = new String[this.numeroStanzeAdiacenti];
 	    for(int i=0; i<this.numeroStanzeAdiacenti; i++)

@@ -31,7 +31,7 @@ public class Borsa {
 
 
 	/**
-	 *Imposta il peso massimo, inizializza l'array di attrezzi e imposta il numero di attrezzi a zero.
+	 *Imposta il peso massimo, inizializza l'array di attrezzi e imposta il numero di attrezzi a zero
 	 * 
 	 * @param pesoMax il peso massimo consentito per la borsa
 	 */

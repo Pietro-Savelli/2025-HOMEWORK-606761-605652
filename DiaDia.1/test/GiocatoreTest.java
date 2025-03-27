@@ -36,10 +36,6 @@ class GiocatoreTest {
     @Test
     void testAggiuntaAttrezzo() {
         assertTrue(giocatore.addAttrezzo(spada), "L'attrezzo deve essere aggiunto con successo");
-    }
-    
-    @Test
-    void testHasAttrezzo() {
         assertTrue(giocatore.hasAttrezzo("Spada"), "La borsa deve contenere la Spada");
     }
 

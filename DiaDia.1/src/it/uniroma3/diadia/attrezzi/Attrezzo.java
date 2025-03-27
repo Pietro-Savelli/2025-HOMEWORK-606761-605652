@@ -52,8 +52,6 @@ public class Attrezzo {
 		return this.getNome()+" ("+this.getPeso()+"kg)";
 	}
 	
-
-	// POTREBBE ESSERE PIU' CHIARO MA NON SO SE E' UNA RIPETIZIONE
 	/** 
 	 * Restituisce le caratteristiche dell'attrezzo nome, peso
 	 * @return la descrizione dell'attrezzo

@@ -33,31 +33,36 @@ public class Giocatore {
 		borsa = new Borsa();
 	}
 	
-
+	/**
+	 * 
+	 * @return numero cfu attuali
+	 */
 	public int getCfu() {
 		return cfu;
 	}
 	
 	/** 
-	 * ogni volta che il Giocatore cambia stanza perde un cfu
-	 * @param cfu nuovo numero di cfu rimasti
+	 * 	aggiornato ad ogni spostamento
+	 * @param cfu rimasti (attuali-1)
 	 */
 	public void setCfu(int cfu) {
 		this.cfu = cfu;	
 	}
+	
 	/**
 	 * Restituisce la borsa del giocatore
-	 * @return la borsa del giocatore
+	 * @return borsa del giocatore
 	 */
 	public Borsa getBorsa() {
 		return this.borsa;
 	}
 	
-	/**
-	 * Aggiunge un attrezzo alla borsa del giocatore
-	 * @param attrezzo l'attrezzo da aggiungere
-	 * @return true se l'attrezzo è stato aggiunto, false altrimenti
-	 */
+    /**
+     * Tenta di aggiungere un attrezzo alla borsa del giocatore.
+     *
+     * @param attrezzo l'attrezzo da aggiungere alla borsa
+     * @return  true se l'attrezzo è stato aggiunto con successo, false altrimenti
+     */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		return this.borsa.addAttrezzo(attrezzo);
 	}

@@ -4,7 +4,6 @@ package it.uniroma3.diadia;
 import java.util.Scanner;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.giocatore.Giocatore;
 
 
 /**
@@ -82,6 +81,7 @@ public class DiaDia {
 		else if(comandoDaEseguire.getNome().equals("posa")) {
 			this.posa(comandoDaEseguire.getParametro());
 		}
+		
 		else if(comandoDaEseguire.getNome().equals("borsa")) {
 			System.out.println(partita.getGiocatore().getBorsa().toString());
 		}
@@ -119,12 +119,11 @@ public class DiaDia {
 		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
 			System.out.println("cosa vuoi lasciare");
 		else {
-			Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(oggetto);
+			Attrezzo attrezzo = partita.getGiocatore().removeAttrezzo(oggetto);	// rimuove l'attrezzo dalla borsa e lo salva nella variabile
 			if(attrezzo == null)
 				System.out.println("l'attrezzo cercato non e' presente nella borsa");
 			else {
 				partita.getStanzaCorrente().addAttrezzo(attrezzo);	// aggiunge l'attrezzo dalla stanza
-				partita.getGiocatore().getBorsa().removeAttrezzo(oggetto);
 				System.out.println("attrezzo aggiunto alla stanza");
 				System.out.println(partita.getStanzaCorrente().toString());
 			}
@@ -170,9 +169,14 @@ public class DiaDia {
 	}
 	
 	/**
-	 * Cerca di andare in una direzione. Se c'e' una stanza ci entra 
-	 * e ne stampa il nome, altrimenti stampa un messaggio di errore
-	 */
+     * Sposta il giocatore nella direzione specificata, se possibile.
+     * <p>
+     * Se esiste una stanza adiacente nella direzione indicata il giocatore si sposta in quella stanza,
+     * aggiornando la stanza corrente e decrementando il numero di CFU,
+     * se la direzione non è valida o non viene specificata, viene stampato un messaggio di errore.
+     *
+     * @param direzione la direzione in cui si vuole andare (ad es. "nord", "sud", "est", "ovest")
+     */
 	private void vai(String direzione) {
 		if(direzione==null)
 			System.out.println("Dove vuoi andare ?");
@@ -180,21 +184,21 @@ public class DiaDia {
 		prossimaStanza = this.partita.getStanzaCorrente().getStanzaAdiacente(direzione);
 		if (prossimaStanza == null)
 			System.out.println("Direzione inesistente");
-		else {
-			Giocatore giocatore = partita.getGiocatore();	// salvo il giocatore attuale in giocatore
+		else {		
 			this.partita.setStanzaCorrente(prossimaStanza);
-			giocatore.setCfu(giocatore.getCfu()-1);	// ogni volta che Giocatore cambia stanza chiamato mossa
+			partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);	// quando il giocatore cambia stanza i cfu diminuiscono
 		}
 		System.out.println(partita.getStanzaCorrente().getDescrizione());
 	}
 
 	/**
-	 * Comando "Fine".
+	 * Comando "Fine"
 	 */
 	private void fine() {
 		System.out.println("Grazie di aver giocato!");  // si desidera smettere
 	}
 
+	//main
 	public static void main(String[] argc) {
 		DiaDia gioco = new DiaDia();
 		gioco.gioca();
