@@ -31,7 +31,7 @@ public class DiaDia {
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "raccogli", "lascia"};
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "raccogli", "lascia", "borsa"};
 
 	private Partita partita;
 
@@ -78,6 +78,13 @@ public class DiaDia {
 		else if(comandoDaEseguire.getNome().equals("raccogli")) {
 			this.raccogli(comandoDaEseguire.getParametro());
 		}
+		
+		else if(comandoDaEseguire.getNome().equals("lascia")) {
+			this.lascia(comandoDaEseguire.getParametro());
+		}
+		else if(comandoDaEseguire.getNome().equals("borsa")) {
+			System.out.println(partita.getGiocatore().getBorsa().toString());
+		}
 		else
 			System.out.println("Comando sconosciuto");
 
@@ -99,6 +106,32 @@ public class DiaDia {
 
 	
 	
+	/**
+	 * Permette al giocatore di lascaire un attrezzo dalla borsa e aggiungerlo alla stanza corrente,
+	 * se presente viene lasciato, stampata la stanza con il nuovo oggeto e rimosso dalla borsa,
+	 *  altrimenti viene stampato un messaggio di avviso
+	 * 
+	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
+	 */
+	
+	private void lascia(String oggetto) {
+		// TODO Auto-generated method stub
+		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
+			System.out.println("cosa vuoi lasciare");
+		else {
+			Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(oggetto);
+			if(attrezzo == null)
+				System.out.println("l'attrezzo cercato non e' presente nella borsa");
+			else {
+				partita.getStanzaCorrente().addAttrezzo(attrezzo);	// aggiunge l'attrezzo dalla stanza
+				partita.getGiocatore().getBorsa().removeAttrezzo(oggetto);
+				System.out.println("attrezzo aggiunto alla stanza");
+				System.out.println(partita.getStanzaCorrente().toString());
+			}
+		}
+	}
+	
+
 	/**
 	 * Permette al giocatore di raccogliere un attrezzo dalla stanza corrente e aggiungerlo alla propria borsa,
 	 * se presente viene aggiunto, stampata la borsa e rimosso dalla stanza, altrimenti viene stampato un messaggio di avviso
