@@ -99,7 +99,11 @@ public class Borsa {
 		return a;
 	}
 	
-	
+	/**
+	 * 
+	 * @param nomeAttrezzo
+	 * @return true se esiste l'attrezzo cercatro, false altrimenti
+	 */
 
 	public boolean hasAttrezzo(String nomeAttrezzo) {
 		return this.getAttrezzo(nomeAttrezzo)!=null;
