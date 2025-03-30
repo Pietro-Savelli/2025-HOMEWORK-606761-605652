@@ -64,7 +64,7 @@ public class DiaDia {
 			return false;
 		}
 
-		if (comandoDaEseguire.getNome().equals("fine")) {
+		if (comandoDaEseguire.getNome().equals("fine")) {	// chiedere se convienene utilizzare setFinita() poi controllare come è finita
 			this.fine(); 
 			return true;
 		}
