@@ -24,7 +24,7 @@ public class Labirinto {
 	// variabili di istanza Attrezzo
 	private Attrezzo lanterna;
 	private Attrezzo osso;
-	private Attrezzo prova;		// attrezzo per provare i casi limite 
+	private Attrezzo prova;		// attrezzo per provare i casi limite di prendi e posa
 	
 	// Costruttore che attraverso la chiamata init() inizializza il Labirinto
 	public Labirinto() {
