@@ -9,7 +9,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  *
  * @author  Pietro Savelli
  * @see Giocatore
- * @version v0.0.0
+ * @version v0.0.1
  */
 
 
@@ -83,7 +83,11 @@ public class Borsa {
 	public boolean isEmpty() {
 		return this.numeroAttrezzi == 0;
 	}
-
+	
+	//verifica se la borsa e' piena
+	public boolean isFull() {
+		return this.numeroAttrezzi == 10;
+	}
 
 	/**
 	 * Restituisce l'attrezzo con il nome specificato se presente nella borsa
@@ -115,18 +119,17 @@ public class Borsa {
 	 * rimuove quell attrezzo e fa scalare tutti gli altri di 1.
 	 * 
 	 */
-	public Attrezzo removeAttrezzo(String nomeAttrezzo) {
+	public boolean removeAttrezzo(String nomeAttrezzo) {
 	    for (int i = 0; i < this.numeroAttrezzi; i++) {
-	        if (this.attrezzi[i].getNome().equals(nomeAttrezzo)) {
-	            Attrezzo attrezzoRimosso = this.attrezzi[i];
+	        if (this.attrezzi[i] != null && this.attrezzi[i].getNome().equals(nomeAttrezzo)) {
 	            // Spostiamo l'ultimo attrezzo nella posizione liberata
 	            this.attrezzi[i] = this.attrezzi[this.numeroAttrezzi - 1];
 	            this.attrezzi[this.numeroAttrezzi - 1] = null; 
 	            this.numeroAttrezzi--;
-	            return attrezzoRimosso;
+	            return true;
 	        }
 	    }
-	    return null; // Se l'attrezzo non è presente
+	    return false; // Se l'attrezzo non è presente
 	}
 
 

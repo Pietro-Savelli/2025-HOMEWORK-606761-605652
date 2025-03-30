@@ -72,7 +72,7 @@ public class Giocatore {
 	 * @param nomeAttrezzo il nome dell'attrezzo da rimuovere
 	 * @return l'attrezzo rimosso, o null se non presente
 	 */
-	public Attrezzo removeAttrezzo(String nomeAttrezzo) {
+	public boolean removeAttrezzo(String nomeAttrezzo) {
 		return this.borsa.removeAttrezzo(nomeAttrezzo);
 	}
 	

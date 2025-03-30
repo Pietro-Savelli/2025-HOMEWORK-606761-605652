@@ -77,11 +77,11 @@ public class DiaDia {
 		else if(comandoDaEseguire.getNome().equals("prendi")) {
 			this.prendi(comandoDaEseguire.getParametro());
 		}
-		
+
 		else if(comandoDaEseguire.getNome().equals("posa")) {
 			this.posa(comandoDaEseguire.getParametro());
 		}
-		
+
 		else if(comandoDaEseguire.getNome().equals("borsa")) {
 			System.out.println(partita.getGiocatore().getBorsa().toString());
 		}
@@ -100,12 +100,12 @@ public class DiaDia {
 			return false;
 	}   
 
-	
-	
+
+
 	// implementazioni dei comandi dell'utente:
 
-	
-	
+
+
 	/**
 	 * Permette al giocatore di lascaire un attrezzo dalla borsa e aggiungerlo alla stanza corrente,
 	 * se presente viene lasciato, stampata la stanza con il nuovo oggeto e rimosso dalla borsa,
@@ -113,23 +113,33 @@ public class DiaDia {
 	 * 
 	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
 	 */
-	
+
 	private void posa(String oggetto) {
 		// TODO Auto-generated method stub
-		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
+		if(oggetto==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
 			System.out.println("cosa vuoi lasciare");
-		else {
-			Attrezzo attrezzo = partita.getGiocatore().removeAttrezzo(oggetto);	// rimuove l'attrezzo dalla borsa e lo salva nella variabile
-			if(attrezzo == null)
-				System.out.println("l'attrezzo cercato non e' presente nella borsa");
-			else {
-				partita.getStanzaCorrente().addAttrezzo(attrezzo);	// aggiunge l'attrezzo dalla stanza
-				System.out.println("attrezzo aggiunto alla stanza");
-				System.out.println(partita.getStanzaCorrente().toString());
-			}
+			return;
 		}
-	}
+		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(oggetto);
+		if(attrezzo == null) {
+			System.out.println("l'attrezzo cercato non e' presente nella borsa");
+			return;
+		}
+		
+		if(partita.getStanzaCorrente().addAttrezzo(attrezzo)) {	// aggiunge l'attrezzo dalla stanza
+			System.out.println("attrezzo aggiunto alla stanza");
+			partita.getGiocatore().removeAttrezzo(oggetto);
+		}
+		else
+			System.out.println("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
 	
+		System.out.println(partita.getStanzaCorrente().toString());
+
+	}
+
+
+
+
 
 	/**
 	 * Permette al giocatore di raccogliere un attrezzo dalla stanza corrente e aggiungerlo alla propria borsa,
@@ -137,28 +147,35 @@ public class DiaDia {
 	 * 
 	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
 	 */
-	
+
 	private void prendi(String oggetto) {
 		// TODO Auto-generated method stub
-		if(oggetto==null)	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
+		if(oggetto==null) {	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
 			System.out.println("cosa vuoi prendere");
-		
-		else {
-			Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);	// cerco l'attrezzo nella stanza corrente
-			if(attrezzo == null)
-				System.out.println("l'attrezzo cercato non e' presente nella stanza");
-			
-			else {
-				partita.getGiocatore().addAttrezzo(attrezzo);	//aggiungo l'attrezzo nella borsa
-				partita.getStanzaCorrente().removeAttrezzo(oggetto); 	// rimuovo l'attrezzo dalla stanza
-				System.out.println("attrezzo aggiunto alla borsa");
-				System.out.println(partita.getGiocatore().getBorsa().toString());
-			}
+			return;
 		}
+
+		Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);	// cerco l'attrezzo nella stanza corrente
+		if(attrezzo == null) {
+			System.out.println("l'attrezzo cercato non e' presente nella stanza");
+			return;
+		}
+
+		if(partita.getGiocatore().addAttrezzo(attrezzo)) {	//aggiungo l'attrezzo nella borsa se ritorna true
+			partita.getStanzaCorrente().removeAttrezzo(oggetto); 	// rimuovo l'attrezzo dalla stanza
+			System.out.println("attrezzo aggiunto alla borsa");
+		}
+		else {
+			if(partita.getGiocatore().getBorsa().isFull()) 	
+				System.out.println("La borsa è piena, non puoi aggiungere altri attrezzi.");
+			else
+				System.out.println("La borsa è troppo pesante, non e' possobile aggiungere altri attrezzi.");
+		}
+		System.out.println(partita.getGiocatore().getBorsa().toString());
 
 	}
 
-	
+
 	/**
 	 * Stampa informazioni di aiuto.
 	 */
@@ -167,16 +184,16 @@ public class DiaDia {
 			System.out.print(elencoComandi[i]+" ");
 		System.out.println();
 	}
-	
+
 	/**
-     * Sposta il giocatore nella direzione specificata, se possibile.
-     * <p>
-     * Se esiste una stanza adiacente nella direzione indicata il giocatore si sposta in quella stanza,
-     * aggiornando la stanza corrente e decrementando il numero di CFU,
-     * se la direzione non è valida o non viene specificata, viene stampato un messaggio di errore.
-     *
-     * @param direzione la direzione in cui si vuole andare (ad es. "nord", "sud", "est", "ovest")
-     */
+	 * Sposta il giocatore nella direzione specificata, se possibile.
+	 * <p>
+	 * Se esiste una stanza adiacente nella direzione indicata il giocatore si sposta in quella stanza,
+	 * aggiornando la stanza corrente e decrementando il numero di CFU,
+	 * se la direzione non è valida o non viene specificata, viene stampato un messaggio di errore.
+	 *
+	 * @param direzione la direzione in cui si vuole andare (ad es. "nord", "sud", "est", "ovest")
+	 */
 	private void vai(String direzione) {
 		if(direzione==null)
 			System.out.println("Dove vuoi andare ?");

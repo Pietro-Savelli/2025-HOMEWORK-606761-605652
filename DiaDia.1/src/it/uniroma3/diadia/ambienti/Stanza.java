@@ -172,9 +172,10 @@ public class Stanza {
 	 * @return true se l'attrezzo è stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(String attrezzo) {
-	    for (int i = 0; i < this.attrezzi.length; i++) {
-	        if (this.attrezzi[i].getNome().equals(attrezzo)) {
-	            this.attrezzi[i] = null; 	// Rimuove l'attrezzo dalla lista
+	    for (int i = 0; i < this.numeroAttrezzi; i++) {
+	        if (this.attrezzi[i]!=null && this.attrezzi[i].getNome().equals(attrezzo)) {
+	        	this.attrezzi[i] = this.attrezzi[this.numeroAttrezzi-1];	//perche' avro' un numero di attrezzi effettivi e non la posizione del allterezzo
+	        	this.attrezzi[this.numeroAttrezzi - 1] = null; 
 	            this.numeroAttrezzi--;
 	            return true;
 	        }

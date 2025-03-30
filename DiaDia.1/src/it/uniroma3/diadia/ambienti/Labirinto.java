@@ -24,6 +24,7 @@ public class Labirinto {
 	// variabili di istanza Attrezzo
 	private Attrezzo lanterna;
 	private Attrezzo osso;
+	private Attrezzo prova;		// attrezzo per provare i casi limite 
 	
 	// Costruttore che attraverso la chiamata init() inizializza il Labirinto
 	public Labirinto() {
@@ -80,6 +81,8 @@ public class Labirinto {
 	private void creaAttrezzi() {
 		this.lanterna = new Attrezzo("lanterna",3);
 		this.osso = new Attrezzo("osso",1);
+		this.prova = new Attrezzo("prova",7);
+		
 	}
 	
 	
@@ -89,6 +92,7 @@ public class Labirinto {
 	private void posizionaAttrezzi() {
 		aulaN10.addAttrezzo(lanterna);
 		atrio.addAttrezzo(osso);
+		atrio.addAttrezzo(prova);
 	}
 	
 	
