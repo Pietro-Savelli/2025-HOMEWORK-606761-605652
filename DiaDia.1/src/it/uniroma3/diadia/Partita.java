@@ -54,12 +54,19 @@ public class Partita {
 		return this.stanzaCorrente;
 	}
 	
+    /**
+     * Restiruisce la stanza corrente
+     */
+	public Stanza getStanzaFinale() {
+		return labirinto.getStanzaFinale();
+	}
+	
 	/**
 	 * Restituisce vero se e solo se la partita e' stata vinta
 	 * @return vero se partita vinta
 	 */
 	public boolean vinta() {
-		return this.getStanzaCorrente() == labirinto.getStanzaFinale();
+		return this.getStanzaCorrente() == this.getStanzaFinale();
 	}
 
 	/**

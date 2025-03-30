@@ -49,6 +49,6 @@ class GiocatoreTest {
 
     @Test
     void testRimozioneAttrezzoNonPresente() {
-        assertNull(giocatore.removeAttrezzo("Martello"), "Tentare di rimuovere un attrezzo non presente deve restituire null");
+        assertFalse(giocatore.removeAttrezzo("Martello"), "Tentare di rimuovere un attrezzo non presente deve restituire null");
     }
 }
