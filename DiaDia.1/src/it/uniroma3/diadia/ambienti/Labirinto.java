@@ -12,6 +12,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  */
 
 public class Labirinto {
+	
 
 	// variabili di istanza Stanza
 	private Stanza stanzaIniziale;

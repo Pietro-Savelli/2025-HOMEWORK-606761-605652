@@ -21,6 +21,7 @@ public class Stanza {
 	
 	private String nome;
 	
+	
     private Attrezzo[] attrezzi;
     private int numeroAttrezzi;
     

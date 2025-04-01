@@ -19,9 +19,11 @@ public class Comando {
 
     private String nome;
     private String parametro;
+    private IOConsole io;
 
     public Comando(String istruzione) {
 		Scanner scannerDiParole = new Scanner(istruzione);
+		this.io = new IOConsole();
 
 		// prima parola: nome del comando
 		if (scannerDiParole.hasNext())

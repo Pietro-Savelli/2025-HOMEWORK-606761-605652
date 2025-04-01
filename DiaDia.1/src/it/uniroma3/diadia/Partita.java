@@ -20,12 +20,14 @@ public class Partita {
 	private boolean finita;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
+	private IOConsole io;
 	
 	public Partita(){
 		creaLabirinto();  
 		this.finita = false;
 		setStanzaCorrente(labirinto.getStanzaIniziale());	// inizializzo la stanza corrente all'ingresso
 		this.giocatore = new Giocatore();
+		this.io = new IOConsole();
 	}
 
 	
