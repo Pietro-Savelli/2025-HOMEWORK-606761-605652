@@ -8,7 +8,7 @@ import java.util.Scanner;
 	public String leggiRiga() {
 	Scanner scannerDiLinee = new Scanner(System.in);
 	String riga = scannerDiLinee.nextLine();
-	scannerDiLinee.close();
+	// riga mancamnte dertto prof 
 	return riga;
 	}
 	
