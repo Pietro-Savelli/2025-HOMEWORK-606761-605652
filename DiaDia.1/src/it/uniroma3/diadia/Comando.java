@@ -42,7 +42,6 @@ public class Comando {
     public String getNome() {
         return this.nome;
     }
-
     /**
      * 
      * @return parametro su cui si applica il comando

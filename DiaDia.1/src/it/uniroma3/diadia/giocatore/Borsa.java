@@ -49,6 +49,8 @@ public class Borsa {
 	 * @return true se l'oggetto e' stato aggiunto corretamente, altrimenti false
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
+		if (attrezzo == null) // non funzionava il test perche ammatteva attrezzi null
+	        return false;
 		if (this.getPeso() + attrezzo.getPeso() > this.getPesoMax())
 			return false;
 		if (this.numeroAttrezzi==10)

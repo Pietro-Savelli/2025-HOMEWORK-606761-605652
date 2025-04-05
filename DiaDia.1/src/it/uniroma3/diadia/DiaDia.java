@@ -44,7 +44,7 @@ public class DiaDia {
 		String istruzione; 
 		Scanner scannerDiLinee;
 
-		System.out.println(MESSAGGIO_BENVENUTO);
+		io.mostraMessaggio(MESSAGGIO_BENVENUTO);
 		scannerDiLinee = new Scanner(System.in);		
 		do		
 			istruzione = io.leggiRiga();//cambio istruzione in leggi riga per la classe IO
