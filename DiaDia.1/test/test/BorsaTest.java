@@ -8,40 +8,40 @@ import org.junit.Test;
 
 public class BorsaTest {
 	
-	private final Attrezzo a = new Attrezzo("prova", 2);
-	private final Borsa b = new Borsa();
-	private final Attrezzo ascia = new Attrezzo("ascia", 5);
-	private final Attrezzo spadone = new Attrezzo("spadone", 12);
+	private final Attrezzo a = new Attrezzo("prova", 3);
+	private final Borsa borsa = new Borsa();
+	private final Attrezzo spada = new Attrezzo("spada", 4);
+	private final Attrezzo lama = new Attrezzo("lama", 11);
 	
 	
 	@Test
 	public void testAddAttrezzo() {
-		assertTrue(b.addAttrezzo(a));
+		assertTrue(borsa.addAttrezzo(a));
 	}
 	
 	@Test
 	public void testAddAttrezzoNull() {
-		assertFalse(b.addAttrezzo(null));
+		assertFalse(borsa.addAttrezzo(null));
 	}
 	
 	@Test
 	public void testAddAttrezzoDiversoNull() {
-		assertNotNull(b.addAttrezzo(a));
+		assertNotNull(borsa.addAttrezzo(a));
 	}
 	
 	@Test
 	public void testGetPesoMax() {
-		assertFalse(b.getPesoMax()== 5);		
+		assertFalse(borsa.getPesoMax()== 4);		
 	}
 	
 	@Test
 	public void testAddAttrezzoPesoMinoreDiDieci() {
-		assertTrue(b.addAttrezzo(ascia));
+		assertTrue(borsa.addAttrezzo(spada));
 	}
 	
 	@Test
 	public void testAddAttrezzoPesoMaggioreDiDieci() {
-		assertFalse(b.addAttrezzo(spadone));
+		assertFalse(borsa.addAttrezzo(lama));
 	}
 
 }
