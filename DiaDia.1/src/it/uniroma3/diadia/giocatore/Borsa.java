@@ -122,6 +122,8 @@ public class Borsa {
 	 * 
 	 */
 	public boolean removeAttrezzo(String nomeAttrezzo) {
+		if (nomeAttrezzo == null) return false; // per gestire la stringa null(anche prima funzionava ma ora è più chiaro)
+		
 	    for (int i = 0; i < this.numeroAttrezzi; i++) {
 	        if (this.attrezzi[i] != null && this.attrezzi[i].getNome().equals(nomeAttrezzo)) {
 	            // Spostiamo l'ultimo attrezzo nella posizione liberata

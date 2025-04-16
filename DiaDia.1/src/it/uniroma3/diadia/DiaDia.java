@@ -197,8 +197,10 @@ public class DiaDia {
 	 * @param direzione la direzione in cui si vuole andare (ad es. "nord", "sud", "est", "ovest")
 	 */
 	private void vai(String direzione) {
-		if(direzione==null)
+		if(direzione==null) {
 			io.mostraMessaggio("Dove vuoi andare ?");
+			return;
+			}
 		Stanza prossimaStanza = null;
 		prossimaStanza = this.partita.getStanzaCorrente().getStanzaAdiacente(direzione);
 		if (prossimaStanza == null)

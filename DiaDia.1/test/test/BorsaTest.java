@@ -8,15 +8,17 @@ import org.junit.Test;
 
 public class BorsaTest {
 	
-	private final Attrezzo a = new Attrezzo("prova", 3);
+	private final Attrezzo prova = new Attrezzo("prova", 3);
 	private final Borsa borsa = new Borsa();
-	private final Attrezzo spada = new Attrezzo("spada", 4);
-	private final Attrezzo lama = new Attrezzo("lama", 11);
+	private final Attrezzo spada = new Attrezzo("spada", 3);
+	private final Attrezzo lama = new Attrezzo("lama", 9);
+	private final Attrezzo osso = new Attrezzo("osso", 3);
+	private final Attrezzo chiave = new Attrezzo("osso", 11);
 	
-	
+	// AddAttrezzo
 	@Test
 	public void testAddAttrezzo() {
-		assertTrue(borsa.addAttrezzo(a));
+		assertTrue(borsa.addAttrezzo(prova));
 	}
 	
 	@Test
@@ -26,12 +28,13 @@ public class BorsaTest {
 	
 	@Test
 	public void testAddAttrezzoDiversoNull() {
-		assertNotNull(borsa.addAttrezzo(a));
+		assertNotNull(borsa.addAttrezzo(prova));
 	}
 	
 	@Test
-	public void testGetPesoMax() {
-		assertFalse(borsa.getPesoMax()== 4);		
+	public void testAddAttrezzoBorsaPiena() {
+		borsa.addAttrezzo(lama);
+		assertFalse(borsa.addAttrezzo(prova));
 	}
 	
 	@Test
@@ -41,7 +44,46 @@ public class BorsaTest {
 	
 	@Test
 	public void testAddAttrezzoPesoMaggioreDiDieci() {
-		assertFalse(borsa.addAttrezzo(lama));
+		assertFalse(borsa.addAttrezzo(chiave));
 	}
-
+	
+	//RemoveAttrezzo
+	@Test 
+	public void testRemoveAttrezzoNUll() {
+		assertFalse(borsa.removeAttrezzo(null));
+	}
+	
+	@Test 
+	public void testRemoveAttrezzoBorsaVuotaOSenzaOggetto() {
+		assertFalse(borsa.removeAttrezzo(spada.getNome()));
+	}
+	
+	@Test
+	public void testRemoveAttrezzoPresente() {
+		borsa.addAttrezzo(spada);
+		assertTrue(borsa.removeAttrezzo(spada.getNome()));
+	}
+	
+	@Test
+	public void testRemoveAttrezzoPresenteTraTanti() {
+		borsa.addAttrezzo(spada);
+		borsa.addAttrezzo(prova);
+		borsa.addAttrezzo(osso);
+		assertTrue(borsa.removeAttrezzo(prova.getNome()));
+	}
+	
+	@Test
+	public void testRemoveAttrezzoUltimo() {
+		borsa.addAttrezzo(spada);
+		borsa.addAttrezzo(prova);
+		borsa.addAttrezzo(osso);
+		assertTrue(borsa.removeAttrezzo(osso.getNome()));
+	}
+		
+	
+	//
+	@Test
+	public void testGetPesoMax() {
+		assertFalse(borsa.getPesoMax()== 4);		
+	}
 }
