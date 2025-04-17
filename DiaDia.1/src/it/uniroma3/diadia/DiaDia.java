@@ -4,6 +4,10 @@ package it.uniroma3.diadia;
 import java.util.Scanner;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.comandi.Comando;
+import it.uniroma3.diadia.comandi.FabbricaDiComandi;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+
 
 
 /**
@@ -15,7 +19,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  * @author  docente di POO 
  *         (da un'idea di Michael Kolling and David J. Barnes) 
  *          
- * @version base
+ * @version implemantazione polimorfismo
  */
 
 public class DiaDia {
@@ -59,47 +63,20 @@ public class DiaDia {
 	 * @param istruzione e'una stringa
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
-	private boolean processaIstruzione(String istruzione) {
-		Comando comandoDaEseguire = new Comando(istruzione);
-
-		if(comandoDaEseguire.getNome() == null) {	// gestisce-il-problema-del-null-pointer-nel-caso-di-invio-senza-nessun-comando
-			return false;
-		}
-
-		if (comandoDaEseguire.getNome().equals("fine")) {	// chiedere se convienene utilizzare setFinita() poi controllare come è finita
-			this.fine(); 
-			return true;
-		}
-		else if (comandoDaEseguire.getNome().equals("vai"))
-			this.vai(comandoDaEseguire.getParametro());
-
-		else if (comandoDaEseguire.getNome().equals("aiuto"))
-			this.aiuto();
-
-		else if(comandoDaEseguire.getNome().equals("prendi")) {
-			this.prendi(comandoDaEseguire.getParametro());
-		}
-
-		else if(comandoDaEseguire.getNome().equals("posa")) {
-			this.posa(comandoDaEseguire.getParametro());
-		}
-
-		else if(comandoDaEseguire.getNome().equals("borsa")) {
-			io.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
-		}
-		else
-			io.mostraMessaggio("Comando sconosciuto");
+	 private boolean processaIstruzione(String istruzione) {
+		 Comando comandoDaEseguire;
+		 FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
+		 comandoDaEseguire = factory.costruisciComando(istruzione);
+		 comandoDaEseguire.esegui(this.partita);
 
 		if (this.partita.isFinita()) {
 			if(this.partita.vinta())
 				io.mostraMessaggio("Hai vinto!");
 			else
 				io.mostraMessaggio("Hai perso tutti i cfu!");	
-			fine();
-			return true;	
+			fine();	
 		} 
-		else
-			return false;
+		 return this.partita.isFinita();
 	}   
 
 
