@@ -34,8 +34,6 @@ public class DiaDia {
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa", "borsa"};
-
 	private Partita partita;
 	private IOConsole io;
 
@@ -72,129 +70,11 @@ public class DiaDia {
 		if (this.partita.isFinita()) {
 			if(this.partita.vinta())
 				io.mostraMessaggio("Hai vinto!");
-			else
-				io.mostraMessaggio("Hai perso tutti i cfu!");	
-			fine();	
+			else if(partita.getGiocatore().getCfu() == 0)
+				io.mostraMessaggio("Hai perso tutti i cfu!");
 		} 
 		 return this.partita.isFinita();
 	}   
-
-
-
-	// implementazioni dei comandi dell'utente:
-
-
-
-	/**
-	 * Permette al giocatore di lascaire un attrezzo dalla borsa e aggiungerlo alla stanza corrente,
-	 * se presente viene lasciato, stampata la stanza con il nuovo oggeto e rimosso dalla borsa,
-	 *  altrimenti viene stampato un messaggio di avviso
-	 * 
-	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
-	 */
-
-	private void posa(String oggetto) {
-		// TODO Auto-generated method stub
-		if(oggetto==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			io.mostraMessaggio("cosa vuoi lasciare");
-			return;
-		}
-		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(oggetto);
-		if(attrezzo == null) {
-			io.mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
-			return;
-		}
-		
-		if(partita.getStanzaCorrente().addAttrezzo(attrezzo)) {	// aggiunge l'attrezzo dalla stanza
-			io.mostraMessaggio("attrezzo aggiunto alla stanza");
-			partita.getGiocatore().removeAttrezzo(oggetto);
-		}
-		else
-			io.mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
-	
-		io.mostraMessaggio(partita.getStanzaCorrente().toString());
-
-	}
-
-
-
-
-
-	/**
-	 * Permette al giocatore di raccogliere un attrezzo dalla stanza corrente e aggiungerlo alla propria borsa,
-	 * se presente viene aggiunto, stampata la borsa e rimosso dalla stanza, altrimenti viene stampato un messaggio di avviso
-	 * 
-	 * @param oggetto Il nome dell'attrezzo da raccogliere, se null viene stampato un messaggio di errore
-	 */
-
-	private void prendi(String oggetto) {
-		// TODO Auto-generated method stub
-		if(oggetto==null) {	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			io.mostraMessaggio("cosa vuoi prendere");
-			return;
-		}
-
-		Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(oggetto);	// cerco l'attrezzo nella stanza corrente
-		if(attrezzo == null) {
-			io.mostraMessaggio("l'attrezzo cercato non e' presente nella stanza");
-			return;
-		}
-
-		if(partita.getGiocatore().addAttrezzo(attrezzo)) {	//aggiungo l'attrezzo nella borsa se ritorna true
-			partita.getStanzaCorrente().removeAttrezzo(oggetto); 	// rimuovo l'attrezzo dalla stanza
-			io.mostraMessaggio("attrezzo aggiunto alla borsa");
-		}
-		else {
-			if(partita.getGiocatore().getBorsa().isFull()) 	
-				io.mostraMessaggio("La borsa è piena, non puoi aggiungere altri attrezzi.");
-			else
-				io.mostraMessaggio("La borsa è troppo pesante, non e' possobile aggiungere altri attrezzi.");
-		}
-		io.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
-
-	}
-
-
-	/**
-	 * Stampa informazioni di aiuto.
-	 */
-	private void aiuto() {
-		for(int i=0; i< elencoComandi.length; i++) 
-			io.mostraMessaggio(elencoComandi[i]+" ");
-		System.out.println();
-	}
-
-	/**
-	 * Sposta il giocatore nella direzione specificata, se possibile.
-	 * <p>
-	 * Se esiste una stanza adiacente nella direzione indicata il giocatore si sposta in quella stanza,
-	 * aggiornando la stanza corrente e decrementando il numero di CFU,
-	 * se la direzione non è valida o non viene specificata, viene stampato un messaggio di errore.
-	 *
-	 * @param direzione la direzione in cui si vuole andare (ad es. "nord", "sud", "est", "ovest")
-	 */
-	private void vai(String direzione) {
-		if(direzione==null) {
-			io.mostraMessaggio("Dove vuoi andare ?");
-			return;
-			}
-		Stanza prossimaStanza = null;
-		prossimaStanza = this.partita.getStanzaCorrente().getStanzaAdiacente(direzione);
-		if (prossimaStanza == null)
-			io.mostraMessaggio("Direzione inesistente");
-		else {		
-			this.partita.setStanzaCorrente(prossimaStanza);
-			partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);	// quando il giocatore cambia stanza i cfu diminuiscono
-		}
-		io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
-	}
-
-	/**
-	 * Comando "Fine"
-	 */
-	private void fine() {
-		io.mostraMessaggio("Grazie di aver giocato!");  // si desidera smettere
-	}
 
 	//main
 	public static void main(String[] argc) {

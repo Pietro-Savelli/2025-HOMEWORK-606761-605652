@@ -95,4 +95,12 @@ public class Partita {
     public Giocatore getGiocatore() {
         return this.giocatore;
     }
+    
+    public String toString() {
+    	StringBuilder s = new StringBuilder();
+    	s.append(getStanzaCorrente().toString()).append("\n");
+    	s.append(getGiocatore().getBorsa().toString()).append("\n");
+    	s.append("CFU rimasti: ").append(getGiocatore().getCfu());
+    	return s.toString();
+    }
 }
