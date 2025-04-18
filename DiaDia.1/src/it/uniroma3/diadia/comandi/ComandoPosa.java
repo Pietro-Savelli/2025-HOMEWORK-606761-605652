@@ -19,7 +19,7 @@ public class ComandoPosa implements Comando {
 	public void esegui(Partita partita) {
 		// TODO Auto-generated method stub
 		if(parametro==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			io.mostraMessaggio("cosa vuoi lasciare/nDevi specificare un' oggetto");
+			io.mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
 			return;
 		}
 		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(parametro);

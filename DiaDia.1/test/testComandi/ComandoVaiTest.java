@@ -1,6 +1,7 @@
 package testComandi;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ public class ComandoVaiTest {
 		c.setParametro("nord");
 		c.esegui(partita);
 		
-		assertEquals("biblioteca", partita.getStanzaCorrente().getNome());
+		assertSame(biblioteca, partita.getStanzaCorrente());
 	}
 	
 	@Test
@@ -48,7 +49,7 @@ public class ComandoVaiTest {
 		c.esegui(partita);
 		c.setParametro("sud");
 		c.esegui(partita);
-		assertEquals("n11", partita.getStanzaCorrente().getNome());
+		assertSame(n11, partita.getStanzaCorrente());
 	}
 	
 	// rimani nella stessa stanza
