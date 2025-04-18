@@ -37,9 +37,21 @@ public class ComandoVai implements Comando{
 		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
 	}
 	
-	// uso un matodo sovracarico per poter settare i parametri di un qualsiasi comando
+	// uso un metodo sovracarico per poter settare i parametri di un qualsiasi comando
 	@Override
 	public void setParametro(String parametro) {
 		direzione = parametro;
+	}
+
+	@Override
+	public String getNome() {
+		// TODO Auto-generated method stub
+		return "vai";
+	}
+
+	@Override
+	public String getParametro() {
+		// TODO Auto-generated method stub
+		return direzione;
 	}
 }
