@@ -35,11 +35,14 @@ public class DiaDia {
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 
 	private Partita partita;
-	private IOConsole io;
+	private IO io;
 
-	public DiaDia() {
+	public DiaDia(IO io) {
+		this.io = io;
 		this.partita = new Partita();
-		this.io = new IOConsole();
+		
+		
+		
 	}
 
 	public void gioca() {
@@ -78,7 +81,9 @@ public class DiaDia {
 
 	//main
 	public static void main(String[] argc) {
-		DiaDia gioco = new DiaDia();
+		IO io = new IOConsole();
+		DiaDia gioco = new DiaDia(io);
+		
 		gioco.gioca();
 	}
 }
