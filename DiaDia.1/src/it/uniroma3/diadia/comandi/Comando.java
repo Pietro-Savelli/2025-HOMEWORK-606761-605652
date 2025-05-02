@@ -15,6 +15,7 @@ public interface Comando {
 	 */
 	 public void setParametro(String parametro);
 
+	 /* metodi per i test */
 	 public String getNome();
 	 public String getParametro();
 }
