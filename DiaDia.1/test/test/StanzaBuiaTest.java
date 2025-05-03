@@ -29,6 +29,4 @@ class StanzaBuiaTest {
 //		System.out.println(casa.getDescrizione());
 		assertNotEquals("qui c'è un buio pesto", casa.getDescrizione());
 	}
-	
-	
 }
