@@ -40,9 +40,6 @@ public class DiaDia {
 	public DiaDia(IO io) {
 		this.io = io;
 		this.partita = new Partita();
-		
-		
-		
 	}
 
 	public void gioca() {
