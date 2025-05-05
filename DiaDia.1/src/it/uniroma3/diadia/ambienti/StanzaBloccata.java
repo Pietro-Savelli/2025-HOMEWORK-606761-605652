@@ -23,9 +23,10 @@ public class StanzaBloccata extends Stanza{
 	
 	@Override 
 	public String getDescrizione() {
-		if(hasAttrezzo(chiave))
-			return super.getDescrizione();
-		return "la stanza nella direzione"+ direzioneBloccata+
-				"e' chiusa, ti serve la chiave("+chiave+")per sbloccarla";
+		if(!hasAttrezzo(chiave)) {
+			System.out.println("la stanza nella direzione "+ direzioneBloccata +
+					" e' chiusa, ti serve la chiave("+chiave+")per sbloccarla");
+		}	
+		return super.getDescrizione();
 	}
 }

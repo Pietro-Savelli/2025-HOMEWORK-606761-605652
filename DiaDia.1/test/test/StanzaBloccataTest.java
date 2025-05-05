@@ -24,6 +24,7 @@ class StanzaBloccataTest {
 	
 	@Test
 	public void TestGetStanzaAdiacenteNonSbloccata() {
+		//assertEquals(partenza.getDescrizione(), "g");
 		assertSame(partenza, partenza.getStanzaAdiacente("sud"));
 	}
 	
