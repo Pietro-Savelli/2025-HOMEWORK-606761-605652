@@ -15,10 +15,4 @@ public class StanzaBuia extends Stanza{
 		else
 			return  "qui c'è un buio pesto";
 	}
-	
-	//perche' fallisce?
-//	@Override
-//	public String toString() {
-//		return  "qui c'è un buio pesto";
-//	}
 }
