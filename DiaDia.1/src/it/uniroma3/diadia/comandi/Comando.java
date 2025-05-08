@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.comandi;
 
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 public interface Comando {
@@ -18,4 +19,7 @@ public interface Comando {
 	 /* metodi per i test */
 	 public String getNome();
 	 public String getParametro();
+	 
+	 /* per esercizio 9 hw2*/
+	 public void setIO(IO io);
 }

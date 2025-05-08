@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.ambienti;
 
+
 public class StanzaBloccata extends Stanza{
 	
 	private String chiave;
@@ -23,10 +24,11 @@ public class StanzaBloccata extends Stanza{
 	
 	@Override 
 	public String getDescrizione() {
-		if(!hasAttrezzo(chiave)) {
-			System.out.println("la stanza nella direzione "+ direzioneBloccata +
-					" e' chiusa, ti serve la chiave("+chiave+")per sbloccarla");
-		}	
-		return super.getDescrizione();
+	    String descrizione = super.getDescrizione(); // Ottieni la descrizione base della stanza
+	    if (!hasAttrezzo(chiave)) {  // Se non hai la chiave, aggiungi il messaggio
+	        return descrizione + " La stanza nella direzione " + direzioneBloccata +
+	               " è chiusa, ti serve la chiave (" + chiave + ") per sbloccarla.";
+	    }
+	    return descrizione;  // Se hai la chiave, non aggiungere nulla
 	}
 }

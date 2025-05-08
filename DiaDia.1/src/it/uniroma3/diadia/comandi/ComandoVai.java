@@ -1,13 +1,13 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.IO;
 
 public class ComandoVai implements Comando{
 	
 	private String direzione;
-	private IOConsole io = new IOConsole ();
+	private IO console;
 	
 	/**
 	 * Sposta il giocatore nella direzione specificata, se possibile.
@@ -24,16 +24,16 @@ public class ComandoVai implements Comando{
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		Stanza prossimaStanza = null;
 		if(direzione==null) {
-			io.mostraMessaggio("Dove vuoi andare?\nDevi specificare una direzione");
+			console.mostraMessaggio("Dove vuoi andare?\nDevi specificare una direzione");
 			return;
 		}
 		prossimaStanza = stanzaCorrente.getStanzaAdiacente(direzione);
 		if(prossimaStanza==null) {
-			io.mostraMessaggio("Direzione inesistente");
+			console.mostraMessaggio("Direzione inesistente");
 			return;
 		}
 		partita.setStanzaCorrente(prossimaStanza);
-		io.mostraMessaggio(partita.getStanzaCorrente().getNome());
+		console.mostraMessaggio(partita.getStanzaCorrente().getNome());
 		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
 	}
 	
@@ -53,5 +53,11 @@ public class ComandoVai implements Comando{
 	public String getParametro() {
 		// TODO Auto-generated method stub
 		return direzione;
+	}
+	
+	@Override
+	public void setIO(IO io) {
+		// TODO Auto-generated method stub
+		this.console = io;
 	}
 }

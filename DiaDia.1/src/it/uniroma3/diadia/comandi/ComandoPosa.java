@@ -1,11 +1,11 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.IO;
 
 public class ComandoPosa implements Comando {
-	private IOConsole io = new IOConsole ();
+	private IO console;
 	private String parametro;
 	
 	/**
@@ -19,23 +19,23 @@ public class ComandoPosa implements Comando {
 	public void esegui(Partita partita) {
 		// TODO Auto-generated method stub
 		if(parametro==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			io.mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
+			console.mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
 			return;
 		}
 		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(parametro);
 		if(attrezzo == null) {
-			io.mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
+			console.mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
 			return;
 		}
 
 		if(partita.getStanzaCorrente().addAttrezzo(attrezzo)) {	// aggiunge l'attrezzo dalla stanza
-			io.mostraMessaggio("attrezzo aggiunto alla stanza");
+			console.mostraMessaggio("attrezzo aggiunto alla stanza");
 			partita.getGiocatore().removeAttrezzo(parametro);
 		}
 		else
-			io.mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
+			console.mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
 
-		io.mostraMessaggio(partita.getStanzaCorrente().toString());
+		console.mostraMessaggio(partita.getStanzaCorrente().toString());
 	}
 
 	@Override
@@ -56,5 +56,9 @@ public class ComandoPosa implements Comando {
 		return parametro;
 	}
 	
-
+	@Override
+	public void setIO(IO io) {
+		// TODO Auto-generated method stub
+		this.console = io;
+	}
 }

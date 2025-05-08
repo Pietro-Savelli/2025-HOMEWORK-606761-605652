@@ -65,6 +65,7 @@ public class DiaDia {
 		 Comando comandoDaEseguire;
 		 FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
 		 comandoDaEseguire = factory.costruisciComando(istruzione);
+		 comandoDaEseguire.setIO(this.io);	//mi serve per portare il riferimanto IOConsole nei comandi
 		 comandoDaEseguire.esegui(this.partita);
 
 		if (this.partita.isFinita()) {
