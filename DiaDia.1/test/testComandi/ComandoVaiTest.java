@@ -6,6 +6,8 @@ import static org.junit.Assert.assertSame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.IO;
+import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.comandi.Comando;
@@ -17,6 +19,7 @@ public class ComandoVaiTest {
 	private Stanza biblioteca;
 	private Stanza n11;
 	private Comando c;
+	private IO console;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -31,6 +34,8 @@ public class ComandoVaiTest {
 		biblioteca.impostaStanzaAdiacente("sud", atrio);
 		n11.impostaStanzaAdiacente("nord", biblioteca);
 		partita.setStanzaCorrente(atrio);
+		console = new IOConsole();
+		c.setIO(console);
 	}
 
 	@Test

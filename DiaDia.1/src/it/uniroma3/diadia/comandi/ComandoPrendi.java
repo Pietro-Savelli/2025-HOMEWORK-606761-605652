@@ -67,5 +67,4 @@ public class ComandoPrendi implements Comando {
 		// TODO Auto-generated method stub
 		this.console = io;
 	}
-
 }

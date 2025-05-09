@@ -35,10 +35,10 @@ public class DiaDia {
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 
 	private Partita partita;
-	private IO io;
+	private IO console;
 
 	public DiaDia(IO io) {
-		this.io = io;
+		this.console = io;
 		this.partita = new Partita();
 	}
 
@@ -46,10 +46,10 @@ public class DiaDia {
 		String istruzione; 
 		Scanner scannerDiLinee;
 
-		io.mostraMessaggio(MESSAGGIO_BENVENUTO);
+		console.mostraMessaggio(MESSAGGIO_BENVENUTO);
 		scannerDiLinee = new Scanner(System.in);		
 		do		
-			istruzione = io.leggiRiga();//cambio istruzione in leggi riga per la classe IO
+			istruzione = console.leggiRiga();//cambio istruzione in leggi riga per la classe IO
 		while (!processaIstruzione(istruzione));
 		scannerDiLinee.close();
 	}   
@@ -65,14 +65,14 @@ public class DiaDia {
 		 Comando comandoDaEseguire;
 		 FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
 		 comandoDaEseguire = factory.costruisciComando(istruzione);
-		 comandoDaEseguire.setIO(this.io);	//mi serve per portare il riferimanto IOConsole nei comandi
+		 comandoDaEseguire.setIO(this.console);	//mi serve per portare il riferimanto IOConsole nei comandi
 		 comandoDaEseguire.esegui(this.partita);
 
 		if (this.partita.isFinita()) {
 			if(this.partita.vinta())
-				io.mostraMessaggio("Hai vinto!");
+				console.mostraMessaggio("Hai vinto!");
 			else if(partita.getGiocatore().getCfu() == 0)
-				io.mostraMessaggio("Hai perso tutti i cfu!");
+				console.mostraMessaggio("Hai perso tutti i cfu!");
 		} 
 		 return this.partita.isFinita();
 	}   
