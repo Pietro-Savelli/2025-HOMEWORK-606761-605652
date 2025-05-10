@@ -3,41 +3,46 @@ package it.uniroma3.diadia;
 
 public class IOSimulator implements IO {
 	
-	private String[] righeDaLeggere;
-	private int indiceRigheDaLeggere;
-	private String[] messaggiProdotti;
-	private int indiceMessaggiProdotti;
-	private int indiceMessaggiMostrati;
-	
-	public IOSimulator(String[] righeDaLeggere) {
-		this.righeDaLeggere = righeDaLeggere;
-		this.indiceRigheDaLeggere = 0;
-		this.messaggiProdotti = new String[100];
-		this.indiceMessaggiProdotti = 0;
-		this.indiceMessaggiMostrati = 0;
-	}
+    private String[] comandiInIngresso;
+    private int indiceComandoCorrente;
+    private String[] messaggiStampati;
+    private int numeroMessaggiStampati;
+    private int indiceMessaggioLetti;
 
-	@Override
-	public void mostraMessaggio(String messaggio) {
-		this.messaggiProdotti[this.indiceMessaggiProdotti] = messaggio;
-		this.indiceMessaggiProdotti++;
-	}
+    public IOSimulator(String[] comandiInIngresso) {
+        this.comandiInIngresso = comandiInIngresso;
+        this.indiceComandoCorrente = 0;
+        this.messaggiStampati = new String[100];
+        this.numeroMessaggiStampati = 0;
+        this.indiceMessaggioLetti = 0;
+        
+    }
 
-	@Override
-	public String leggiRiga() {
-		String rigaLetta = this.righeDaLeggere[this.indiceRigheDaLeggere];
-		this.indiceRigheDaLeggere++;
-		return rigaLetta;
-	}
-	
-	public String nextMessaggio() {
-		String next = this.messaggiProdotti[this.indiceMessaggiMostrati];
-		this.indiceMessaggiMostrati++;
-		return next;
-	}
-	
-	public boolean hasNextMessaggio() {
-		return this.indiceMessaggiMostrati < this.indiceMessaggiProdotti;
-	}
+    @Override
+    public void mostraMessaggio(String messaggio) {
+        this.messaggiStampati[this.numeroMessaggiStampati] = messaggio;
+        this.numeroMessaggiStampati++;
+        
+    }
 
+    @Override
+    public String leggiRiga() {
+        String comando = this.comandiInIngresso[this.indiceComandoCorrente];
+        this.indiceComandoCorrente++;
+        return comando;
+        
+    }
+
+    // Metodo per ottenere il prossimo messaggio stampato
+    public String leggiNextMessaggio() {
+        String messaggio = this.messaggiStampati[this.indiceMessaggioLetti];
+        this.indiceMessaggioLetti++;
+        return messaggio;
+        
+    }
+
+    // Verifica se ci sono ancora messaggi da leggere
+    public boolean hasNextMessaggio() {
+        return this.indiceMessaggioLetti < this.numeroMessaggiStampati;
+    }
 }
