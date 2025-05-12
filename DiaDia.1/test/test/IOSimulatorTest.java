@@ -112,4 +112,21 @@ class IOSimulatorTest {
 		assertTrue(messaggioFinaleTrovato); //Il gioco dovrebbe concludersi perche' "Hai perso tutti i cfu!"
 	}
 
+	@Test
+	public void testSimulazione() {
+		
+		String[] comandi = { "vai sud", "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
+		String[] aspettativa = { "Aula N10", "Atrio", "Grazie di aver giocato!" };
+		
+		IOSimulator io = new IOSimulator(comandi); // invio i comandi a alle stringe di IOSimulator
+
+		DiaDia gioco = new DiaDia(io); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
+		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
+		assertTrue(io.hasNextMessaggio());
+
+		io.leggiNextMessaggio();
+		for (int i=0; i<aspettativa.length; i++) {
+			assertEquals(io.leggiNextMessaggio(), aspettativa[i]);
+		}
+	}
 }
