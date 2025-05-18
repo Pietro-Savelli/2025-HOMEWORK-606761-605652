@@ -31,6 +31,7 @@ public class BorsaTest {
 		assertNotNull(borsa.addAttrezzo(prova));
 	}
 	
+	
 	@Test
 	public void testAddAttrezzoBorsaPiena() {
 		borsa.addAttrezzo(lama);
