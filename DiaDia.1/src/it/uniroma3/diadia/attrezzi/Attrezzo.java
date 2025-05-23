@@ -58,6 +58,22 @@ public class Attrezzo {
 	 */
 	public String getDescrizioneAttrezzo() {
         return this.toString();
-    }	
+    }
+	
+	
+	@Override
+	public int hashCode() {
+		return this.getNome().hashCode()+this.getPeso();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o==null || this.getClass()!=o.getClass())
+			return false;
+		Attrezzo that = (Attrezzo)o;
+		return this.getNome().equals(that.getNome()) && this.getPeso()==that.getPeso();
+		
+	}
+	
 	
 }

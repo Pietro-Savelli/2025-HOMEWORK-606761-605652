@@ -24,7 +24,6 @@ class StanzaBloccataTest {
 	
 	@Test
 	public void TestGetStanzaAdiacenteNonSbloccata() {
-		//assertEquals(partenza.getDescrizione(), "g");
 		assertSame(partenza, partenza.getStanzaAdiacente("sud"));
 	}
 	
@@ -70,4 +69,18 @@ class StanzaBloccataTest {
 		partenza.impostaStanzaAdiacente("nord", arrivo2);
 		assertSame(arrivo2, partenza.getStanzaAdiacente("nord"));
 	}
+	
+	@Test
+	public void direzioneBloccataConAttrezzoSbagliato_nonSblocca() {
+	    partenza.addAttrezzo(new Attrezzo("martello", 1));
+	    assertSame(partenza, partenza.getStanzaAdiacente("sud"));
+	}
+	
+	@Test
+	public void descrizione_conStanzaBloccataSenzaChiave_contenieneMessaggioDiBlocco() {
+	    String descrizione = partenza.getDescrizione();
+	    assertTrue(descrizione.contains("chiusa"));
+	}
+
+
 }

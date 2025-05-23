@@ -26,7 +26,6 @@ class StanzaBuiaTest {
 	public void TestGetDestrizione() {
 		casa.addAttrezzo(new Attrezzo("lanterna", 4));
 		assertTrue(casa.hasAttrezzo("lanterna"));
-//		System.out.println(casa.getDescrizione());
 		assertNotEquals("qui c'è un buio pesto", casa.getDescrizione());
 	}
 }

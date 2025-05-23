@@ -55,14 +55,14 @@ class ComandoPosaTest {
 	
 	@Test
 	public void testPosaAttrezzoStanzaPiena() {
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("p", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pq", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pw", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pe", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pr", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pt", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("py", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pu", 1));
+		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pi", 1));
 		partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("pippo",10));
 		c.setParametro("pippo");
 		c.setIO(console);
@@ -70,4 +70,5 @@ class ComandoPosaTest {
 		assertFalse(partita.getStanzaCorrente().hasAttrezzo("pippo"));
 		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));
 	}
+	
 }
