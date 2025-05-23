@@ -23,12 +23,12 @@ public class Stanza {
 	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
 	private String nome;
 	private Map<String, Stanza> stanzeAdiacenti;
-	private Set<Attrezzo> attrezzi;
+	private Map<String,Attrezzo> attrezzi;
 
 	public Stanza(String nome) {
 		this.nome = nome;
 		this.stanzeAdiacenti = new HashMap<>();
-		this.attrezzi = new HashSet<>();
+		this.attrezzi =  new HashMap<>();
 	}
 
 	public String getNome() {
@@ -44,40 +44,31 @@ public class Stanza {
 	}
 
 	public boolean addAttrezzo(Attrezzo attrezzo) {
-		return attrezzi.size()<NUMERO_MASSIMO_ATTREZZI && attrezzi.add(attrezzo);
-	}
-
-	public boolean hasAttrezzo(String nomeAttrezzo) {
-		for(Attrezzo a : attrezzi) {
-			if(a.getNome().equals(nomeAttrezzo))
-				return true;
+		if(attrezzi.size()<NUMERO_MASSIMO_ATTREZZI) {
+			attrezzi.put(attrezzo.getNome(), attrezzo);
+			return true; 
 		}
+			
 		return false;
 	}
 
+	public boolean hasAttrezzo(String nomeAttrezzo) {
+	    return this.attrezzi.containsKey(nomeAttrezzo);
+	}
+
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		for (Attrezzo a : this.attrezzi)
-			if (a.getNome().equals(nomeAttrezzo))
-				return a;
-		return null;
+		return this.attrezzi.get(nomeAttrezzo);
 	}
 
 	public boolean removeAttrezzo(String nomeAttrezzo) {
-		if (nomeAttrezzo == null) return false; // per gestire la stringa null(anche prima funzionava ma ora è più chiaro)
-		Iterator<Attrezzo> i = attrezzi.iterator();
-
-		while(i.hasNext()) {
-			Attrezzo a = i.next();
-			if(a.getNome().equals(nomeAttrezzo)) {
-				i.remove();
-				return true;
-			}	
-		}
-		return false; // Se l'attrezzo non è presente
+		if (nomeAttrezzo == null) 
+			return false; // per gestire la stringa null
+		
+		return this.attrezzi.remove(nomeAttrezzo)!=null;
 	}
 
 	public Set<Attrezzo> getAttrezzi() {
-		return new HashSet<>(this.attrezzi); // crea una nuovo set che e' una copia del parametro (usa il costuttore sovracacrico)
+		return new HashSet<>(this.attrezzi.values()); // crea una nuovo set che raccolgie tutti i valori dei valori della mappa
 	}
 
 	public Set<String> getDirezioni() {
@@ -109,7 +100,7 @@ public class Stanza {
 		}
 		
 		risultato.append("\nAttrezzi nella stanza: ");
-		for(Attrezzo a : attrezzi) {
+		for(Attrezzo a : getAttrezzi()) {
 			if(a!=null)
 				risultato.append(" "+a.getDescrizioneAttrezzo());
 		}

@@ -30,10 +30,18 @@ class StanzaTest {
 	// controlla che dopo il decimo attrezzo non posso piu aggiungerli
 	@Test
 	void testAddAttrezzo_Piena() {
-		for(int i=0; i<10; i++) {
-			stanza.addAttrezzo(attrezzo);
-		}
-		assertFalse(stanza.addAttrezzo(attrezzo));
+		stanza.addAttrezzo(new Attrezzo("p-", 0));
+		stanza.addAttrezzo(new Attrezzo("p0", 0));
+		stanza.addAttrezzo(new Attrezzo("p9", 0));
+		stanza.addAttrezzo(new Attrezzo("p8", 0));
+		stanza.addAttrezzo(new Attrezzo("p7", 0));
+		stanza.addAttrezzo(new Attrezzo("p6", 0));
+		stanza.addAttrezzo(new Attrezzo("p5", 0));
+		stanza.addAttrezzo(new Attrezzo("p4", 0));
+		stanza.addAttrezzo(new Attrezzo("p3", 0));
+		stanza.addAttrezzo(new Attrezzo("p2", 0));
+		stanza.addAttrezzo(new Attrezzo("p1", 0));
+		assertFalse(stanza.addAttrezzo(new Attrezzo("p4434343434", 0)));
 	}
 
 	@Test 

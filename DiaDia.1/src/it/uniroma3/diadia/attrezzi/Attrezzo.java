@@ -63,7 +63,7 @@ public class Attrezzo {
 	
 	@Override
 	public int hashCode() {
-		return this.getNome().hashCode()+this.getPeso();
+		return this.getNome().hashCode();
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class Attrezzo {
 		if(o==null || this.getClass()!=o.getClass())
 			return false;
 		Attrezzo that = (Attrezzo)o;
-		return this.getNome().equals(that.getNome()) && this.getPeso()==that.getPeso();
+		return this.getNome().equals(that.getNome()); // perche' abbiamo preso per vero che non possono esistere piu' attrezzi con lo stesso nome, quindi il peso e' un controllo in piu'
 		
 	}
 	
