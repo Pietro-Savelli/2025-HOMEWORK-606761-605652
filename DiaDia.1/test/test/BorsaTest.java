@@ -35,6 +35,7 @@ public class BorsaTest {
 	@Test
 	public void testAddAttrezzoBorsaPiena() {
 		borsa.addAttrezzo(lama);
+		assertEquals(9, borsa.getPeso());
 		assertFalse(borsa.addAttrezzo(prova));
 	}
 	

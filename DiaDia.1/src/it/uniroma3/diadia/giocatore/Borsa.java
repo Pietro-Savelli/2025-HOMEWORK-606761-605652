@@ -20,7 +20,8 @@ public class Borsa {
 
 	public final static int DEFAULT_PESO_MAX_BORSA = 10;	//Costante che definisce il peso massimo predefinito della borsa
 	private int pesoMax;			//Peso massimo che la borsa può contenere
-	private Set<Attrezzo> attrezzi;
+	private Map<String, Attrezzo> attrezzi;
+	private int pesoAttuale;
 
 
 	/**
@@ -39,7 +40,8 @@ public class Borsa {
 	 */
 	public Borsa(int pesoMax) {
 		this.pesoMax = pesoMax;
-		this.attrezzi = new HashSet<>();
+		this.attrezzi = new HashMap<>();
+		this.pesoAttuale = 0;
 	}
 
 
@@ -51,12 +53,19 @@ public class Borsa {
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (attrezzo == null) // non funzionava il test perche ammatteva attrezzi null
-	        return false;
+			return false;
+		
+		if (attrezzi.containsKey(attrezzo.getNome()))
+			return false; // l'attrezzo è già presente, non possiamo aggiungerlo di nuovo
+
 		
 		if (this.getPeso() + attrezzo.getPeso() > this.getPesoMax())
 			return false;
+
+		attrezzi.put(attrezzo.getNome(), attrezzo);
+		this.pesoAttuale += attrezzo.getPeso(); 
 		
-		return attrezzi.add(attrezzo); 
+		return true;
 	}
 
 	/**
@@ -74,11 +83,7 @@ public class Borsa {
 	 * @return il peso attuale della borsa
 	 */
 	public int getPeso() {
-		int peso = 0;
-		for(Attrezzo a : attrezzi) {
-			peso += a.getPeso();
-		}
-		return peso;
+		return this.pesoAttuale;
 	}
 
 	//verifica se la borsa e' vuota
@@ -98,14 +103,10 @@ public class Borsa {
 	 * @return il riferimento all'attrezzo corrispondente se presente, altrimenti null
 	 */
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		
-	    for (Attrezzo a : attrezzi) {
-	        if (nomeAttrezzo.equals(a.getNome())) 
-	            return a;
-	    }
-	    return null;
+		return attrezzi.get(nomeAttrezzo);
+
 	}
-	
+
 	/**
 	 * 
 	 * @param nomeAttrezzo
@@ -122,20 +123,14 @@ public class Borsa {
 	 * rimuove quell attrezzo e fa scalare tutti gli altri di 1.
 	 * 
 	 */
-	public boolean removeAttrezzo(String nomeAttrezzo) {
-		if (nomeAttrezzo == null) return false; // per gestire la stringa null(anche prima funzionava ma ora è più chiaro)
-		Iterator<Attrezzo> i = attrezzi.iterator();
-		
-		while(i.hasNext()) {
-			Attrezzo a = i.next();
-			if(a.getNome().equals(nomeAttrezzo)) {
-				i.remove();
-				return true;
-			}	
+	public boolean removeAttrezzo(String nome) {
+		Attrezzo a = attrezzi.remove(nome);
+		if (a != null) {
+			pesoAttuale -= a.getPeso();
+			return true;
 		}
-		return false; // Se l'attrezzo non è presente
+		return false;
 	}
-
 
 	/**
 	 * Se la borsa non è vuota, mostra il peso attuale e il peso massimo, insieme ai dettagli degli attrezzi contenuti.
@@ -147,7 +142,7 @@ public class Borsa {
 		StringBuilder s = new StringBuilder();
 		if (!this.isEmpty()) {
 			s.append("Contenuto borsa ("+this.getPeso()+"kg/"+this.getPesoMax()+"kg): ");
-			for (Attrezzo a : attrezzi)
+			for (Attrezzo a : attrezzi.values())
 				s.append(a.toString()+" ");
 		}
 		else
