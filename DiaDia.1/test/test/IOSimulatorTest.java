@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +23,7 @@ class IOSimulatorTest {
 				"fine"
 		};
 
-		IOSimulator io = new IOSimulator(comandi); // invio i comandi a alle stringe di IOSimulator
+		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
 
 		DiaDia gioco = new DiaDia(io); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
 		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
@@ -29,7 +31,7 @@ class IOSimulatorTest {
 
 		boolean messaggioFinaleTrovato = false;
 		while (io.hasNextMessaggio()) {
-			String messaggio = io.leggiNextMessaggio();
+			String messaggio = io.nextMessaggio();
 
 			if (messaggio.equals("Grazie di aver giocato!")) {
 				messaggioFinaleTrovato = true;
@@ -45,7 +47,7 @@ class IOSimulatorTest {
 		
 		String[] comandi = { "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
 		
-		IOSimulator io = new IOSimulator(comandi); // invio i comandi a alle stringe di IOSimulator
+		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
 
 		DiaDia gioco = new DiaDia(io); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
 		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
@@ -53,7 +55,7 @@ class IOSimulatorTest {
 
 		boolean messaggioFinaleTrovato = false;
 		while (io.hasNextMessaggio()) {
-			String messaggio = io.leggiNextMessaggio();
+			String messaggio = io.nextMessaggio();
 
 			if (messaggio.equals("Hai vinto!")) {
 				messaggioFinaleTrovato = true;
@@ -93,7 +95,7 @@ class IOSimulatorTest {
 				"vai nord",
 				};
 		
-		IOSimulator io = new IOSimulator(comandi); // invio i comandi a alle stringe di IOSimulator
+		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
 
 		DiaDia gioco = new DiaDia(io); 	// creo un istanza diadia con parametro IOSimulator(usufruisce dei servizi dell interfaccia IO)
 		gioco.gioca();  	// Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
@@ -101,7 +103,7 @@ class IOSimulatorTest {
 
 		boolean messaggioFinaleTrovato = false;
 		while (io.hasNextMessaggio()) {
-			String messaggio = io.leggiNextMessaggio();
+			String messaggio = io.nextMessaggio();
 
 			if (messaggio.equals("Hai perso tutti i cfu!")) {
 				messaggioFinaleTrovato = true;
@@ -118,15 +120,15 @@ class IOSimulatorTest {
 		String[] comandi = { "vai sud", "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
 		String[] aspettativa = { "Aula N10", "Atrio", "Grazie di aver giocato!" };
 		
-		IOSimulator io = new IOSimulator(comandi); // invio i comandi a alle stringe di IOSimulator
+		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
 
 		DiaDia gioco = new DiaDia(io); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
 		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
 		assertTrue(io.hasNextMessaggio());
 
-		io.leggiNextMessaggio();
+		io.nextMessaggio();
 		for (int i=0; i<aspettativa.length; i++) {
-			assertEquals(io.leggiNextMessaggio(), aspettativa[i]);
+			assertEquals(io.nextMessaggio(), aspettativa[i]);
 		}
 	}
 }

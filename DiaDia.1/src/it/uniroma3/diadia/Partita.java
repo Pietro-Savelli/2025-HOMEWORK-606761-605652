@@ -96,6 +96,12 @@ public class Partita {
         return this.giocatore;
     }
     
+    public Partita(Labirinto l) {
+    	
+    }
+    
+    
+    
     public String toString() {
     	StringBuilder s = new StringBuilder();
     	s.append(getStanzaCorrente().toString()).append("\n");
@@ -103,4 +109,9 @@ public class Partita {
     	s.append("CFU rimasti: ").append(getGiocatore().getCfu());
     	return s.toString();
     }
+    
+
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
+	}
 }

@@ -67,14 +67,18 @@ public class Stanza {
 		return this.attrezzi.remove(nomeAttrezzo)!=null;
 	}
 
-	public Set<Attrezzo> getAttrezzi() {
-		return new HashSet<>(this.attrezzi.values()); // crea una nuovo set che raccolgie tutti i valori dei valori della mappa
+	public List<Attrezzo> getAttrezzi() {
+		return new ArrayList<Attrezzo>(this.attrezzi.values()); // crea una nuovo set che raccolgie tutti i valori dei valori della mappa
 	}
 
 	public Set<String> getDirezioni() {
 		return new HashSet<>(this.stanzeAdiacenti.keySet()); // crea una nuovo set che e' una copia del parametro (usa il costuttore sovracacrico)
 	}
-
+	
+	public Map<String,Stanza> getMapStanzeAdiacenti() {
+		return this.stanzeAdiacenti;
+	}
+	
 	/**
 	 * Restituisce la descrizione della stanza.
 	 * @return la descrizione della stanza
@@ -106,6 +110,8 @@ public class Stanza {
 		}
 		return risultato.toString();
 	}
+
+
 
 
 }

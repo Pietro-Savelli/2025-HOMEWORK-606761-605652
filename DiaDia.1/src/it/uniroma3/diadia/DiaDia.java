@@ -87,16 +87,14 @@ public class DiaDia {
 	}   
 
 	//main
-	public static void main(String[] argc) {
-		IO io = new IOConsole();
-		DiaDia gioco = new DiaDia(io);
-		
-		 Labirinto labirinto = new LabirintoBuilder();
-		 labirinto.addStanzaIniziale("LabCampusOne");
-		 labirinto.addStanzaVincente("Biblioteca");
-		 labirinto.addAdiacenza("LabCampusOne","Biblioteca","ovest");
-		 labirinto.getLabirinto();
-		
-		gioco.gioca();
-	}
+	 public static void main(String[] argc) {
+			IO ioConsole = new IOConsole();
+			Labirinto labirinto = new LabirintoBuilder()
+					.addStanzaIniziale("LabCampusOne")
+					.addStanzaVincente("Biblioteca")
+					.addAdiacenza("LabCampusOne","Biblioteca","ovest")
+					.getLabirinto();
+			DiaDia gioco = new DiaDia(labirinto, ioConsole);
+			gioco.gioca();
+		}
 }
