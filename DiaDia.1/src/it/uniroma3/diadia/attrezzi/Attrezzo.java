@@ -13,7 +13,7 @@ import it.uniroma3.diadia.ambienti.Stanza;
  * @see Stanza
  * @version base
  */
-public class Attrezzo {
+public class Attrezzo implements Comparable<Attrezzo>{
 
 	private String nome;
 	private int peso;
@@ -73,6 +73,10 @@ public class Attrezzo {
 		Attrezzo that = (Attrezzo)o;
 		return this.getNome().equals(that.getNome()); // perche' abbiamo preso per vero che non possono esistere piu' attrezzi con lo stesso nome, quindi il peso e' un controllo in piu'
 		
+	}
+
+	public int compareTo(Attrezzo a2) {
+		return this.getNome().compareTo(a2.getNome());
 	}
 	
 	

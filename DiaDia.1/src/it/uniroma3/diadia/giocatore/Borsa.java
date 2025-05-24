@@ -2,6 +2,7 @@ package it.uniroma3.diadia.giocatore;
 
 
 
+import java.rmi.StubNotFoundException;
 import java.util.*;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
@@ -54,17 +55,17 @@ public class Borsa {
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (attrezzo == null) // non funzionava il test perche ammatteva attrezzi null
 			return false;
-		
+
 		if (attrezzi.containsKey(attrezzo.getNome()))
 			return false; // l'attrezzo è già presente, non possiamo aggiungerlo di nuovo
 
-		
+
 		if (this.getPeso() + attrezzo.getPeso() > this.getPesoMax())
 			return false;
 
 		attrezzi.put(attrezzo.getNome(), attrezzo);
 		this.pesoAttuale += attrezzo.getPeso(); 
-		
+
 		return true;
 	}
 
@@ -148,5 +149,45 @@ public class Borsa {
 		else
 			s.append("Borsa vuota");
 		return s.toString();
+	}
+
+
+	// HW C ES3
+	public List<Attrezzo> getContenutoOrdinatoPerPeso() {
+		List<Attrezzo> ordinata = new LinkedList<Attrezzo>(attrezzi.values());
+		Collections.sort(ordinata, new ComparatorePeso());
+		return ordinata;
+	}
+
+
+	public SortedSet<Attrezzo> getContenutoOrdinatoPerNome() {
+		SortedSet<Attrezzo> albero = new TreeSet<Attrezzo>(attrezzi.values());
+		return albero;
+	}
+
+
+	public Map<Integer, Set<Attrezzo>> getContenutoRaggruppatoPerPeso() {
+		Set<Attrezzo> tmp;
+		Map<Integer, Set<Attrezzo>> mappaOrdinata = new HashMap<>(); // crea una nuova mappa da peso a set di attrezzi
+
+		for (Attrezzo a : this.attrezzi.values()) {
+			tmp = mappaOrdinata.get(a.getPeso()); // cerca se già esiste un set per quel peso
+
+			if (tmp == null) {
+				tmp = new HashSet<>(); // se non esiste, creane uno nuovo
+			}
+
+			tmp.add(a); // aggiungi l’attrezzo al set (che ora sicuramente esiste)
+			mappaOrdinata.put(a.getPeso(), tmp); // aggiorna la mappa con il set aggiornato
+		}
+
+		return mappaOrdinata; // ritorna la mappa finale
+	}
+	
+	//  HW C ES4
+	public SortedSet<Attrezzo> getSortedSetOrdinatoPerPeso(){
+		SortedSet<Attrezzo> albero2 = new TreeSet<Attrezzo>(new ComparatorePeso());
+		albero2.addAll(attrezzi.values());
+		return albero2;
 	}
 }
