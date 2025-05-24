@@ -37,8 +37,6 @@ public class ComandoPrendi implements Comando {
 		
 		else 
 			console.mostraMessaggio("La borsa è piena, non e' possibile aggiungere altri attrezzi.");
-		
-		console.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
 	}
 
 	

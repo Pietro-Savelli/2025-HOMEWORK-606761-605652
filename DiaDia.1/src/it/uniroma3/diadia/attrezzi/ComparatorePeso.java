@@ -1,8 +1,6 @@
-package it.uniroma3.diadia.giocatore;
+package it.uniroma3.diadia.attrezzi;
 
 import java.util.Comparator;
-
-import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class ComparatorePeso implements Comparator<Attrezzo>{
 

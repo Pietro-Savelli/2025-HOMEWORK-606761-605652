@@ -35,7 +35,6 @@ public class ComandoPosa implements Comando {
 		else
 			console.mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
 
-		console.mostraMessaggio(partita.getStanzaCorrente().toString());
 	}
 
 	@Override

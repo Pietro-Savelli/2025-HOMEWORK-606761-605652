@@ -6,6 +6,7 @@ import java.rmi.StubNotFoundException;
 import java.util.*;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.attrezzi.ComparatorePeso;
 
 
 /**
@@ -139,18 +140,20 @@ public class Borsa {
 	 * 
 	 * @return una stringa che rappresenta il contenuto della borsa
 	 */
+	
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		if (!this.isEmpty()) {
 			s.append("Contenuto borsa ("+this.getPeso()+"kg/"+this.getPesoMax()+"kg): ");
-			for (Attrezzo a : attrezzi.values())
-				s.append(a.toString()+" ");
+			
+			List<Attrezzo> ordinataPeso = getContenutoOrdinatoPerPeso();
+			for (Attrezzo a : ordinataPeso)	
+				s.append(a.getNome()+" ");	
 		}
 		else
 			s.append("Borsa vuota");
 		return s.toString();
 	}
-
 
 	// HW C ES3
 	public List<Attrezzo> getContenutoOrdinatoPerPeso() {

@@ -26,6 +26,7 @@ public class Labirinto {
 	private Attrezzo lanterna;
 	private Attrezzo osso;
 	private Attrezzo prova;		// attrezzo per provare i casi limite di prendi e posa
+	private Attrezzo chiave;
 
 	// Costruttore che attraverso la chiamata init() inizializza il Labirinto
 	public Labirinto() {
@@ -82,7 +83,8 @@ public class Labirinto {
 	private void creaAttrezzi() {
 		this.lanterna = new Attrezzo("lanterna",3);
 		this.osso = new Attrezzo("osso",1);
-		this.prova = new Attrezzo("prova",7);
+		this.prova = new Attrezzo("prova",6);
+		this.chiave = new Attrezzo("chiave", 2);
 
 	}
 
@@ -93,6 +95,7 @@ public class Labirinto {
 		aulaN10.addAttrezzo(lanterna);
 		atrio.addAttrezzo(osso);
 		atrio.addAttrezzo(prova);
+		atrio.addAttrezzo(chiave);
 	}
 
 	
