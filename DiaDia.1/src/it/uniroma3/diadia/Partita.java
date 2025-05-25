@@ -27,14 +27,20 @@ public class Partita {
 		this.finita = false;
 		setStanzaCorrente(labirinto.getStanzaIniziale());	// inizializzo la stanza corrente all'ingresso
 		this.giocatore = new Giocatore();
-		this.io = new IOConsole();
 	}
-
 	
-	//PROVA A CREARE IL LABIRITNO NEL MAIN SENZA USARE IL METODO IN QUESTA CLASSE
-	//E PASSARE AL COSTRUTTORE PARTITA UN parita(Labirinto labirinto)
-	
-    /**
+    public Partita(Labirinto l) {
+		setLabirinto(l);
+		this.finita = false;
+		this.giocatore = new Giocatore();
+	}
+    
+    public void setLabirinto(Labirinto labirinto) {
+    	this.labirinto = labirinto;
+    	this.setStanzaCorrente(labirinto.getStanzaIniziale());
+    }
+    
+	/**
      * Crea il labirinto
      */
     private void creaLabirinto() {
@@ -96,11 +102,6 @@ public class Partita {
         return this.giocatore;
     }
     
-    public Partita(Labirinto l) {
-    	
-    }
-    
-    
     
     public String toString() {
     	StringBuilder s = new StringBuilder();
@@ -111,7 +112,5 @@ public class Partita {
     }
     
 
-	public void setLabirinto(Labirinto labirinto) {
-		this.labirinto = labirinto;
-	}
+
 }

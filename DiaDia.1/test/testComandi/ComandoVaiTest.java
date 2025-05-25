@@ -2,6 +2,7 @@ package testComandi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.ComandoVai;
@@ -72,5 +75,22 @@ public class ComandoVaiTest {
 		c.esegui(partita);
 		
 		assertEquals("atrio", partita.getStanzaCorrente().getNome());
+	}
+	
+	
+	@Test
+	public void testEseguiDirezioniValideLbitintoBuilder() {
+		 Labirinto bilocale = new LabirintoBuilder()
+				 .addStanzaIniziale("salotto")
+				 .addStanzaVincente("camera")
+				 .addAttrezzo("letto",10) // dove? fa riferimento all’ultima stanza aggiunta: la “camera”
+				 .addAdiacenza("salotto", "camera", "nord") // camera si trova a nord di salotto
+				 .getLabirinto();  // restituisce il Labirinto così specificato
+		Partita p2 = new Partita(bilocale);
+		
+		c.setParametro("nord");
+		c.esegui(p2);
+		assertSame("camera", p2.getStanzaCorrente().getNome());
+		assertTrue(p2.isFinita());
 	}
 }

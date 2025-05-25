@@ -46,7 +46,8 @@ public class DiaDia {
 	}
 	
 	public DiaDia(Labirinto l,IO io) {
-		this(io);
+		this.console = io;
+		this.partita = new Partita(l);
 	}
 
 	
@@ -89,12 +90,7 @@ public class DiaDia {
 	//main
 	 public static void main(String[] argc) {
 			IO ioConsole = new IOConsole();
-			Labirinto labirinto = new LabirintoBuilder()
-					.addStanzaIniziale("LabCampusOne")
-					.addStanzaVincente("Biblioteca")
-					.addAdiacenza("LabCampusOne","Biblioteca","ovest")
-					.getLabirinto();
-			DiaDia gioco = new DiaDia(labirinto, ioConsole);
+			DiaDia gioco = new DiaDia(ioConsole);
 			gioco.gioca();
 		}
 }
