@@ -71,7 +71,21 @@ class StanzaTest {
 	@Test 
 	void testImpostaStanzaAdiacente() {
 		stanza.impostaStanzaAdiacente("nord", stanza2);
-		assertEquals(stanza.getStanzaAdiacente("nord"), stanza2, "andando a nord mi dovrebbe tornare la stanza2");
+		assertEquals(stanza.getStanzaAdiacente("nord"), stanza2);
+	}
+	
+	@Test 
+	void testImpostaStanzaAdiacenteNull() {
+		stanza.impostaStanzaAdiacente(null, stanza2);
+		assertNull(stanza.getStanzaAdiacente(null));
+		
+	}
+	
+	@Test 
+	void testImpostaStanzaAdiacenteNullAttrezzo() {
+		stanza.impostaStanzaAdiacente("sud", null);
+		assertNull(stanza.getStanzaAdiacente("sud"));
+		
 	}
 
 }

@@ -36,6 +36,8 @@ public class Stanza {
 	}
 
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
+		if(direzione==null || stanza==null)
+			return;
 		this.stanzeAdiacenti.put(direzione, stanza);
 	}
 
