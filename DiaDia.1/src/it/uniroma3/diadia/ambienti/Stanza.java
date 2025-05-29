@@ -88,6 +88,10 @@ public class Stanza {
 	public String getDescrizione() {
 		return this.toString();
 	}
+	
+	public boolean isMagica() {
+		return this.getClass() == StanzaMagica.class;
+	}
 
 	/**
 	 * Restituisce una rappresentazione stringa di questa stanza,
@@ -113,7 +117,17 @@ public class Stanza {
 		return risultato.toString();
 	}
 
+	@Override
+    public boolean equals(Object o) {
+        if(o==null || !(o instanceof Stanza)) return false;
+        Stanza that = (Stanza)o;
+        return this.getNome().equals(that.getNome());
+    }
 
+    @Override
+    public int hashCode() {
+        return this.getClass().hashCode() + this.getNome().hashCode();
+    }
 
 
 }

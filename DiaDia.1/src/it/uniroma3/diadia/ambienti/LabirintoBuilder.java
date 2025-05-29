@@ -1,5 +1,7 @@
 package it.uniroma3.diadia.ambienti;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ public class LabirintoBuilder {
     private Labirinto labirinto;
     private Map<String, Stanza> listaStanze;
     private Stanza ultimaStanzaAggiunta;
+    private final static List<String> direzioni = Arrays.asList("nord", "sud", "est", "ovest");
 
     public LabirintoBuilder() {
         this.labirinto = new Labirinto();
@@ -63,9 +66,12 @@ public class LabirintoBuilder {
     }
 
     public LabirintoBuilder addAdiacenza(String nomeStanzaDa, String nomeStanzaA, String direzione) {
+    	if (nomeStanzaA == null || nomeStanzaDa == null || !direzioni.contains(direzione)) {
+            return this;
+        }
         Stanza stanzaDa = this.listaStanze.get(nomeStanzaDa);
         Stanza stanzaA = this.listaStanze.get(nomeStanzaA);
-        if (stanzaDa != null && stanzaA != null) {
+        if (stanzaDa != null && stanzaA != null ) {
             stanzaDa.impostaStanzaAdiacente(direzione, stanzaA);
         }
         return this;

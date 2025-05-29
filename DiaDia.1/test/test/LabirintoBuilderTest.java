@@ -71,8 +71,8 @@ public class LabirintoBuilderTest {
 				.addAdiacenza(nomeStanzaVincente, nomeStanzaIniziale, "sud")
 				.getLabirinto();
 		assertEquals(bilocale.getStanzaFinale(),bilocale.getStanzaIniziale().getStanzaAdiacente("nord"));
-		assertEquals(Collections.singletonList("nord"),bilocale.getStanzaIniziale().getDirezioni());
-		assertEquals(Collections.singletonList("sud"),bilocale.getStanzaFinale().getDirezioni());
+		assertEquals(Collections.singleton("nord"),bilocale.getStanzaIniziale().getDirezioni());
+		assertEquals(Collections.singleton("sud"),bilocale.getStanzaFinale().getDirezioni());
 	}
 	
 	@Test
@@ -305,7 +305,7 @@ public class LabirintoBuilderTest {
 				.addAttrezzo("lanterna", 1)
 				.addStanzaBloccata("corridoio bloccato","nord","chiave")
 				.addStanzaMagica("stanza magica", 1)
-				.addStanzaBuia("stanza buia","lanterna")
+				.addStanzaBuia("lanterna","stanza buia")
 				.addStanza("Aula 1")
 				.addAdiacenza(nomeStanzaIniziale, "corridoio", "nord")
 				.addAdiacenza("corridoio", nomeStanzaIniziale, "sud")
@@ -324,7 +324,7 @@ public class LabirintoBuilderTest {
 		assertEquals(nomeStanzaVincente, labirintoCompleto.getStanzaFinale().getNome());
 		Stanza corridoio = labirintoCompleto.getStanzaIniziale().getStanzaAdiacente("nord");
 		assertEquals("corridoio",corridoio.getNome());
-		assertTrue(corridoio.getDirezioni().containsAll(Arrays.asList("ovest","est","nord","sud")));
+		assertTrue(corridoio.getDirezioni().containsAll(Arrays.asList("est","nord","sud","ovest")));
 		Map<String,Stanza> mapAdiacenti = new HashMap<>();
 		mapAdiacenti.put("nord",new Stanza("corridoio bloccato"));
 		mapAdiacenti.put("sud",new Stanza(nomeStanzaIniziale));
