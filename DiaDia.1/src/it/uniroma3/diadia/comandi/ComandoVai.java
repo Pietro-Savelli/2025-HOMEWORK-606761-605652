@@ -4,11 +4,10 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.IO;
 
-public class ComandoVai implements Comando{
-	
-	private String direzione;
-	private IO console;
-	
+public class ComandoVai extends AbstractComando{
+
+
+
 	/**
 	 * Sposta il giocatore nella direzione specificata, se possibile.
 	 * <p>
@@ -19,45 +18,36 @@ public class ComandoVai implements Comando{
 	 * @param Partita in corso
 	 */
 	
+	public ComandoVai() {
+	    // costruttore vuoto richiesto per riflessione
+		super();
+	}
+	public ComandoVai(String parametro, IO io) {
+		super(parametro, io);
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public void esegui(Partita partita) {
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		Stanza prossimaStanza = null;
-		if(direzione==null) {
-			console.mostraMessaggio("Dove vuoi andare?\nDevi specificare una direzione");
+		if(getParametro()==null) {
+			getConsole().mostraMessaggio("Dove vuoi andare?\nDevi specificare una direzione");
 			return;
 		}
-		prossimaStanza = stanzaCorrente.getStanzaAdiacente(direzione);
+		prossimaStanza = stanzaCorrente.getStanzaAdiacente(getParametro());
 		if(prossimaStanza==null) {
-			console.mostraMessaggio("Direzione inesistente");
+			getConsole().mostraMessaggio("Direzione inesistente");
 			return;
 		}
 		partita.setStanzaCorrente(prossimaStanza);
-		console.mostraMessaggio(partita.getStanzaCorrente().getNome());
+		getConsole().mostraMessaggio(partita.getStanzaCorrente().getNome());
 		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
-	}
-	
-	// uso un metodo sovracarico per poter settare i parametri di un qualsiasi comando
-	@Override
-	public void setParametro(String parametro) {
-		direzione = parametro;
 	}
 
 	@Override
 	public String getNome() {
 		// TODO Auto-generated method stub
 		return "vai";
-	}
-
-	@Override
-	public String getParametro() {
-		// TODO Auto-generated method stub
-		return direzione;
-	}
-	
-	@Override
-	public void setIO(IO io) {
-		// TODO Auto-generated method stub
-		this.console = io;
 	}
 }

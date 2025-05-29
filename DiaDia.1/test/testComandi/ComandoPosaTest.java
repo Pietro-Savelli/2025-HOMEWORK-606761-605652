@@ -11,24 +11,26 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.ComandoPosa;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 class ComandoPosaTest {
 	private Partita partita;
 	private Comando c;
 	private IO console;
+	private FabbricaDiComandiRiflessiva fabbrica;
 
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws Exception {
 		partita = new Partita();
-		c = new ComandoPosa();
-		console = new IOConsole();
+		this.fabbrica = new FabbricaDiComandiRiflessiva();
+		c = fabbrica.costruisciComando("posa");
+		c.setIO(new IOConsole());
 	}
 	
 	@Test 
 	public void testPosaAttrezzoPresenteNellaBorsa() {
 		partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("pippo",10));
 		c.setParametro("pippo");
-		c.setIO(console);
 		c.esegui(partita);
 		assertTrue(partita.getStanzaCorrente().hasAttrezzo("pippo"));
 		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));
@@ -37,7 +39,6 @@ class ComandoPosaTest {
 	@Test
 	public void testPosaAttrezzoNonPresenteNellaBorsa() {
 		c.setParametro("pippo");
-		c.setIO(console);
 		c.esegui(partita);
 		assertFalse(partita.getStanzaCorrente().hasAttrezzo("pippo"));
 		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));
@@ -47,7 +48,6 @@ class ComandoPosaTest {
 	// non so come impostarlo 
 	public void testPosaNull() {
 		c.setParametro(null);
-		c.setIO(console);
 		c.esegui(partita);
 		assertFalse(partita.getStanzaCorrente().hasAttrezzo(null));
 		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo(null));
@@ -65,7 +65,6 @@ class ComandoPosaTest {
 		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pi", 1));
 		partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("pippo",10));
 		c.setParametro("pippo");
-		c.setIO(console);
 		c.esegui(partita);
 		assertFalse(partita.getStanzaCorrente().hasAttrezzo("pippo"));
 		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));

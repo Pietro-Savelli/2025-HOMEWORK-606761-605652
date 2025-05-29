@@ -4,9 +4,7 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.IO;
 
-public class ComandoPosa implements Comando {
-	private IO console;
-	private String parametro;
+public class ComandoPosa extends AbstractComando {
 	
 	/**
 	 * Permette al giocatore di lasciare un attrezzo dalla borsa e aggiungerlo alla stanza corrente,
@@ -15,32 +13,35 @@ public class ComandoPosa implements Comando {
 	 * 
 	 * @param Partita in corso
 	 */
+	public ComandoPosa() {
+		super();
+	}
+	
+	public ComandoPosa(String parametro, IO io) {
+		super(parametro, io);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void esegui(Partita partita) {
 		// TODO Auto-generated method stub
-		if(parametro==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			console.mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
+		if(getParametro()==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
+			getConsole().mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
 			return;
 		}
-		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(parametro);
+		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(getParametro());
 		if(attrezzo == null) {
-			console.mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
+			getConsole().mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
 			return;
 		}
 
 		if(partita.getStanzaCorrente().addAttrezzo(attrezzo)) {	// aggiunge l'attrezzo dalla stanza
-			console.mostraMessaggio("attrezzo aggiunto alla stanza");
-			partita.getGiocatore().removeAttrezzo(parametro);
+			getConsole().mostraMessaggio("attrezzo aggiunto alla stanza");
+			partita.getGiocatore().removeAttrezzo(getParametro());
 		}
 		else
-			console.mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
+			getConsole().mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
 
-	}
-
-	@Override
-	public void setParametro(String parametro) {
-		// TODO Auto-generated method stub
-		this.parametro = parametro;
 	}
 
 	@Override
@@ -49,15 +50,4 @@ public class ComandoPosa implements Comando {
 		return "posa";
 	}
 
-	@Override
-	public String getParametro() {
-		// TODO Auto-generated method stub
-		return parametro;
-	}
-	
-	@Override
-	public void setIO(IO io) {
-		// TODO Auto-generated method stub
-		this.console = io;
-	}
 }

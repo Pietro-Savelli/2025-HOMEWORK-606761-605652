@@ -9,24 +9,25 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.ComandoPrendi;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 
 public class ComandoPrendiTest {
 	private Partita partita;
 	private Comando c;
-	private IO console;
+	private FabbricaDiComandiRiflessiva fabbrica;
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws Exception {
 		partita = new Partita();
-		c = new ComandoPrendi();
-		console= new IOConsole();
+		this.fabbrica = new FabbricaDiComandiRiflessiva();
+		c = fabbrica.costruisciComando("prendi");
+		c.setIO(new IOConsole());
 	}
 
 	@Test
 	void testPrendiAttrezzoPresenteInStanza() {
 		c.setParametro("osso");
-		c.setIO(console);
 		c.esegui(partita);
 		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo("osso"));
 		assertFalse(partita.getStanzaCorrente().hasAttrezzo("osso"));
@@ -35,7 +36,6 @@ public class ComandoPrendiTest {
 	@Test 
 	void testPrendiAttrezzoNonPresenteInStanza() {
 		c.setParametro("lanterna");
-		c.setIO(console);
 		c.esegui(partita);
 		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("lanterna"));
 		assertFalse(partita.getStanzaCorrente().hasAttrezzo("lanterna"));
@@ -44,7 +44,6 @@ public class ComandoPrendiTest {
 	@Test 
 	void testPrendiAtrezzoSenzaParametro(){
 		c.setParametro(null);
-		c.setIO(console);
 		c.esegui(partita);
 	    assertTrue(partita.getGiocatore().getBorsa().isEmpty());
 	}
@@ -53,7 +52,6 @@ public class ComandoPrendiTest {
 	void testPrendiAttrezzoPresenteInStanzaBorsaPiena() {
 		partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("pippo",10));
 		c.setParametro("osso");
-		c.setIO(console);
 		c.esegui(partita);
 		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("osso"));
 		assertTrue(partita.getStanzaCorrente().hasAttrezzo("osso"));

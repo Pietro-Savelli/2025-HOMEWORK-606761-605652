@@ -9,7 +9,7 @@ import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 
 
@@ -51,7 +51,7 @@ public class DiaDia {
 	}
 
 	
-	public void gioca() {
+	public void gioca() throws Exception {
 		String istruzione; 
 		Scanner scannerDiLinee;
 
@@ -70,10 +70,11 @@ public class DiaDia {
 	 *
 	 * @param istruzione e'una stringa
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
+	 * @throws Exception 
 	 */
-	 private boolean processaIstruzione(String istruzione) {
+	 private boolean processaIstruzione(String istruzione) throws Exception {
 		 Comando comandoDaEseguire;
-		 FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
+		 FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva();
 		 comandoDaEseguire = factory.costruisciComando(istruzione);
 		 comandoDaEseguire.setIO(this.console);	//mi serve per portare il riferimanto IOConsole nei comandi
 		 comandoDaEseguire.esegui(this.partita);
@@ -88,7 +89,7 @@ public class DiaDia {
 	}   
 
 	//main
-	 public static void main(String[] argc) {
+	 public static void main(String[] argc) throws Exception {
 			IO ioConsole = new IOConsole();
 			DiaDia gioco = new DiaDia(ioConsole);
 			gioco.gioca();

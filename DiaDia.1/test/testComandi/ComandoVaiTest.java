@@ -13,20 +13,25 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.comandi.AbstractComando;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.ComandoVai;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 public class ComandoVaiTest {
 	private Partita partita;
 	private Stanza atrio;
 	private Stanza biblioteca;
 	private Stanza n11;
+	private FabbricaDiComandiRiflessiva fabbrica;
 	private Comando c;
-	private IO console;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		c = new ComandoVai();
+		
+		fabbrica = new FabbricaDiComandiRiflessiva();
+		c = fabbrica.costruisciComando("vai");
+		c.setIO(new IOConsole());
 		
 		this.partita = new Partita();
 		atrio = new Stanza("atrio");
@@ -37,8 +42,6 @@ public class ComandoVaiTest {
 		biblioteca.impostaStanzaAdiacente("sud", atrio);
 		n11.impostaStanzaAdiacente("nord", biblioteca);
 		partita.setStanzaCorrente(atrio);
-		console = new IOConsole();
-		c.setIO(console);
 	}
 
 	@Test

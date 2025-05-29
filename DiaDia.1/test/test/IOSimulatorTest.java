@@ -13,7 +13,7 @@ import it.uniroma3.diadia.IOSimulator;
 class IOSimulatorTest {
 
 	@Test
-	public void testSimulazionePartitaConFine(){
+	public void testSimulazionePartitaConFine() throws Exception{
 		// Input simulati (comandi del giocatore)
 		String[] comandi = {
 				"vai sud",
@@ -43,7 +43,7 @@ class IOSimulatorTest {
 	}
 
 	@Test
-	public void testSimulazioneVinta() {
+	public void testSimulazioneVinta() throws Exception {
 		
 		String[] comandi = { "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
 		
@@ -68,7 +68,7 @@ class IOSimulatorTest {
 	
 	
 	@Test
-	public void testSimulazioneFineCfu() {
+	public void testSimulazioneFineCfu() throws Exception {
 		// comandi del giocatore
 		String[] comandi = {
 				"vai sud",
@@ -115,7 +115,7 @@ class IOSimulatorTest {
 	}
 
 	@Test
-	public void testSimulazione() {
+	public void testSimulazione() throws Exception {
 		
 		String[] comandi = { "vai sud", "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
 		String[] aspettativa = { "Aula N10", "Atrio", "Grazie di aver giocato!" };

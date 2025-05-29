@@ -7,37 +7,37 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.comandi.Comando;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 class FabbricaDiComandiFisarmonicaTest {
 	
-	private FabbricaDiComandiFisarmonica fabbrica;
+	private FabbricaDiComandiRiflessiva fabbrica;
 	private Comando comando;
 	
 	@BeforeEach
 	public void setUp() {
-		fabbrica = new FabbricaDiComandiFisarmonica();
+		fabbrica = new FabbricaDiComandiRiflessiva();
 		comando = null;
 	}
 	
 	
 	// ComandoNonValido
 	@Test
-	void testComandoNonValidoNull() {
+	void testComandoNonValidoNull() throws Exception {
 		comando = fabbrica.costruisciComando("");
         assertEquals("non valido", comando.getNome());
         assertNull(comando.getParametro());
 	}
 	
 	@Test
-	void testComandoNonValidoSconosciuito() {
+	void testComandoNonValidoSconosciuito() throws Exception {
 		comando = fabbrica.costruisciComando("fdsgsdgfsdgfs");
         assertEquals("non valido", comando.getNome());
         assertNull(comando.getParametro());
 	}
 	
 	@Test
-	void testComandoNonValidoSconosciuitoConParametro() {
+	void testComandoNonValidoSconosciuitoConParametro() throws Exception {
 		comando = fabbrica.costruisciComando("fdsgsdgfsdgfs nord");
         assertEquals("non valido", comando.getNome());
         assertNull(comando.getParametro());
@@ -45,14 +45,14 @@ class FabbricaDiComandiFisarmonicaTest {
 	
 	// ComandoVai
 	@Test
-	public void testComandoVaiSenzaParametro() {
+	public void testComandoVaiSenzaParametro() throws Exception {
 		comando = fabbrica.costruisciComando("vai");
 		assertEquals("vai", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoVaiConParametro() {
+	public void testComandoVaiConParametro() throws Exception {
 		comando = fabbrica.costruisciComando("vai nord");
 		assertEquals("vai", comando.getNome());
 		assertEquals("nord", comando.getParametro());
@@ -60,14 +60,14 @@ class FabbricaDiComandiFisarmonicaTest {
 	
 	// ComandoPosa
 	@Test
-	public void testComandoPosaSenzaParametro() {
+	public void testComandoPosaSenzaParametro() throws Exception {
 		comando = fabbrica.costruisciComando("posa");
 		assertEquals("posa", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoPosaConParametro() {
+	public void testComandoPosaConParametro() throws Exception {
 		comando = fabbrica.costruisciComando("posa orso");
 		assertEquals("posa", comando.getNome());
 		assertEquals("orso", comando.getParametro());
@@ -75,14 +75,14 @@ class FabbricaDiComandiFisarmonicaTest {
 	
 	// ComandoPrendi 
 	@Test
-	public void testComandoPrendiSenzaParametro() {
+	public void testComandoPrendiSenzaParametro() throws Exception {
 		comando = fabbrica.costruisciComando("prendi");
 		assertEquals("prendi", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoPrendiConParametro() {
+	public void testComandoPrendiConParametro() throws Exception {
 		comando = fabbrica.costruisciComando("prendi spada");
 		assertEquals("prendi", comando.getNome());
 		assertEquals("spada", comando.getParametro());
@@ -90,14 +90,14 @@ class FabbricaDiComandiFisarmonicaTest {
 	
 	//ComandoAiuto
 	@Test
-	public void testComandoAiuto() {
+	public void testComandoAiuto() throws Exception {
 		comando = fabbrica.costruisciComando("aiuto");
 		assertEquals("aiuto", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoAiutoConParametro() {
+	public void testComandoAiutoConParametro() throws Exception {
 		comando = fabbrica.costruisciComando("aiuto gianni");
 		assertEquals("aiuto", comando.getNome());
 		assertNull(comando.getParametro());
@@ -105,14 +105,14 @@ class FabbricaDiComandiFisarmonicaTest {
 
 	//ComandoFine
 	@Test 
-	public void testComandoFine() {
+	public void testComandoFine() throws Exception{
 		comando = fabbrica.costruisciComando("fine");
 		assertEquals("fine", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test 
-	public void testComandoFineConParametro() {
+	public void testComandoFineConParametro() throws Exception{
 		comando = fabbrica.costruisciComando("fine basta");
 		assertEquals("fine", comando.getNome());
 		assertNull(comando.getParametro());
@@ -120,14 +120,14 @@ class FabbricaDiComandiFisarmonicaTest {
 	
 	//ComandoGuarda
 	@Test
-	public void testComandoGuarda() {
+	public void testComandoGuarda() throws Exception{
 		comando = fabbrica.costruisciComando("guarda");
 		assertEquals("guarda", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoGuardaConParametro() {
+	public void testComandoGuardaConParametro() throws Exception{
 		comando = fabbrica.costruisciComando("guarda gianni");
 		assertEquals("guarda", comando.getNome());
 		assertNull(comando.getParametro());
