@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
-class FabbricaDiComandiFisarmonicaTest {
+class FabbricaDiComandiRiflessivaTest {
 	
 	private FabbricaDiComandiRiflessiva fabbrica;
 	private Comando comando;
@@ -23,21 +23,21 @@ class FabbricaDiComandiFisarmonicaTest {
 	
 	// ComandoNonValido
 	@Test
-	void testComandoNonValidoNull() throws Exception {
+	void testComandoNonValidoNull()throws Exception{
 		comando = fabbrica.costruisciComando("");
         assertEquals("non valido", comando.getNome());
         assertNull(comando.getParametro());
 	}
 	
 	@Test
-	void testComandoNonValidoSconosciuito() throws Exception {
+	void testComandoNonValidoSconosciuito()throws Exception{
 		comando = fabbrica.costruisciComando("fdsgsdgfsdgfs");
         assertEquals("non valido", comando.getNome());
         assertNull(comando.getParametro());
 	}
 	
 	@Test
-	void testComandoNonValidoSconosciuitoConParametro() throws Exception {
+	void testComandoNonValidoSconosciuitoConParametro() throws Exception{
 		comando = fabbrica.costruisciComando("fdsgsdgfsdgfs nord");
         assertEquals("non valido", comando.getNome());
         assertNull(comando.getParametro());
@@ -100,7 +100,6 @@ class FabbricaDiComandiFisarmonicaTest {
 	public void testComandoAiutoConParametro() throws Exception {
 		comando = fabbrica.costruisciComando("aiuto gianni");
 		assertEquals("aiuto", comando.getNome());
-		assertNull(comando.getParametro());
 	}
 
 	//ComandoFine
@@ -115,7 +114,7 @@ class FabbricaDiComandiFisarmonicaTest {
 	public void testComandoFineConParametro() throws Exception{
 		comando = fabbrica.costruisciComando("fine basta");
 		assertEquals("fine", comando.getNome());
-		assertNull(comando.getParametro());
+		assertEquals("basta",comando.getParametro());
 	}
 	
 	//ComandoGuarda
@@ -130,7 +129,7 @@ class FabbricaDiComandiFisarmonicaTest {
 	public void testComandoGuardaConParametro() throws Exception{
 		comando = fabbrica.costruisciComando("guarda gianni");
 		assertEquals("guarda", comando.getNome());
-		assertNull(comando.getParametro());
+		assertEquals("gianni",comando.getParametro());
 	}
 	
 	

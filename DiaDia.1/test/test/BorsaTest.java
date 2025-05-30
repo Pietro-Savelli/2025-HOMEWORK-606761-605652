@@ -242,7 +242,7 @@ public class BorsaTest {
 		SortedSet<Attrezzo> ordinati = borsa.getSortedSetOrdinatoPerPeso();
 		Iterator<Attrezzo> it = ordinati.iterator();
 
-		assertEquals("penna", it.next().getNome());  // 1
+		assertEquals(penna, it.next());  // 1
 		assertEquals("osso", it.next().getNome());  // 2
 		assertEquals("spada", it.next().getNome());
 	}
