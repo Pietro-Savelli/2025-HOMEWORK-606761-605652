@@ -4,6 +4,7 @@ package it.uniroma3.diadia.ambienti;
 import java.util.*;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 
 /**
  * Classe Stanza - una stanza in un gioco di ruolo.
@@ -24,11 +25,19 @@ public class Stanza {
 	private String nome;
 	private Map<String, Stanza> stanzeAdiacenti;
 	private Map<String,Attrezzo> attrezzi;
+	private AbstractPersonaggio personaggio;
 
 	public Stanza(String nome) {
 		this.nome = nome;
 		this.stanzeAdiacenti = new HashMap<>();
 		this.attrezzi =  new HashMap<>();
+	}
+	
+	public Stanza(String nome, AbstractPersonaggio personaggio) {
+		this.nome = nome;
+		this.stanzeAdiacenti = new HashMap<>();
+		this.attrezzi =  new HashMap<>();
+		setPersonaggio(personaggio);
 	}
 
 	public String getNome() {
@@ -50,12 +59,12 @@ public class Stanza {
 			attrezzi.put(attrezzo.getNome(), attrezzo);
 			return true; 
 		}
-			
+
 		return false;
 	}
 
 	public boolean hasAttrezzo(String nomeAttrezzo) {
-	    return this.attrezzi.containsKey(nomeAttrezzo);
+		return this.attrezzi.containsKey(nomeAttrezzo);
 	}
 
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
@@ -65,7 +74,7 @@ public class Stanza {
 	public boolean removeAttrezzo(String nomeAttrezzo) {
 		if (nomeAttrezzo == null) 
 			return false; // per gestire la stringa null
-		
+
 		return this.attrezzi.remove(nomeAttrezzo)!=null;
 	}
 
@@ -76,11 +85,11 @@ public class Stanza {
 	public Set<String> getDirezioni() {
 		return new HashSet<>(this.stanzeAdiacenti.keySet()); // crea una nuovo set che e' una copia del parametro (usa il costuttore sovracacrico)
 	}
-	
+
 	public Map<String,Stanza> getMapStanzeAdiacenti() {
 		return this.stanzeAdiacenti;
 	}
-	
+
 	/**
 	 * Restituisce la descrizione della stanza.
 	 * @return la descrizione della stanza
@@ -88,7 +97,7 @@ public class Stanza {
 	public String getDescrizione() {
 		return this.toString();
 	}
-	
+
 	public boolean isMagica() {
 		return this.getClass() == StanzaMagica.class;
 	}
@@ -103,12 +112,12 @@ public class Stanza {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
 		risultato.append("\nUscite: ");
-		
+
 		for(String s : getDirezioni()){
 			if(s!=null)
 				risultato.append(" "+s);
 		}
-		
+
 		risultato.append("\nAttrezzi nella stanza: ");
 		for(Attrezzo a : getAttrezzi()) {
 			if(a!=null)
@@ -118,16 +127,23 @@ public class Stanza {
 	}
 
 	@Override
-    public boolean equals(Object o) {
-        if(o==null || !(o instanceof Stanza)) return false;
-        Stanza that = (Stanza)o;
-        return this.getNome().equals(that.getNome());
-    }
+	public boolean equals(Object o) {
+		if(o==null || !(o instanceof Stanza)) return false;
+		Stanza that = (Stanza)o;
+		return this.getNome().equals(that.getNome());
+	}
 
-    @Override
-    public int hashCode() {
-        return this.getClass().hashCode() + this.getNome().hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return this.getClass().hashCode() + this.getNome().hashCode();
+	}
 
+	public void setPersonaggio(AbstractPersonaggio personaggio) {
+		this.personaggio = personaggio;
+	}
+
+	public AbstractPersonaggio getPersonaggio() {
+		return this.personaggio;
+	}
 
 }

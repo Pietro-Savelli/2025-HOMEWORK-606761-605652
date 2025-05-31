@@ -19,7 +19,6 @@ public class ComandoPosa extends AbstractComando {
 	
 	public ComandoPosa(String parametro, IO io) {
 		super(parametro, io);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

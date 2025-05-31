@@ -14,7 +14,6 @@ public abstract class AbstractComando implements Comando{
 	}
 
 	public AbstractComando() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void setParametro(String parametro) {
