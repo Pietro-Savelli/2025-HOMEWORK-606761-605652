@@ -111,6 +111,10 @@ public class Stanza {
 	public String toString() {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
+		if(this.personaggio!=null) {
+			risultato.append("\nPersona nella stanza: "+this.getPersonaggio().getNome());
+		}
+		
 		risultato.append("\nUscite: ");
 
 		for(String s : getDirezioni()){

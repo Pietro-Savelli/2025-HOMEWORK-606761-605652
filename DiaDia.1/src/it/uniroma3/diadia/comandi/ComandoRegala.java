@@ -26,7 +26,7 @@ public class ComandoRegala extends AbstractComando{
 			return;
 		}
 
-		partita.getStanzaCorrente().getPersonaggio().riceviRegalo(attrezzo, partita);	// aggiunge l'attrezzo dalla stanza
+		partita.getStanzaCorrente().getPersonaggio().riceviRegalo(attrezzo, partita);
 		partita.getGiocatore().removeAttrezzo(getParametro());
 	}
 
