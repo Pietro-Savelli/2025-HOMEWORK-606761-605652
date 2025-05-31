@@ -17,7 +17,8 @@ public class Cane extends AbstractPersonaggio{
 	
 	@Override
 	public String agisci(Partita partita) {
-		return null;
+		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu() - 1);
+	    return "TI HO MORSO";
 	}
 
 	@Override
@@ -27,9 +28,8 @@ public class Cane extends AbstractPersonaggio{
 	        partita.getStanzaCorrente().addAttrezzo(this.attrezzo);
 	        return "BAU BAU";
 	    }
-
-	    partita.getGiocatore().setCfu(partita.getGiocatore().getCfu() - 1);
-	    return "TI HO MORSO";
+	    this.agisci(partita);
+	    return "BAU BAU";
 	}
 
 

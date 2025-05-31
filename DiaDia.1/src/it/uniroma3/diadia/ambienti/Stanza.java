@@ -89,7 +89,10 @@ public class Stanza {
 	public Map<String,Stanza> getMapStanzeAdiacenti() {
 		return this.stanzeAdiacenti;
 	}
-
+	
+	public List<Stanza> getStanzeAdiacenti() {
+		return new ArrayList<Stanza>(this.stanzeAdiacenti.values()); // crea una nuovo set che raccolgie tutti i valori dei valori della mappa
+	}
 	/**
 	 * Restituisce la descrizione della stanza.
 	 * @return la descrizione della stanza
