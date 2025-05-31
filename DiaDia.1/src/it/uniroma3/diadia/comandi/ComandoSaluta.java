@@ -6,14 +6,17 @@ public class ComandoSaluta extends AbstractComando{
 
 	@Override
 	public void esegui(Partita partita) {
-		// TODO Auto-generated method stub
-		
+		if(partita.getStanzaCorrente().getPersonaggio()==null) {
+			getConsole().mostraMessaggio("non esiste nessun personaggio dentro questa stanaza");
+			return ;
+		}
+			
+		partita.getStanzaCorrente().getPersonaggio().saluta();
 	}
 
 	@Override
 	public String getNome() {
-		// TODO Auto-generated method stub
-		return null;
+		return "saluta";
 	}
 
 }

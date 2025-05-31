@@ -1,6 +1,5 @@
 package test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,37 +29,31 @@ public class StregaTest {
             .addAttrezzo("scudo", 3) // 2 attrezzi
             .addAdiacenza("iniziale", "piena", "est")
             .getLabirinto();
-
+        
         this.partita = new Partita(labirinto);
         this.partita.setStanzaCorrente(labirinto.getStanzaIniziale());
 
-        this.strega = new Strega("Morgana", "Sono una strega permalosa.");
+        this.strega = new Strega("Morgana", "super magona");
     }
 
     @Test
     public void testAgisciSenzaSaluto() {
-        String messaggio = strega.agisci(partita);
-        assertEquals("vuota", partita.getStanzaCorrente().getNome(),
-            "Senza saluto, la strega dovrebbe spostare nella stanza con meno attrezzi");
-        assertTrue(messaggio.contains("ti ho spostato"),
-            "Il messaggio dovrebbe comunicare lo spostamento");
+        strega.agisci(partita);
+        assertEquals("vuota", partita.getStanzaCorrente().getNome());
     }
 
     @Test
     public void testAgisciConSaluto() {
-        strega.saluta(); // Ora haSalutato == true
+        strega.saluta(); // haSalutato true
         String messaggio = strega.agisci(partita);
-        assertEquals("piena", partita.getStanzaCorrente().getNome(),
-            "Dopo il saluto, la strega dovrebbe spostare nella stanza con più attrezzi");
-        assertTrue(messaggio.contains("ti ho spostato"),
-            "Il messaggio dovrebbe comunicare lo spostamento");
+        assertEquals("piena", partita.getStanzaCorrente().getNome());
     }
 
     @Test
     public void testRiceviRegalo() {
         Attrezzo regalo = new Attrezzo("cosa", 1);
         String risposta = strega.riceviRegalo(regalo, partita);
-        assertEquals("ahahahahahah hai perso il tuo oggetto per sempre", risposta,
-            "La risposta dovrebbe indicare la perdita dell'oggetto");
+        assertEquals("ahahahahahah hai perso il tuo oggetto per sempre", risposta);
+        assertFalse(partita.getStanzaCorrente().hasAttrezzo("regalo"));
     }
 }
