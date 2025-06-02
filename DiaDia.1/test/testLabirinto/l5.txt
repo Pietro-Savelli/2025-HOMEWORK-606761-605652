@@ -1,0 +1,7 @@
+Stanze: ingresso, corridoio, salotto
+Buia: cantina candela
+Bloccata: porta nord chiave
+Inizio: ingresso
+Vincente: salotto
+Attrezzi: chiave 1 ingresso, candela 1 corridoio
+Uscite: ingresso nord corridoio, corridoio sud ingresso, corridoio nord porta, porta sud corridoio, porta nord salotto, salotto sud porta, corridoio est cantina, cantina ovest corridoio

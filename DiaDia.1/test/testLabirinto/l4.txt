@@ -1,0 +1,6 @@
+Stanze: ingresso, cucina, soggiorno
+Magica: laboratorio
+Inizio: ingresso
+Vincente: laboratorio
+Attrezzi: cucchiaio 1 cucina, pozione 1 laboratorio
+Uscite: ingresso est cucina, cucina ovest ingresso, cucina nord soggiorno, soggiorno sud cucina, soggiorno est laboratorio, laboratorio ovest soggiorno

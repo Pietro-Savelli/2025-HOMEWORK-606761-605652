@@ -91,6 +91,8 @@ public class LabirintoBuilder {
     public Map<String, Stanza> getListaStanze() {
         return this.listaStanze;
     }
-
+    public Stanza getUltimaAggiunta() {
+    	return this.ultimaStanzaAggiunta;
+    }
 
 }

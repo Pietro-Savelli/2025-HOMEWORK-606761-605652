@@ -1,0 +1,5 @@
+Stanze: ingresso, camera
+Inizio: ingresso
+Vincente: camera
+Attrezzi: chiave 1 ingresso
+Uscite: ingresso nord camera, camera sud ingresso

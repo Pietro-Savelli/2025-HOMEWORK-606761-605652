@@ -1,6 +1,10 @@
 package it.uniroma3.diadia.ambienti;
 
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 /**
@@ -12,7 +16,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  */
 
 public class Labirinto {
-	
+
 
 	// variabili di istanza Stanza
 	private Stanza stanzaIniziale;
@@ -33,6 +37,13 @@ public class Labirinto {
 		init();
 	}
 
+	public Labirinto(String nomeFile) throws FormatoFileNonValidoException, FileNotFoundException {
+		CaricatoreLabirinto caricatore = new CaricatoreLabirinto(nomeFile);
+		caricatore.carica();
+		Labirinto labirintoCreato = caricatore.getLabirinto();
+		this.stanzaIniziale = labirintoCreato.getStanzaIniziale();
+		this.stanzaFinale = labirintoCreato.getStanzaFinale();
+	}
 	private void init() {
 		creaStanze();
 		collegaStanze();
@@ -98,7 +109,7 @@ public class Labirinto {
 		atrio.addAttrezzo(chiave);
 	}
 
-	
+
 	public void setStanzaIniziale(Stanza stanzaIniziale) {
 		this.stanzaIniziale = stanzaIniziale;
 	}

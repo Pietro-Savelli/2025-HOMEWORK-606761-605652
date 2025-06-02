@@ -1,0 +1,11 @@
+Stanze: ingresso, studio
+Magica: laboratorio
+Buia: cantina torcia
+Bloccata: porta nord chiave
+Inizio: ingresso
+Vincente: laboratorio
+Attrezzi: chiave 1 ingresso, libro 2 studio, torcia 1 studio
+Mago: laboratorio Gandalf bacchetta 1 "Sono il custode del laboratorio"
+Strega: studio Morgana "Benvenuto nella mia stanza"
+Cane: ingresso Fido "Attento ai miei morsi" osso palla 1
+Uscite: ingresso nord studio, studio sud ingresso, studio nord laboratorio, laboratorio sud studio, studio est cantina, cantina ovest studio

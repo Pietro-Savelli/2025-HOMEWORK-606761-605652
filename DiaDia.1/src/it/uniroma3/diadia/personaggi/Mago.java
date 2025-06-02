@@ -21,6 +21,12 @@ public class Mago extends AbstractPersonaggio{
 	}
 	
 	
+	public Mago(String mago, String presentazione, String attrezzo2, Integer toInt) {
+		super(mago, presentazione);
+		this.attrezzo = new Attrezzo(attrezzo2, toInt);
+	}
+
+
 	@Override
 	public String agisci(Partita partita) {
 		String msg;
