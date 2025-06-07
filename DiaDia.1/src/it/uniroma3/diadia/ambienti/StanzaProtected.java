@@ -14,25 +14,15 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class StanzaProtected {
 
-	static final protected int NUMERO_MASSIMO_DIREZIONI = 4;
-	static final protected int NUMERO_MASSIMO_ATTREZZI = 10;
+	static final private int NUMERO_MASSIMO_DIREZIONI = 4;
+	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
 
-	protected String nome;
-	protected Attrezzo[] attrezzi;
-	protected int numeroAttrezzi;
-
-	public int getNumeroAttrezziPossibili() {
-		return NUMERO_MASSIMO_ATTREZZI-this.numeroAttrezzi;
-	}
-
-	//	public void setNumeroAttrezzi(int numeroAttrezzi) {
-	//		this.numeroAttrezzi = numeroAttrezzi;
-	//	}
-
-
-	protected StanzaProtected[] stanzeAdiacenti;
-	protected int numeroStanzeAdiacenti;
-	protected String[] direzioni;
+	private String nome;
+	private Attrezzo[] attrezzi;
+	private int numeroAttrezzi;
+	private StanzaProtected[] stanzeAdiacenti;
+	private int numeroStanzeAdiacenti;
+	private String[] direzioni;
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
@@ -134,7 +124,7 @@ public class StanzaProtected {
 				risultato.append(" " + direzione);
 		risultato.append("\nAttrezzi nella stanza: ");
 		for (Attrezzo attrezzo : this.attrezzi) {
-			if(attrezzo!=null)
+			if(attrezzo != null)
 				risultato.append(attrezzo.toString()+" ");
 		}
 		return risultato.toString();
@@ -148,10 +138,9 @@ public class StanzaProtected {
 		boolean trovato;
 		trovato = false;
 		for (Attrezzo attrezzo : this.attrezzi) {
-			if(attrezzo != null) {
+			if(attrezzo != null)
 				if (attrezzo.getNome().equals(nomeAttrezzo))
 					trovato = true;
-			}
 		}
 		return trovato;
 	}
@@ -166,9 +155,8 @@ public class StanzaProtected {
 		Attrezzo attrezzoCercato;
 		attrezzoCercato = null;
 		for (Attrezzo attrezzo : this.attrezzi) {
-			if(attrezzo != null)
-				if (attrezzo.getNome().equals(nomeAttrezzo))
-					attrezzoCercato = attrezzo;
+			if(attrezzo != null && attrezzo.getNome().equals(nomeAttrezzo))
+				attrezzoCercato = attrezzo;
 		}
 		return attrezzoCercato;	
 	}
@@ -179,22 +167,16 @@ public class StanzaProtected {
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		if(attrezzo!=null){
-			int i = 0;
-			for(Attrezzo a : this.attrezzi) {
-				if(a != null) {
-					if(a.getNome().equals(attrezzo.getNome())) {
-						this.attrezzi[i] = null;
-						this.numeroAttrezzi--;
-					}
+		boolean rimosso = false;
+		int i = 0;
+		while(!rimosso && i < this.attrezzi.length) {
+			if(attrezzi[i] != null)
+				if(attrezzi[i].getNome().equals(attrezzo.getNome())) {
+					attrezzi[i] = null;
+					rimosso = true;
 				}
-				i++;
-
-			}
-			return true;
 		}
-		else
-			return false;
+		return rimosso;
 	}
 
 

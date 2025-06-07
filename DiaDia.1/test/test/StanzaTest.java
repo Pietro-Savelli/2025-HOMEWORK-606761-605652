@@ -5,87 +5,108 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaTest {
 
-	private Stanza stanza;
-	private Attrezzo attrezzo;
-	private Stanza stanza2;
+public class StanzaTest {
+
+	private static final int MAX_ATTREZZI = 10;
+	private static final String ATTREZZO = "AttrezzoDiTest";
+	private static final String STANZA = "StanzaTest";
+	private static final String STANZA_ADIACENTE = "StanzaAdiacente";
+	private static final Direzione NORD = Direzione.NORD;
+
+	protected Stanza stanza;
 
 	@BeforeEach
-	void setUp() {
-		stanza = new Stanza("atrio");
-		attrezzo = new Attrezzo("prova", 3);
-		stanza2 = new Stanza("n11");
-	}
-
-	// test per vedere se viene aggiunto corretamente l'attrezzo
-	@Test
-	void testAddAttrezzo_Disponibile() {
-		assertTrue(stanza.addAttrezzo(attrezzo));
-	}
-
-	// controlla che dopo il decimo attrezzo non posso piu aggiungerli
-	@Test
-	void testAddAttrezzo_Piena() {
-		stanza.addAttrezzo(new Attrezzo("p-", 0));
-		stanza.addAttrezzo(new Attrezzo("p0", 0));
-		stanza.addAttrezzo(new Attrezzo("p9", 0));
-		stanza.addAttrezzo(new Attrezzo("p8", 0));
-		stanza.addAttrezzo(new Attrezzo("p7", 0));
-		stanza.addAttrezzo(new Attrezzo("p6", 0));
-		stanza.addAttrezzo(new Attrezzo("p5", 0));
-		stanza.addAttrezzo(new Attrezzo("p4", 0));
-		stanza.addAttrezzo(new Attrezzo("p3", 0));
-		stanza.addAttrezzo(new Attrezzo("p2", 0));
-		stanza.addAttrezzo(new Attrezzo("p1", 0));
-		assertFalse(stanza.addAttrezzo(new Attrezzo("p4434343434", 0)));
-	}
-
-	@Test 
-	void testHasAttrezzo() {
-		stanza.addAttrezzo(attrezzo);
-		assertTrue(stanza.hasAttrezzo(attrezzo.getNome()));
-	}
-
-	@Test 
-	void testHasAttrezzo_NonTrovato() {
-		stanza.addAttrezzo(attrezzo);
-		assertFalse(stanza.hasAttrezzo("penna"));
+	public void setUp() {
+		this.stanza = new Stanza(STANZA);
 	}
 
 	@Test
-	void testRemoveAttrezzo() {
-		stanza.addAttrezzo(attrezzo);
-		assertTrue(stanza.removeAttrezzo(attrezzo.getNome()));
+	public void testImpostaStanzaAdiacenteSingola() {
+		Stanza adiacente = creaStanzaEImpostaAdiacente(this.stanza, STANZA_ADIACENTE, NORD);
+		assertEquals(adiacente, this.stanza.getStanzaAdiacente(NORD));
 	}
 
 	@Test
-	void testRemoveAttrezzo_NonTrovato() {
-		stanza.addAttrezzo(attrezzo);
-		assertFalse(stanza.removeAttrezzo("penna"));
+	public void testCambiaStanzaAdiacente() {
+		creaStanzaEImpostaAdiacente(this.stanza, STANZA_ADIACENTE, NORD);
+		Stanza nuovaAdiacente = creaStanzaEImpostaAdiacente(this.stanza, "nuovaAdiacente", NORD);
+		assertEquals(nuovaAdiacente, this.stanza.getStanzaAdiacente(NORD));
 	}
 
-	@Test 
-	void testImpostaStanzaAdiacente() {
-		stanza.impostaStanzaAdiacente("nord", stanza2);
-		assertEquals(stanza.getStanzaAdiacente("nord"), stanza2);
-	}
-	
-	@Test 
-	void testImpostaStanzaAdiacenteNull() {
-		stanza.impostaStanzaAdiacente(null, stanza2);
-		assertNull(stanza.getStanzaAdiacente(null));
-		
-	}
-	
-	@Test 
-	void testImpostaStanzaAdiacenteNullAttrezzo() {
-		stanza.impostaStanzaAdiacente("sud", null);
-		assertNull(stanza.getStanzaAdiacente("sud"));
-		
+	@Test
+	public void testGetStanzaAdiacenteNonEsistente() {
+		assertNull(this.stanza.getStanzaAdiacente(NORD));
 	}
 
+	@Test
+	public void testGetStanzaAdiacenteEsistente() {
+		Stanza adiacente = creaStanzaEImpostaAdiacente(this.stanza, STANZA_ADIACENTE, NORD);
+		assertEquals(this.stanza.getStanzaAdiacente(NORD),adiacente);
+	}
+
+	@Test
+	public void testGetStanzaAdiacenteDirezioneNonValida() {
+		creaStanzaEImpostaAdiacente(this.stanza, STANZA_ADIACENTE, NORD);
+		assertNull(this.stanza.getStanzaAdiacente(Direzione.SUD));
+	}
+
+	@Test
+	public void testGetDirezioniVuoto() {
+		assertArrayEquals(new String[0], this.stanza.getDirezioni().toArray());
+	}
+
+	@Test
+	public void testGetDirezioniSingleton() {
+		creaStanzaEImpostaAdiacente(this.stanza, STANZA_ADIACENTE, NORD);
+		Direzione[] direzioni = new Direzione[1];
+		direzioni[0] = NORD;
+		assertArrayEquals(direzioni, this.stanza.getDirezioni().toArray());
+	}
+
+
+	@Test
+	public void testAddAttrezzoSingolo() {
+		Attrezzo attrezzoSemplice = new Attrezzo(ATTREZZO, 1);
+		this.stanza.addAttrezzo(attrezzoSemplice);
+		assertEquals(attrezzoSemplice, this.stanza.getAttrezzo(ATTREZZO));
+	}
+
+	@Test
+	public void testAddAttrezziOltreMassimo() {
+		for (int i = 0; i < MAX_ATTREZZI; i++) {
+			Attrezzo attrezzoSemplice = new Attrezzo(ATTREZZO+i, 1);
+			assertTrue(this.stanza.addAttrezzo(attrezzoSemplice));
+		}
+		Attrezzo attrezzoDiTroppo =  new Attrezzo(ATTREZZO+MAX_ATTREZZI, 1);
+		assertFalse(this.stanza.addAttrezzo(attrezzoDiTroppo));
+	}
+
+	@Test
+	public void testHasAttrezzoSingolo() {
+		Attrezzo attrezzo = new Attrezzo(ATTREZZO, 1);
+		this.stanza.addAttrezzo(attrezzo);
+		assertTrue(this.stanza.hasAttrezzo(ATTREZZO));
+	}
+
+	@Test
+	public void testHasAttrezzoStanzaVuota() {
+		assertFalse(this.stanza.hasAttrezzo(ATTREZZO));
+	}
+
+	@Test
+	public void testHasAttrezzoInesistente() {
+		assertFalse(this.stanza.hasAttrezzo("inesistente"));
+	}
+
+	private Stanza creaStanzaEImpostaAdiacente(Stanza stanzaDiPartenza, String nomeStanzaAdiacente, 
+			Direzione direzione) {
+		Stanza stanzaAdiacente = new Stanza(nomeStanzaAdiacente);
+		stanzaDiPartenza.impostaStanzaAdiacente(direzione, stanzaAdiacente);
+		return stanzaAdiacente;
+	}
 }

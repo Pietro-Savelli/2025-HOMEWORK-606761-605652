@@ -11,8 +11,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.ambienti.StanzaBloccata;
 import it.uniroma3.diadia.ambienti.StanzaMagica;
@@ -35,7 +36,7 @@ public class LabirintoBuilderTest {
 				.addStanzaVincente(nomeStanzaIniziale)
 				.getLabirinto();
 	assertEquals(nomeStanzaIniziale,monolocale.getStanzaIniziale().getNome());
-	assertEquals(nomeStanzaIniziale,monolocale.getStanzaFinale().getNome());
+	assertEquals(nomeStanzaIniziale,monolocale.getStanzaVincente().getNome());
 	}
 	
 	@Test
@@ -45,9 +46,9 @@ public class LabirintoBuilderTest {
 				.addStanzaVincente(nomeStanzaIniziale).addAttrezzo("spadina", 3)
 				.getLabirinto();
 		assertEquals(nomeStanzaIniziale,monolocale.getStanzaIniziale().getNome());
-		assertEquals(nomeStanzaIniziale,monolocale.getStanzaFinale().getNome());
+		assertEquals(nomeStanzaIniziale,monolocale.getStanzaVincente().getNome());
 		assertEquals("spada",monolocale.getStanzaIniziale().getAttrezzo("spada").getNome());
-		assertEquals("spadina",monolocale.getStanzaFinale().getAttrezzo("spadina").getNome());
+		assertEquals("spadina",monolocale.getStanzaVincente().getAttrezzo("spadina").getNome());
 	}
 	
 	@Test
@@ -70,9 +71,9 @@ public class LabirintoBuilderTest {
 				.addAdiacenza(nomeStanzaIniziale, nomeStanzaVincente, "nord")
 				.addAdiacenza(nomeStanzaVincente, nomeStanzaIniziale, "sud")
 				.getLabirinto();
-		assertEquals(bilocale.getStanzaFinale(),bilocale.getStanzaIniziale().getStanzaAdiacente("nord"));
+		assertEquals(bilocale.getStanzaVincente(),bilocale.getStanzaIniziale().getStanzaAdiacente(Direzione.NORD));
 		assertEquals(Collections.singleton("nord"),bilocale.getStanzaIniziale().getDirezioni());
-		assertEquals(Collections.singleton("sud"),bilocale.getStanzaFinale().getDirezioni());
+		assertEquals(Collections.singleton("sud"),bilocale.getStanzaVincente().getDirezioni());
 	}
 	
 	@Test
@@ -88,8 +89,8 @@ public class LabirintoBuilderTest {
 				.addAdiacenza(nomeStanzaVincente,"biblioteca" , "ovest")
 				.getLabirinto();	
 		assertEquals(nomeStanzaIniziale, trilocale.getStanzaIniziale().getNome());
-		assertEquals(nomeStanzaVincente, trilocale.getStanzaFinale().getNome());
-		assertEquals("biblioteca",trilocale.getStanzaIniziale().getStanzaAdiacente("sud").getNome());
+		assertEquals(nomeStanzaVincente, trilocale.getStanzaVincente().getNome());
+		assertEquals("biblioteca",trilocale.getStanzaIniziale().getStanzaAdiacente(Direzione.SUD).getNome());
 	}
 	
 	@Test
@@ -119,7 +120,6 @@ public class LabirintoBuilderTest {
 				.addAdiacenza(nomeStanzaIniziale, "stanza 5", "nord-est") // non dovrebbe essere aggiunta
 				.getLabirinto();
 				Stanza test = new Stanza("stanza 5");
-		assertNull(maze.getStanzaIniziale().getStanzaAdiacente("nord-est"));
 		assertTrue(maze.getStanzaIniziale().getMapStanzeAdiacenti().size()<=4);
 		assertTrue(!maze.getStanzaIniziale().getMapStanzeAdiacenti().containsValue(test));
 		Map<String,Stanza> mappa = new HashMap<>();
@@ -162,6 +162,7 @@ public class LabirintoBuilderTest {
 				.addStanza(nomeStanza)
 				.addAttrezzo(nomeAttrezzo, peso)
 				.getLabirinto();
+		
 		assertTrue(this.labirintoBuilder.getListaStanze().get(nomeStanza).getAttrezzi().contains(new Attrezzo (nomeAttrezzo,peso)));
 		assertEquals(new Attrezzo(nomeAttrezzo,peso),this.labirintoBuilder.getListaStanze().get(nomeStanza).getAttrezzo(nomeAttrezzo));
 	}
@@ -241,7 +242,7 @@ public class LabirintoBuilderTest {
 		this.labirintoBuilder
 		.addStanzaMagica(nomeStanzaMagica, sogliaMagica);
 		StanzaMagica stanzaMagica = (StanzaMagica)labirintoBuilder.getListaStanze().get(nomeStanzaMagica);
-		assertTrue(stanzaMagica.isMagica());
+		assertTrue(stanzaMagica.isMagica(stanzaMagica));
 	}
 	
 	@Test
@@ -268,7 +269,7 @@ public class LabirintoBuilderTest {
 	public void testLabirintoConStanzaBloccata_ConPassepartout() {
 		this.labirintoBuilder
 		.addStanzaIniziale(nomeStanzaIniziale)
-		.addStanzaBloccata("stanza bloccata", "nord", "chiave").addAttrezzo("chiave", 1)
+		.addStanzaBloccata("stanza bloccata", "chiave", Direzione.NORD).addAttrezzo("chiave", 1)
 		.addAdiacenza(nomeStanzaIniziale, "stanza bloccata", "nord")
 		.addAdiacenza("stanza bloccata", nomeStanzaIniziale, "sud")
 		.addStanzaVincente(nomeStanzaVincente)
@@ -276,22 +277,22 @@ public class LabirintoBuilderTest {
 		.addAdiacenza(nomeStanzaVincente, "stanza bloccata", "sud");
 		Stanza stanzaVincente = new Stanza(nomeStanzaVincente);
 		//Asserisce che in presenza di passepartout, invocato il metodo getStanzaAdiacente(), la stanza bloccata ritorna la corretta adiacenza
-		assertEquals(stanzaVincente,labirintoBuilder.getListaStanze().get("stanza bloccata").getStanzaAdiacente("nord"));	
+		assertEquals(stanzaVincente,labirintoBuilder.getListaStanze().get("stanza bloccata").getStanzaAdiacente(Direzione.NORD));	
 	}
 	
 	@Test
 	public void testLabirintoConStanzaBloccata_SenzaPassepartout() {
 		this.labirintoBuilder
 		.addStanzaIniziale(nomeStanzaIniziale)
-		.addStanzaBloccata("stanza bloccata", "nord", "chiave")
+		.addStanzaBloccata("stanza bloccata", "chiave", Direzione.NORD)
 		.addAdiacenza(nomeStanzaIniziale, "stanza bloccata", "nord")
 		.addAdiacenza("stanza bloccata", nomeStanzaIniziale, "sud")
 		.addStanzaVincente(nomeStanzaVincente)
 		.addAdiacenza("stanza bloccata", nomeStanzaVincente, "nord")
 		.addAdiacenza(nomeStanzaVincente, "stanza bloccata", "sud");
-		Stanza stanzaBloccata = new StanzaBloccata("stanza bloccata", "nord", "chiave");
+		Stanza stanzaBloccata = new StanzaBloccata("stanza bloccata", "chiave", Direzione.NORD);
 		//Asserisce che in caso di mancanza di passepartout, invocato il metodo getStanzaAdiacente(), la stanza bloccata ritorna se stessa
-		assertEquals(stanzaBloccata,labirintoBuilder.getListaStanze().get("stanza bloccata").getStanzaAdiacente("nord"));
+		assertEquals(stanzaBloccata,labirintoBuilder.getListaStanze().get("stanza bloccata").getStanzaAdiacente(Direzione.NORD));
 	}
 	
 	@Test
@@ -303,7 +304,7 @@ public class LabirintoBuilderTest {
 				.addStanza("corridoio")
 				.addAttrezzo("chiave", 1)
 				.addAttrezzo("lanterna", 1)
-				.addStanzaBloccata("corridoio bloccato","nord","chiave")
+				.addStanzaBloccata("corridoio bloccato","chiave", Direzione.NORD)
 				.addStanzaMagica("stanza magica", 1)
 				.addStanzaBuia("lanterna","stanza buia")
 				.addStanza("Aula 1")
@@ -321,8 +322,8 @@ public class LabirintoBuilderTest {
 				.addAdiacenza("stanza buia", "corridoio", "est")
 				.getLabirinto();
 		assertEquals(nomeStanzaIniziale, labirintoCompleto.getStanzaIniziale().getNome());
-		assertEquals(nomeStanzaVincente, labirintoCompleto.getStanzaFinale().getNome());
-		Stanza corridoio = labirintoCompleto.getStanzaIniziale().getStanzaAdiacente("nord");
+		assertEquals(nomeStanzaVincente, labirintoCompleto.getStanzaVincente().getNome());
+		Stanza corridoio = labirintoCompleto.getStanzaIniziale().getStanzaAdiacente(Direzione.NORD);
 		assertEquals("corridoio",corridoio.getNome());
 		assertTrue(corridoio.getDirezioni().containsAll(Arrays.asList("est","nord","sud","ovest")));
 		Map<String,Stanza> mapAdiacenti = new HashMap<>();

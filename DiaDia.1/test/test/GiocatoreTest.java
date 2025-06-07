@@ -36,19 +36,19 @@ class GiocatoreTest {
 
     @Test
     void testAggiuntaAttrezzo() {
-        assertTrue(giocatore.addAttrezzo(spada), "L'attrezzo deve essere aggiunto con successo");
-        assertTrue(giocatore.hasAttrezzo("Spada"), "La borsa deve contenere la Spada");
+        assertTrue(giocatore.getBorsa().addAttrezzo(spada), "L'attrezzo deve essere aggiunto con successo");
+        assertTrue(giocatore.getBorsa().hasAttrezzo("Spada"), "La borsa deve contenere la Spada");
     }
 
     @Test
     void testRimozioneAttrezzo() {
-        giocatore.addAttrezzo(spada);
-        assertNotNull(giocatore.removeAttrezzo("Spada"), "L'attrezzo deve essere rimosso con successo");
-        assertFalse(giocatore.hasAttrezzo("Spada"), "La borsa non deve contenere la Spada dopo la rimozione");
+        giocatore.getBorsa().addAttrezzo(spada);
+        assertNotNull(giocatore.getBorsa().removeAttrezzo("Spada"), "L'attrezzo deve essere rimosso con successo");
+        assertFalse(giocatore.getBorsa().hasAttrezzo("Spada"), "La borsa non deve contenere la Spada dopo la rimozione");
     }
 
     @Test
     void testRimozioneAttrezzoNonPresente() {
-        assertFalse(giocatore.removeAttrezzo("Martello"), "Tentare di rimuovere un attrezzo non presente deve restituire null");
+        assertFalse(giocatore.getBorsa().removeAttrezzo("Martello"), "Tentare di rimuovere un attrezzo non presente deve restituire null");
     }
 }

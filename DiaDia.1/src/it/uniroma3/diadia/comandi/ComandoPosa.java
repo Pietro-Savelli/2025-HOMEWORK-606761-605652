@@ -13,40 +13,33 @@ public class ComandoPosa extends AbstractComando {
 	 * 
 	 * @param Partita in corso
 	 */
-	public ComandoPosa() {
-		super();
-	}
 	
-	public ComandoPosa(String parametro, IO io) {
-		super(parametro, io);
+	private static final String NOME = "posa";
+	
+	public ComandoPosa() {
+		super.setNome(NOME);
 	}
 
 	@Override
 	public void esegui(Partita partita) {
 		// TODO Auto-generated method stub
 		if(getParametro()==null) {// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			getConsole().mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
+			getIO().mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
 			return;
 		}
 		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(getParametro());
 		if(attrezzo == null) {
-			getConsole().mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
+			getIO().mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
 			return;
 		}
 
 		if(partita.getStanzaCorrente().addAttrezzo(attrezzo)) {	// aggiunge l'attrezzo dalla stanza
-			getConsole().mostraMessaggio("attrezzo aggiunto alla stanza");
-			partita.getGiocatore().removeAttrezzo(getParametro());
+			getIO().mostraMessaggio("attrezzo aggiunto alla stanza");
+			partita.getGiocatore().getBorsa().removeAttrezzo(getParametro());
 		}
 		else
-			getConsole().mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
+			getIO().mostraMessaggio("la stanza e' piena, l'attrezzo non puo' essere aggiunto");
 
-	}
-
-	@Override
-	public String getNome() {
-		// TODO Auto-generated method stub
-		return "posa";
 	}
 
 }

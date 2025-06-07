@@ -8,24 +8,34 @@ import org.junit.jupiter.api.Test;
 import it.uniroma3.diadia.ambienti.StanzaBuia;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaBuiaTest {
+import it.uniroma3.diadia.fixture.Fixture;
 
-	private StanzaBuia casa;
+public class StanzaBuiaTest {
+
+	private static final String ATTREZZO_LUCE_TEST = "attrezzoLuceTest";
+	private StanzaBuia stanzaBuia;
 	
 	@BeforeEach
 	public void setUp() {
-		casa = new StanzaBuia("lanterna", "casa");
+		this.stanzaBuia = new StanzaBuia("StanzaBuia", ATTREZZO_LUCE_TEST);
+	}
+
+	@Test
+	public void testGetDescrizioneLuceNonPresente() {
+		assertEquals(StanzaBuia.DESCRIZIONE_STANZA_BUIA, this.stanzaBuia.getDescrizione());
 	}
 	
 	@Test
-	public void TestGetDestrizioneBuia() {
-		assertEquals("qui c'è un buio pesto", casa.getDescrizione());
+	public void testGetDescrizioneConLuce() {
+		Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaBuia, ATTREZZO_LUCE_TEST, 1);
+		assertNotEquals(StanzaBuia.DESCRIZIONE_STANZA_BUIA, this.stanzaBuia.getDescrizione());
 	}
 	
 	@Test
-	public void TestGetDestrizione() {
-		casa.addAttrezzo(new Attrezzo("lanterna", 4));
-		assertTrue(casa.hasAttrezzo("lanterna"));
-		assertNotEquals("qui c'è un buio pesto", casa.getDescrizione());
+	public void testGetAttrezzoInesistente() {
+		Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaBuia, "attrezzoDiTest", 1);
+		assertNull(this.stanzaBuia.getAttrezzo("inesistente"));		
 	}
+	
+
 }

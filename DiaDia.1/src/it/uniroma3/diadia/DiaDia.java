@@ -4,14 +4,9 @@ package it.uniroma3.diadia;
 import java.util.Scanner;
 
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
-import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.comandi.Comando;
+import it.uniroma3.diadia.comandi.AbstractComando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
-
-
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -22,12 +17,12 @@ import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
  * @author  docente di POO 
  *         (da un'idea di Michael Kolling and David J. Barnes) 
  *          
- * @version implemantazione polimorfismo
+ * @version base
  */
 
 public class DiaDia {
 
-	static final private String MESSAGGIO_BENVENUTO = ""+
+	static final public String MESSAGGIO_BENVENUTO = ""+
 			"Ti trovi nell'Universita', ma oggi e' diversa dal solito...\n" +
 			"Meglio andare al piu' presto in biblioteca a studiare. Ma dov'e'?\n"+
 			"I locali sono popolati da strani personaggi, " +
@@ -36,62 +31,60 @@ public class DiaDia {
 			"puoi raccoglierli, usarli, posarli quando ti sembrano inutili\n" +
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
-
+	
 	private Partita partita;
-	private IO console;
-
-	public DiaDia(IO io) {
-		this.console = io;
-		this.partita = new Partita();
-	}
+	private IO io;
 	
-	public DiaDia(Labirinto l,IO io) {
-		this.console = io;
-		this.partita = new Partita(l);
+	public DiaDia(IO io, Labirinto labirinto) {
+		this.partita = new Partita(labirinto);
+		this.io = io;
 	}
 
-	
-	public void gioca() throws Exception {
+	public void gioca() {
 		String istruzione; 
-		Scanner scannerDiLinee;
 
-		console.mostraMessaggio(MESSAGGIO_BENVENUTO);
-		scannerDiLinee = new Scanner(System.in);		
+		this.io.mostraMessaggio(MESSAGGIO_BENVENUTO);
 		do		
-			istruzione = console.leggiRiga();//cambio istruzione in leggi riga per la classe IO
+			istruzione = this.io.leggiRiga();
 		while (!processaIstruzione(istruzione));
-		scannerDiLinee.close();
 	}   
 
-
-	
 	/**
 	 * Processa una istruzione 
 	 *
-	 * @param istruzione e'una stringa
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 * @throws Exception 
 	 */
-	 private boolean processaIstruzione(String istruzione) throws Exception {
-		 Comando comandoDaEseguire;
-		 FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva();
-		 comandoDaEseguire = factory.costruisciComando(istruzione);
-		 comandoDaEseguire.setIO(this.console);	//mi serve per portare il riferimanto IOConsole nei comandi
-		 comandoDaEseguire.esegui(this.partita);
+	private boolean processaIstruzione(String istruzione) {
+		AbstractComando comandoDaEseguire;
+		FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva();
+		comandoDaEseguire = factory.costruisciComando(istruzione,this.io);
+		comandoDaEseguire.esegui(this.partita);
+		if (this.partita.vinta())
 
-		if (this.partita.isFinita()) {
-			if(this.partita.vinta())
-				console.mostraMessaggio("Hai vinto!");
-			else if(partita.getGiocatore().getCfu() == 0)
-				console.mostraMessaggio("Hai perso tutti i cfu!");
-		} 
-		 return this.partita.isFinita();
+		this.io.mostraMessaggio("Hai vinto!");
+		if (!this.partita.giocatoreIsVivo())
+
+		this.io.mostraMessaggio("Hai esaurito i CFU...");
+
+		return this.partita.isFinita();
 	}   
-
-	//main
-	 public static void main(String[] argc) throws Exception {
-			IO ioConsole = new IOConsole();
-			DiaDia gioco = new DiaDia(ioConsole);
+	
+	public static void main(String[] argc) {
+		Scanner scannerDiLinee = new Scanner(System.in);
+		IO ioConsole = new IOConsole(scannerDiLinee);
+		Labirinto labirinto = Labirinto.newBuilder()
+				.addStanzaIniziale("LabCampusOne")
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("LabCampusOne","Biblioteca","nord")
+				.getLabirinto();
+		DiaDia gioco = new DiaDia(ioConsole, labirinto);
+		try {
 			gioco.gioca();
+		} catch (Exception e) {
+			ioConsole.mostraMessaggio("Errore inaspettato!");
+		} finally {
+			scannerDiLinee.close();
 		}
+	}
 }

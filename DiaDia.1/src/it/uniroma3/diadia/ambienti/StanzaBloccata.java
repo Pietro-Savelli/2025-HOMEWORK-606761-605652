@@ -1,34 +1,21 @@
 package it.uniroma3.diadia.ambienti;
 
+public class StanzaBloccata extends Stanza {
 
-public class StanzaBloccata extends Stanza{
-	
-	private String chiave;
-	private String direzioneBloccata;
-	
-	public StanzaBloccata(String nome, String direzioneBloccata, String chiave) {
+	private String attrezzoSbloccante;
+	private Direzione direzioneBloccata;
+
+	public StanzaBloccata(String nome, String attrezzoSbloccante, Direzione direzioneBloccata) {
 		super(nome);
+		this.attrezzoSbloccante = attrezzoSbloccante;
 		this.direzioneBloccata = direzioneBloccata;
-		this.chiave = chiave;
 	}
 	
 	@Override
-	public Stanza getStanzaAdiacente(String direzione) {
-		if(direzione == null)
-			return null;
-		if(direzioneBloccata.equals(direzione))	// se la direzione e' quella bloccata allora controllo se ho la chuiave
-			if(!hasAttrezzo(chiave))
-			 return this;
+	public Stanza getStanzaAdiacente(Direzione direzione) {
+		if(direzione.equals(this.direzioneBloccata) && !super.hasAttrezzo(attrezzoSbloccante))
+			return this;
 		return super.getStanzaAdiacente(direzione);
 	}
-	
-	@Override 
-	public String getDescrizione() {
-	    String descrizione = super.getDescrizione(); // Ottieni la descrizione base della stanza
-	    if (!hasAttrezzo(chiave)) {  // Se non hai la chiave, aggiungi il messaggio
-	        return descrizione + " La stanza nella direzione " + direzioneBloccata +
-	               " è chiusa, ti serve la chiave (" + chiave + ") per sbloccarla.";
-	    }
-	    return descrizione;  // Se hai la chiave, non aggiungere nulla
-	}
+
 }

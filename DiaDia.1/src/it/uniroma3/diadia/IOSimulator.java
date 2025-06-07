@@ -1,4 +1,3 @@
-
 package it.uniroma3.diadia;
 
 import java.util.HashMap;
@@ -56,5 +55,5 @@ public class IOSimulator implements IO {
 		else
 			return this.indice2messaggiProdotti.containsKey(this.ultimoIndiceMappaMostrato +1);
 	}
-	
+
 }

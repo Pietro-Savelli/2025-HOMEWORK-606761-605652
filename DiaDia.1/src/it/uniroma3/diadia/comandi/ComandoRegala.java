@@ -6,33 +6,25 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class ComandoRegala extends AbstractComando{
 
-	public ComandoRegala() {
-		super();
-	}
+	private static final String NOME = "regala";
 	
-	public ComandoRegala(String parametro, IO io) {
-		super(parametro, io);
+	public ComandoRegala() {
+		super.setNome(NOME);
 	}
 	
 	@Override
 	public void esegui(Partita partita) {
 		if(getParametro()==null) {
-			getConsole().mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
+			getIO().mostraMessaggio("Cosa vuoi lasciare?\nDevi specificare un' oggetto");
 			return;
 		}
 		Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(getParametro());
 		if(attrezzo == null) {
-			getConsole().mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
+			getIO().mostraMessaggio("l'attrezzo cercato non e' presente nella borsa");
 			return;
 		}
 
 		partita.getStanzaCorrente().getPersonaggio().riceviRegalo(attrezzo, partita);
-		partita.getGiocatore().removeAttrezzo(getParametro());
+		partita.getGiocatore().getBorsa().removeAttrezzo(getParametro());
 	}
-
-	@Override
-	public String getNome() {
-		return "regala";
-	}
-
 }

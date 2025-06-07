@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.DiaDia;
 import it.uniroma3.diadia.IOSimulator;
+import it.uniroma3.diadia.ambienti.Labirinto;
 
 class IOSimulatorTest {
 
@@ -17,7 +18,7 @@ class IOSimulatorTest {
 		// Input simulati (comandi del giocatore)
 		String[] comandi = {
 				"vai sud",
-				"prendi lanterna",
+				"prendi lanterna", b   
 				"vai nord",
 				"guarda",
 				"fine"

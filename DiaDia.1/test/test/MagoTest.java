@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.personaggi.Mago;
@@ -14,54 +15,43 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MagoTest {
+	private Partita partita;
+	private Mago mago;
+	private Attrezzo regalo;
 
-    private Mago mago;
-    private Partita partita;
-    private Stanza stanza;
-    private Attrezzo bacchetta;
+	@BeforeEach
+	public void setUp() throws Exception {
+		Labirinto labirinto = Labirinto.newBuilder()
+				.addStanzaIniziale("iniziale")
+				.getLabirinto();
+		this.partita = new Partita(labirinto);
+		this.regalo = new Attrezzo("clava", 2);
+		this.mago = new Mago("Mago", "Merlino", this.regalo);
+	}
 
-    @BeforeEach
-    public void setUp() {
-        bacchetta = new Attrezzo("bacchetta", 2);
-        mago = new Mago("Merlino", "Sono il mago Merlino!", bacchetta);
-        stanza = new Stanza("Torre");
-        partita = new Partita();
-        partita.setStanzaCorrente(stanza);
-    }
+	@Test
+	public void testAgisci() {
+		assertFalse(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
+		this.mago.agisci(this.partita);
+		assertTrue(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
+	}
+	
+	@Test
+	public void testAgisci_DueVolte() {
+		assertFalse(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
+		this.mago.agisci(this.partita);
+		assertTrue(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
+		this.partita.getStanzaCorrente().removeAttrezzo(this.regalo);
+		this.mago.agisci(this.partita);
+		assertFalse(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
+	}
 
-    @Test
-    public void testAgisci_conAttrezzo() {
-        String risultato = mago.agisci(partita);
-        assertEquals("Sei un vero simpaticone, con una mia magica azione, troverai un nuovo oggetto per il tuo borsone!", risultato);
-        assertTrue(stanza.hasAttrezzo("bacchetta"));
-    }
+	@Test
+	public void testRiceviRegalo() {
+		Attrezzo daDimezzare = new Attrezzo("daDimezzare", 5);
+		this.mago.riceviRegalo(daDimezzare, this.partita);
+		assertTrue(this.partita.getStanzaCorrente().hasAttrezzo(daDimezzare.getNome()));
+		assertEquals(2, this.partita.getStanzaCorrente().getAttrezzo(daDimezzare.getNome()).getPeso());
+	}
 
-    @Test
-    public void testAgisci_senzaAttrezzo() {
-        mago.agisci(partita); // prima chiamata lo esaurisce
-        String risultato = mago.agisci(partita); // seconda chiamata
-        assertEquals("Mi spiace, ma non ho piu' nulla...", risultato);
-        // bacchetta non viene aggiunta due volte
-        assertEquals(1, stanza.getAttrezzi().size());
-    }
-
-    @Test
-    public void testRiceviRegalo() {
-        Attrezzo libro = new Attrezzo("libro", 4);
-        String risultato = mago.riceviRegalo(libro, partita);
-        assertEquals("Grazie per questo bellissimo oggetto, gli hodimezzato il peso e messo nella stanza", risultato);
-
-        Attrezzo attrezzoNellaStanza = stanza.getAttrezzo("libro");
-        assertNotNull(attrezzoNellaStanza);
-        assertEquals(2, attrezzoNellaStanza.getPeso()); // peso dimezzato
-    }
-
-    @Test
-    public void testSaluta() {
-        String primaVolta = mago.saluta();
-        assertTrue(primaVolta.contains("Ciao, io sono Merlino."));
-        assertTrue(primaVolta.contains("Sono il mago Merlino!"));
-        String secondaVolta = mago.saluta();
-        assertTrue(secondaVolta.contains("Ci siamo gia' presentati!"));
-    }
 }

@@ -19,7 +19,7 @@ class AbstractComandoTest {
 	// Classe nidificata per testare AbstractComando
 	static class ComandoProva extends AbstractComando {
 		public ComandoProva(String parametro, IO io) {
-			super(parametro, io);
+			super();
 		}
 
 		public ComandoProva() {
@@ -48,17 +48,12 @@ class AbstractComandoTest {
 	void testGetParametro() {
 		assertEquals("prova", comando.getParametro());
 	}
-	
-	@Test
-	void testGetConsole() {
-		assertSame(io, comando.getConsole());
-	}
+
 	
     @Test
     void testCostruttoreVuoto() {
         AbstractComando cmdVuoto = new ComandoProva();
         assertNull(cmdVuoto.getParametro());
-        assertNull(cmdVuoto.getConsole());
     }
 
 }

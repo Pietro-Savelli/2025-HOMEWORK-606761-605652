@@ -5,82 +5,60 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.ambienti.StanzaBloccata;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaBloccataTest {
+import it.uniroma3.diadia.fixture.Fixture;
+
+public class StanzaBloccataTest {
+
+	private static final String STANZA_ADIACENTE_LIBERA = "stanzaAdiacenteLibera";
+	private static final String STANZA_ADIACENTE_BLOCCATA = "stanzaAdiacenteBloccata";
+	private static final Direzione DIREZIONE_BLOCCATA = Direzione.NORD;
+	private static final Direzione DIREZIONE_LIBERA = Direzione.SUD;
+	private static final String CHIAVE_TEST = "chiaveTest";
+	private static final String STANZA_BLOCCATA = "StanzaBloccata";
 	
-	private StanzaBloccata partenza;
-	private Stanza arrivo;
-	
-	
+	private StanzaBloccata stanzaBloccata;
+
 	@BeforeEach
 	public void setUp() {
-		partenza = new StanzaBloccata("partenza", "sud", "chiave");
-		arrivo = new Stanza("arrivo");
-		partenza.impostaStanzaAdiacente("sud", arrivo);
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteNonSbloccata() {
-		assertSame(partenza, partenza.getStanzaAdiacente("sud"));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteSbloccata() {
-		partenza.addAttrezzo(new Attrezzo("chiave", 3));
-		assertSame(arrivo, partenza.getStanzaAdiacente("sud"));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteNonSbloccataNull() {
-		assertNull(partenza.getStanzaAdiacente(null));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteSbloccataNull() {
-		partenza.addAttrezzo(new Attrezzo("chiave", 3));
-		assertNull(partenza.getStanzaAdiacente(null));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteNonSbloccataDirezioneInesistente() {
-		assertNull(partenza.getStanzaAdiacente("est"));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteSbloccataDirezioneInesistente() {
-		partenza.addAttrezzo(new Attrezzo("chiave", 3));
-		assertNull(partenza.getStanzaAdiacente("est"));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteSbloccataDirezioneNonBLoccata() {
-		partenza.addAttrezzo(new Attrezzo("chiave", 3));
-		Stanza arrivo2 =new Stanza("arrivo2");
-		partenza.impostaStanzaAdiacente("nord", arrivo2);
-		assertSame( arrivo2, partenza.getStanzaAdiacente("nord"));
-	}
-	
-	@Test
-	public void TestGetStanzaAdiacenteNonSbloccataDirezioneNonBLoccata() {
-		Stanza arrivo2 =new Stanza("arrivo2");
-		partenza.impostaStanzaAdiacente("nord", arrivo2);
-		assertSame(arrivo2, partenza.getStanzaAdiacente("nord"));
-	}
-	
-	@Test
-	public void direzioneBloccataConAttrezzoSbagliato_nonSblocca() {
-	    partenza.addAttrezzo(new Attrezzo("martello", 1));
-	    assertSame(partenza, partenza.getStanzaAdiacente("sud"));
-	}
-	
-	@Test
-	public void descrizione_conStanzaBloccataSenzaChiave_contenieneMessaggioDiBlocco() {
-	    String descrizione = partenza.getDescrizione();
-	    assertTrue(descrizione.contains("chiusa"));
+		StanzaBloccata stanzaBloccata = new StanzaBloccata(STANZA_BLOCCATA, CHIAVE_TEST, DIREZIONE_BLOCCATA);
+		this.stanzaBloccata = stanzaBloccata;
 	}
 
-
+	private void setStanzeAdiacenti(Stanza stanzaBloccata) {
+		Stanza stanzaAdiacenteLibera = new Stanza(STANZA_ADIACENTE_LIBERA);
+		Stanza stanzaAdiacenteBloccata = new Stanza(STANZA_ADIACENTE_BLOCCATA);
+		stanzaBloccata.impostaStanzaAdiacente(DIREZIONE_BLOCCATA, stanzaAdiacenteBloccata);
+		stanzaBloccata.impostaStanzaAdiacente(DIREZIONE_LIBERA, stanzaAdiacenteLibera);
+	}
+	
+	@Test
+	public void testGetStanzaAdiacenteBloccata() {
+		setStanzeAdiacenti(this.stanzaBloccata);
+		assertEquals(this.stanzaBloccata, this.stanzaBloccata.getStanzaAdiacente(DIREZIONE_BLOCCATA));
+	}
+	
+	@Test
+	public void testGetStanzaAdiacenteSbloccata() {
+		setStanzeAdiacenti(this.stanzaBloccata);
+		Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaBloccata, CHIAVE_TEST, 1);
+		assertEquals(STANZA_ADIACENTE_BLOCCATA, this.stanzaBloccata.getStanzaAdiacente(DIREZIONE_BLOCCATA).getNome());
+	}
+	
+	@Test
+	public void testGetStanzaAdiacenteLibera() {
+		setStanzeAdiacenti(this.stanzaBloccata);
+		assertEquals(STANZA_ADIACENTE_LIBERA, this.stanzaBloccata.getStanzaAdiacente(DIREZIONE_LIBERA).getNome());
+	}
+	
+	@Test
+	public void testGetAttrezzoInesistente() {
+		Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaBloccata, "attrezzoDiTest", 1);
+		assertNull(this.stanzaBloccata.getAttrezzo("inesistente"));		
+	}
+	
 }

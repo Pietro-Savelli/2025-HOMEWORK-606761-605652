@@ -8,66 +8,62 @@ import org.junit.jupiter.api.Test;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.ComandoPosa;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
+import it.uniroma3.diadia.giocatore.Borsa;
 
-class ComandoPosaTest {
+public class ComandoPosaTest {
+	
+	private static final String ATTREZZO_DA_POSARE = "AttrezzoDaPosare";
+	private ComandoPosa comandoPosa;
 	private Partita partita;
-	private Comando c;
-	private IO console;
-	private FabbricaDiComandiRiflessiva fabbrica;
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		partita = new Partita();
-		this.fabbrica = new FabbricaDiComandiRiflessiva();
-		c = fabbrica.costruisciComando("posa");
-		c.setIO(new IOConsole());
+		this.comandoPosa = new ComandoPosa();
+		this.comandoPosa.setIO(new IOConsole());
+		Labirinto labirinto = Labirinto.newBuilder()
+				.addStanzaIniziale("iniziale")
+				.getLabirinto();
+		this.partita = new Partita(labirinto);
+		Borsa borsa = partita.getGiocatore().getBorsa();
+		Attrezzo attrezzoNuovo = new Attrezzo(ATTREZZO_DA_POSARE, 1);
+		borsa.addAttrezzo(attrezzoNuovo);
 	}
-	
-	@Test 
-	public void testPosaAttrezzoPresenteNellaBorsa() {
-		partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("pippo",10));
-		c.setParametro("pippo");
-		c.esegui(partita);
-		assertTrue(partita.getStanzaCorrente().hasAttrezzo("pippo"));
-		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));
+
+	@Test
+	public void testEseguiAttrezzoPresente() {
+		this.comandoPosa.setParametro(ATTREZZO_DA_POSARE);
+		this.comandoPosa.esegui(partita);
+		assertTrue(partita.getStanzaCorrente().hasAttrezzo(ATTREZZO_DA_POSARE));
+		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo(ATTREZZO_DA_POSARE));
 	}
 	
 	@Test
-	public void testPosaAttrezzoNonPresenteNellaBorsa() {
-		c.setParametro("pippo");
-		c.esegui(partita);
-		assertFalse(partita.getStanzaCorrente().hasAttrezzo("pippo"));
-		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));
+	public void testEseguiAttrezzoNonPresente() {
+		String nonPresente = "attrezzoNonPresente";
+		this.comandoPosa.setParametro(nonPresente);
+		this.comandoPosa.esegui(partita);
+		assertFalse(partita.getStanzaCorrente().hasAttrezzo(nonPresente));
+		assertFalse(partita.getStanzaCorrente().hasAttrezzo(ATTREZZO_DA_POSARE));
+		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo(ATTREZZO_DA_POSARE));
 	}
 	
 	@Test
-	// non so come impostarlo 
-	public void testPosaNull() {
-		c.setParametro(null);
-		c.esegui(partita);
-		assertFalse(partita.getStanzaCorrente().hasAttrezzo(null));
-		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo(null));
-	}
-	
-	@Test
-	public void testPosaAttrezzoStanzaPiena() {
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pq", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pw", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pe", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pr", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pt", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("py", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pu", 1));
-		partita.getStanzaCorrente().addAttrezzo(new Attrezzo("pi", 1));
-		partita.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("pippo",10));
-		c.setParametro("pippo");
-		c.esegui(partita);
-		assertFalse(partita.getStanzaCorrente().hasAttrezzo("pippo"));
-		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo("pippo"));
+	public void testEseguiStanzaPiena() {
+		Stanza stanzaCorrente = partita.getStanzaCorrente();
+		for (int i = 0; i < Stanza.NUMERO_MASSIMO_ATTREZZI; i++) {
+			stanzaCorrente.addAttrezzo(new Attrezzo("attrezzo"+i, 1));
+		}
+		
+		this.comandoPosa.setParametro(ATTREZZO_DA_POSARE);
+		this.comandoPosa.esegui(partita);
+		assertFalse(stanzaCorrente.hasAttrezzo(ATTREZZO_DA_POSARE));
+		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo(ATTREZZO_DA_POSARE));
 	}
 	
 }

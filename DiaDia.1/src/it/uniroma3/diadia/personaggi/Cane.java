@@ -11,7 +11,7 @@ public class Cane extends AbstractPersonaggio{
 		super(nome, presentazione);
 	}
 
-	public Cane(String nome, String presentazione, Attrezzo attrezzo) {
+	public Cane(String nome, String presentazione, String nomeAttrezzo, Attrezzo attrezzo) {
 		super(nome, presentazione);
 		this.attrezzo = attrezzo;
 	}
@@ -24,7 +24,7 @@ public class Cane extends AbstractPersonaggio{
 
 	@Override
 	public String agisci(Partita partita) {
-		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu() - 1);
+		partita.setCfu(partita.getCfu() -1);
 	    return "TI HO MORSO";
 	}
 
@@ -35,8 +35,9 @@ public class Cane extends AbstractPersonaggio{
 	        partita.getStanzaCorrente().addAttrezzo(this.attrezzo);
 	        return "BAU BAU";
 	    }
+	    partita.getStanzaCorrente().addAttrezzo(attrezzo);
 	    this.agisci(partita);
-	    return "BAU BAU";
+	    return "Il cane non ha accettato il tuo regalo: ";
 	}
 
 

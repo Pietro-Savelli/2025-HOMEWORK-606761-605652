@@ -1,53 +1,51 @@
 package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.IO;
+import it.uniroma3.diadia.giocatore.Giocatore;
 
-public class ComandoVai extends AbstractComando{
+/**
+ * Cerca di andare in una direzione. Se c'e' una stanza ci entra 
+ * e ne stampa il nome, altrimenti stampa un messaggio di errore
+ */
+public class ComandoVai extends AbstractComando {
 
-
-
-	/**
-	 * Sposta il giocatore nella direzione specificata, se possibile.
-	 * <p>
-	 * Se esiste una stanza adiacente nella direzione indicata il giocatore si sposta in quella stanza,
-	 * aggiornando la stanza corrente e decrementando il numero di CFU,
-	 * se la direzione non è valida o non viene specificata, viene stampato un messaggio di errore.
-	 *
-	 * @param Partita in corso
-	 */
+	private final static String NOME = "vai";
 	
 	public ComandoVai() {
-	    // costruttore vuoto richiesto per riflessione
-		super();
+		super.setNome(NOME);
 	}
-	public ComandoVai(String parametro, IO io) {
-		super(parametro, io);
-		// TODO Auto-generated constructor stub
-	}
-	
+
+	/**
+	 * esecuzione del comando
+	 */
 	@Override
 	public void esegui(Partita partita) {
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		Stanza prossimaStanza = null;
-		if(getParametro()==null) {
-			getConsole().mostraMessaggio("Dove vuoi andare?\nDevi specificare una direzione");
+		if (super.getParametro() == null) {
+			super.getIO().mostraMessaggio("Dove vuoi andare? Devi specificare una direzione");
 			return;
 		}
-		prossimaStanza = stanzaCorrente.getStanzaAdiacente(getParametro());
-		if(prossimaStanza==null) {
-			getConsole().mostraMessaggio("Direzione inesistente");
+		Direzione direzione;
+		try {
+			direzione = Direzione.valueOf(super.getParametro().toUpperCase());
+		} catch (IllegalArgumentException e) {
+			//caso in cui viene specificata una direzione non contemplata dall'enum Direzione
+			super.getIO().mostraMessaggio("Direzione inesistente");
 			return;
 		}
+		prossimaStanza = stanzaCorrente.getStanzaAdiacente(direzione);
+		if (prossimaStanza == null) {
+			super.getIO().mostraMessaggio("Direzione inesistente");
+			return;
+		}
+		
 		partita.setStanzaCorrente(prossimaStanza);
-		getConsole().mostraMessaggio(partita.getStanzaCorrente().getNome());
-		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
+		super.getIO().mostraMessaggio(partita.getStanzaCorrente().getNome());
+		Giocatore giocatore = partita.getGiocatore();
+		giocatore.setCfu(giocatore.getCfu() - 1);
 	}
-
-	@Override
-	public String getNome() {
-		// TODO Auto-generated method stub
-		return "vai";
-	}
+	
 }

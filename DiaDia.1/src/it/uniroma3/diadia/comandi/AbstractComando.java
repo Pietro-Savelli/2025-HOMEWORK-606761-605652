@@ -3,43 +3,36 @@ package it.uniroma3.diadia.comandi;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
-public abstract class AbstractComando implements Comando{
-
+public abstract class AbstractComando {
+	
+	private IO io;
+	private String nome;
 	private String parametro;
-	private IO console;
-
-	public AbstractComando(String parametro, IO io) {
-		setParametro(parametro);
-		setIO(io);
+	
+	public abstract void esegui(Partita partita);
+	
+	protected IO getIO() {
+		return this.io;
 	}
-
-	public AbstractComando() {
+	
+	public void setIO(IO io) {
+		this.io = io;
 	}
-
+	
+	public String getNome() {
+		return this.nome;
+	}
+	
+	protected void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public String getParametro() {
+		return this.parametro;
+	}
+	
 	public void setParametro(String parametro) {
 		this.parametro = parametro;
 	}
-
-	public void setIO(IO console) {
-		this.console = console;
-	}
-
-	public IO getConsole() {
-		return console;
-	}
-
-	public String getParametro() {
-		return parametro;
-	}
-
-	/**
-	 * esecuzione del comando, rendendolo astratto
-	 * @param partita
-	 */
-	public abstract void esegui(Partita partita);
-
-	/* metodi per i test */
-	public abstract String getNome();
-
-
+	
 }

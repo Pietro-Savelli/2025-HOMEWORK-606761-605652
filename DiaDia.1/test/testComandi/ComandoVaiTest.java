@@ -7,93 +7,68 @@ import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.DiaDia;
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
+import it.uniroma3.diadia.IOSimulator;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.comandi.AbstractComando;
 import it.uniroma3.diadia.comandi.Comando;
+import it.uniroma3.diadia.comandi.ComandoFine;
 import it.uniroma3.diadia.comandi.ComandoVai;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 public class ComandoVaiTest {
+	
+	private static final String NOME_STANZA_PARTENZA = "Partenza";
+	private static final String NORD = "nord";
+	private static final Direzione DIREZIONE_NORD = Direzione.NORD;
 	private Partita partita;
-	private Stanza atrio;
-	private Stanza biblioteca;
-	private Stanza n11;
-	private FabbricaDiComandiRiflessiva fabbrica;
-	private Comando c;
+	private AbstractComando comandoVai;
+	private Stanza partenza;
 
 	@BeforeEach
-	void setUp() throws Exception {
-		
-		fabbrica = new FabbricaDiComandiRiflessiva();
-		c = fabbrica.costruisciComando("vai");
-		c.setIO(new IOConsole());
-		
-		this.partita = new Partita();
-		atrio = new Stanza("atrio");
-		biblioteca = new Stanza("biblioteca");
-		n11 = new Stanza("n11");
-		atrio.impostaStanzaAdiacente("nord", biblioteca);
-		atrio.impostaStanzaAdiacente("sud", n11);
-		biblioteca.impostaStanzaAdiacente("sud", atrio);
-		n11.impostaStanzaAdiacente("nord", biblioteca);
-		partita.setStanzaCorrente(atrio);
+	public void setUp() throws Exception {
+		this.comandoVai = new ComandoVai();
+		this.comandoVai.setIO(new IOConsole());
+		Labirinto labirinto = Labirinto.newBuilder()
+				.addStanzaIniziale(NOME_STANZA_PARTENZA)
+				.getLabirinto();
+		this.partita = new Partita(labirinto);
+		this.partenza = this.partita.getStanzaCorrente();
 	}
 
 	@Test
-	public void testEseguiDirezioneValida() {
-		c.setParametro("nord");
-		c.esegui(partita);
-		
-		assertSame(biblioteca, partita.getStanzaCorrente());
+	public void testVaiStanzaNonPresente() {
+		this.comandoVai.setParametro(NORD);
+		this.comandoVai.esegui(this.partita);
+		assertEquals(NOME_STANZA_PARTENZA, this.partita.getStanzaCorrente().getNome());
 	}
 	
 	@Test
-	public void testEseguiDirezioniValide() {
-		c.setParametro("nord");
-		c.esegui(partita);
-		c.setParametro("sud");
-		c.esegui(partita);
-		c.setParametro("sud");
-		c.esegui(partita);
-		assertSame(n11, partita.getStanzaCorrente());
-	}
-	
-	// rimani nella stessa stanza
-	@Test
-	public void testEseguiDirezioneNull() {
-		c.setParametro(null);
-		c.esegui(partita);
-		
-		assertEquals("atrio", partita.getStanzaCorrente().getNome());
+	public void testVaiStanzaPresente() {
+		Stanza destinazione = new Stanza("Destinazione");
+		this.partenza.impostaStanzaAdiacente(DIREZIONE_NORD, destinazione);
+		this.comandoVai.setParametro(NORD);
+		this.comandoVai.esegui(partita);
+		assertEquals("Destinazione", this.partita.getStanzaCorrente().getNome());
 	}
 	
 	@Test
-	public void testEseguiDirezioneNonValida() {
-		c.setParametro("est");
-		c.esegui(partita);
-		
-		assertEquals("atrio", partita.getStanzaCorrente().getNome());
+	public void testVaiStanzaPresenteInDirezioneSbagliata() {
+		Stanza destinazione = new Stanza("Destinazione");
+		this.partenza.impostaStanzaAdiacente(Direzione.SUD, destinazione);
+		this.comandoVai.setParametro(NORD);
+		this.comandoVai.esegui(partita);
+		assertEquals(NOME_STANZA_PARTENZA, this.partita.getStanzaCorrente().getNome());
 	}
 	
-	
-	@Test
-	public void testEseguiDirezioniValideLbitintoBuilder() {
-		 Labirinto bilocale = new LabirintoBuilder()
-				 .addStanzaIniziale("salotto")
-				 .addStanzaVincente("camera")
-				 .addAttrezzo("letto",10) // dove? fa riferimento all’ultima stanza aggiunta: la “camera”
-				 .addAdiacenza("salotto", "camera", "nord") // camera si trova a nord di salotto
-				 .getLabirinto();  // restituisce il Labirinto così specificato
-		Partita p2 = new Partita(bilocale);
-		
-		c.setParametro("nord");
-		c.esegui(p2);
-		assertSame("camera", p2.getStanzaCorrente().getNome());
-		assertTrue(p2.isFinita());
+	public void assertContains(String expected, String interaRiga) {
+		assertTrue(interaRiga.contains(expected));
 	}
+
 }
+

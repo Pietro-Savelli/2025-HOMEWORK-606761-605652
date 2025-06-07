@@ -12,40 +12,32 @@ public class ComandoPrendi extends AbstractComando {
 	 * 
 	 * @param Partita in corso
 	 */
+	private static final String NOME = "prendi";
+
 	public ComandoPrendi() {
-		super();
-	}
-		
-	public ComandoPrendi(String parametro, IO io) {
-		super(parametro, io);
+		super.setNome(NOME);
 	}
 	
 	@Override
 	public void esegui(Partita partita) {
 		// TODO Auto-generated method stub
 		if(getParametro()==null) {	// controllo se il comando sia composto da nome comando(raccogli) e nome oggetto
-			getConsole().mostraMessaggio("cosa vuoi prendere");
+			getIO().mostraMessaggio("cosa vuoi prendere");
 			return;
 		}
 
 		Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(getParametro());	// cerco l'attrezzo nella stanza corrente
 		if(attrezzo == null) {
-			getConsole().mostraMessaggio("l'attrezzo cercato non e' presente nella stanza");
+			getIO().mostraMessaggio("l'attrezzo cercato non e' presente nella stanza");
 			return;
 		}
 
-		if(partita.getGiocatore().addAttrezzo(attrezzo)) {	//aggiungo l'attrezzo nella borsa se ritorna true
-			partita.getStanzaCorrente().removeAttrezzo(getParametro()); 	// rimuovo l'attrezzo dalla stanza
-			getConsole().mostraMessaggio("attrezzo aggiunto alla borsa");
+		if(partita.getGiocatore().getBorsa().addAttrezzo(attrezzo)) {	//aggiungo l'attrezzo nella borsa se ritorna true
+			partita.getStanzaCorrente().removeAttrezzo(attrezzo); 	// rimuovo l'attrezzo dalla stanza
+			getIO().mostraMessaggio("attrezzo aggiunto alla borsa");
 		} 
 		
 		else 
-			getConsole().mostraMessaggio("La borsa è piena, non e' possibile aggiungere altri attrezzi.");
-	}
-
-	@Override
-	public String getNome() {
-		// TODO Auto-generated method stub
-		return "prendi";
+			getIO().mostraMessaggio("La borsa è piena, non e' possibile aggiungere altri attrezzi.");
 	}
 }

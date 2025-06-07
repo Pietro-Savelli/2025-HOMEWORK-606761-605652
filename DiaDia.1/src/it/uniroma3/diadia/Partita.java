@@ -1,6 +1,4 @@
 package it.uniroma3.diadia;
-
-
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.Giocatore;
@@ -9,9 +7,8 @@ import it.uniroma3.diadia.giocatore.Giocatore;
  * Questa classe modella una partita del gioco
  *
  * @author  docente di POO
- * @see Labirinto
  * @see Stanza
- * @version 0.0.1
+ * @version base
  */
 
 public class Partita {
@@ -20,53 +17,24 @@ public class Partita {
 	private boolean finita;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
-	private IOConsole io;
 	
-	public Partita(){
-		creaLabirinto();  
+	public Partita(Labirinto labirinto){
 		this.finita = false;
-		setStanzaCorrente(labirinto.getStanzaIniziale());	// inizializzo la stanza corrente all'ingresso
+		this.labirinto = labirinto;
+		this.stanzaCorrente = this.labirinto.getStanzaIniziale();
 		this.giocatore = new Giocatore();
 	}
-	
-    public Partita(Labirinto l) {
-		setLabirinto(l);
-		this.finita = false;
-		this.giocatore = new Giocatore();
+
+	public Stanza getStanzaVincente() {
+		return this.labirinto.getStanzaVincente();
 	}
-    
-    public void setLabirinto(Labirinto labirinto) {
-    	this.labirinto = labirinto;
-    	this.setStanzaCorrente(labirinto.getStanzaIniziale());
-    }
-    
-	/**
-     * Crea il labirinto
-     */
-    private void creaLabirinto() {
-    	this.labirinto = new Labirinto();
-    }
-    
-    /**
-     * Aggiorna la stanza corrente
-     * @param stanzaCorrente stanza in cui ci troviamo in quel momento
-     */
+
 	public void setStanzaCorrente(Stanza stanzaCorrente) {
 		this.stanzaCorrente = stanzaCorrente;
 	}
-	
-    /**
-     * Restiruisce la stanza corrente
-     */
+
 	public Stanza getStanzaCorrente() {
 		return this.stanzaCorrente;
-	}
-	
-    /**
-     * Restiruisce la stanza corrente
-     */
-	public Stanza getStanzaFinale() {
-		return labirinto.getStanzaFinale();
 	}
 	
 	/**
@@ -74,7 +42,7 @@ public class Partita {
 	 * @return vero se partita vinta
 	 */
 	public boolean vinta() {
-		return this.getStanzaCorrente() == this.getStanzaFinale();
+		return this.getStanzaCorrente()== this.getStanzaVincente();
 	}
 
 	/**
@@ -82,7 +50,7 @@ public class Partita {
 	 * @return vero se partita finita
 	 */
 	public boolean isFinita() {
-		return finita || vinta() || giocatore.getCfu() == 0; //(cfu == 0)
+		return finita || vinta() || (this.giocatore.getCfu() == 0);
 	}
 
 	/**
@@ -92,25 +60,24 @@ public class Partita {
 	public void setFinita() {
 		this.finita = true;
 	}
+
+	public int getCfu() {
+		return this.giocatore.getCfu();
+	}
+
+	public void setCfu(int cfu) {
+		this.giocatore.setCfu(cfu);		
+	}	
 	
-	/**
-	 * Questo metodo consente di ottenere il riferimento al giocatore attuale
-	 * in gioco.
-	 * @return Restituisce l'oggetto Giocatore associato alla partita
-	 */
-    public Giocatore getGiocatore() {
-        return this.giocatore;
-    }
-    
-    
-    public String toString() {
-    	StringBuilder s = new StringBuilder();
-    	s.append(getStanzaCorrente().toString()).append("\n");
-    	s.append(getGiocatore().getBorsa().toString()).append("\n");
-    	s.append("CFU rimasti: ").append(getGiocatore().getCfu());
-    	return s.toString();
-    }
-    
+	public Giocatore getGiocatore() {
+		return this.giocatore;
+	}
 
+	public boolean giocatoreIsVivo() {
+		return this.giocatore.getCfu() > 0;
+	}
 
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
+	}
 }
