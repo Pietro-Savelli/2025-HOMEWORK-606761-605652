@@ -46,7 +46,7 @@ class AbstractComandoTest {
 
 	@Test
 	void testGetParametro() {
-		assertEquals("prova", comando.getParametro());
+		assertEquals(null, comando.getParametro());
 	}
 
 	

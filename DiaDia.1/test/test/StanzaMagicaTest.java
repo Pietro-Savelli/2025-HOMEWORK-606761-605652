@@ -19,7 +19,7 @@ public class StanzaMagicaTest {
 	
 	private StanzaMagica stanzaMagicaTest;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		 this.stanzaMagicaTest = new StanzaMagica(STANZA_MAGICA_TEST, SOGLIA_MAGICA);
 	}
@@ -27,7 +27,7 @@ public class StanzaMagicaTest {
 	@Test
 	public void testAddAttrezzoOltreSogliaMagica() {
 		for (int i = 0; i < SOGLIA_MAGICA; i++) 
-			Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaMagicaTest, ATTREZZO_TEST, 1);
+		Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaMagicaTest, ATTREZZO_TEST, 1);
 		Fixture.creaAttrezzoEAggiungiAStanza(this.stanzaMagicaTest, ATTREZZO_DA_MODIFICARE, 1);
 		String nomeAttrezzoModificato = new StringBuilder(ATTREZZO_DA_MODIFICARE).reverse().toString();
 		Attrezzo attrezzoModificato = this.stanzaMagicaTest.getAttrezzo(nomeAttrezzoModificato);

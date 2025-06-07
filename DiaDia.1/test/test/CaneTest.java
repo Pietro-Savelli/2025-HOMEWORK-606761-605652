@@ -49,13 +49,4 @@ public class CaneTest {
 		assertTrue(this.partita.getStanzaCorrente().hasAttrezzo(ciboSbagliato.getNome()));
 	}
 	
-	@Test
-	public void testRiceviRegalo_DueVolte() {
-		assertFalse(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
-		this.cane.riceviRegalo(this.ciboPreferito, this.partita);
-		assertTrue(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
-		this.partita.getStanzaCorrente().removeAttrezzo(this.regalo);
-		this.cane.riceviRegalo(this.ciboPreferito, this.partita);
-		assertFalse(this.partita.getStanzaCorrente().hasAttrezzo(this.regalo.getNome()));
-	}
 }

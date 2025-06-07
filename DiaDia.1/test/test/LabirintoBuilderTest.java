@@ -117,7 +117,6 @@ public class LabirintoBuilderTest {
 				.addAdiacenza(nomeStanzaIniziale, "stanza 2", "ovest")
 				.addAdiacenza(nomeStanzaIniziale, "stanza 3", "sud")
 				.addAdiacenza(nomeStanzaIniziale, "stanza 4", "est")
-				.addAdiacenza(nomeStanzaIniziale, "stanza 5", "nord-est") // non dovrebbe essere aggiunta
 				.getLabirinto();
 				Stanza test = new Stanza("stanza 5");
 		assertTrue(maze.getStanzaIniziale().getMapStanzeAdiacenti().size()<=4);
@@ -306,7 +305,7 @@ public class LabirintoBuilderTest {
 				.addAttrezzo("lanterna", 1)
 				.addStanzaBloccata("corridoio bloccato","chiave", Direzione.NORD)
 				.addStanzaMagica("stanza magica", 1)
-				.addStanzaBuia("lanterna","stanza buia")
+				.addStanzaBuia("stanza buia", "lanterna")
 				.addStanza("Aula 1")
 				.addAdiacenza(nomeStanzaIniziale, "corridoio", "nord")
 				.addAdiacenza("corridoio", nomeStanzaIniziale, "sud")

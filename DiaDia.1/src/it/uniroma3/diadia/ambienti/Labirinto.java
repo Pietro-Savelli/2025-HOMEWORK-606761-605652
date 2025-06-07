@@ -45,6 +45,9 @@ public class Labirinto {
 		public LabirintoBuilder addStanzaIniziale(String nomeStanzaIniziale) {
 			Stanza iniziale = new Stanza(nomeStanzaIniziale);
 			this.labirinto.setStanzaIniziale(iniziale);
+			System.out.println("2");
+			System.out.println(iniziale);
+			System.out.println(labirinto.getStanzaIniziale());
 			this.aggiungiAMappaEAggiornaUltima(iniziale);
 			return this;
 		}
@@ -55,10 +58,22 @@ public class Labirinto {
 			this.aggiungiAMappaEAggiornaUltima(vincente);
 			return this;
 		}
+		
+		public boolean direzioneValida(String direzione) {
+		    try {
+		        Direzione.valueOf(direzione.toLowerCase()); // solo se enum usa minuscole
+		        return true;
+		    } catch (IllegalArgumentException e) {
+		        return false;
+		    }
+		}
 
 		public LabirintoBuilder addAdiacenza(String partenza, String adiacente, String direzione) {
 			Stanza stanzaPartenza = this.nome2stanza.get(partenza);
 			Stanza stanzaAdiacente = this.nome2stanza.get(adiacente);
+			if(direzioneValida(direzione)) { 
+				stanzaPartenza.impostaStanzaAdiacente(null, stanzaAdiacente);
+				return this;}
 			if (stanzaPartenza == null || stanzaAdiacente == null) {
 				throw new IllegalArgumentException("Stanza non trovata: " + partenza + " o " + adiacente);
 			}
