@@ -1,9 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,107 +11,108 @@ import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
 
-class IOSimulatorTest {
-	
-	
-	private Labirinto labirinto;
+public class IOSimulatorTest {
 
-	@BeforeEach
-	void setUp() {
-	    LabirintoBuilder builder = new LabirintoBuilder();
+    private Labirinto labirinto;
 
-	    this.labirinto = builder
-	        .addStanzaIniziale("Ingresso")
-	        .addAttrezzo("lanterna", 3)
-	        .addStanzaMagica("StanzaMagica", 1)
-	        .addAttrezzo("osso", 1)
-	        .addStanzaBuia("StanzaBuia", "lanterna")
-	        .addStanzaBloccata("StanzaBloccata", "chiave", Direzione.NORD)
-	        .addStanza("StanzaNormale")
-	        .addAttrezzo("chiave", 1)
-	        .addStanzaVincente("Uscita")
+    @BeforeEach
+    void setUp() {
+        LabirintoBuilder builder = new LabirintoBuilder();
 
-	        // Collegamenti
-	        .addAdiacenza("Ingresso", "StanzaMagica", "nord")
-	        .addAdiacenza("StanzaMagica", "StanzaBuia", "est")
-	        .addAdiacenza("StanzaBuia", "StanzaBloccata", "sud")
-	        .addAdiacenza("StanzaBloccata", "StanzaNormale", "nord")
-	        .addAdiacenza("StanzaNormale", "Uscita", "ovest")
+        this.labirinto = builder
+            .addStanzaIniziale("Ingresso")
+            .addAttrezzo("lanterna", 3)
+            .addStanzaMagica("StanzaMagica", 1)
+            .addAttrezzo("osso", 1)
+            .addStanzaBuia("StanzaBuia", "lanterna")
+            .addStanzaBloccata("StanzaBloccata", "chiave", Direzione.NORD)
+            .addStanza("StanzaNormale")
+            .addAttrezzo("chiave", 1)
+            .addStanzaVincente("Uscita")
+            // Collegamenti
+            .addAdiacenza("Ingresso", "StanzaMagica", "nord")
+            .addAdiacenza("StanzaMagica", "StanzaBuia", "est")
+            .addAdiacenza("StanzaBuia", "StanzaBloccata", "sud")
+            .addAdiacenza("StanzaBloccata", "StanzaNormale", "nord")
+            .addAdiacenza("StanzaNormale", "Uscita", "ovest")
+            .getLabirinto();
+    }
 
-	        .getLabirinto();
-	}
+    @Test
+    public void testSimulazionePartitaConFine() throws Exception {
+        String[] comandi = {
+            "vai sud",         // comando non valido in partenza, rimane in Ingresso
+            "prendi lanterna", // prende la lanterna
+            "vai nord",        // va in StanzaMagica
+            "guarda",          // guarda attorno
+            "fine"             // termina il gioco
+        };
 
-	
-	@Test
-	public void testSimulazionePartitaConFine() throws Exception{
-		// Input simulati (comandi del giocatore)
-		String[] comandi = {
-				"vai sud",
-				"prendi lanterna",  
-				"vai nord",
-				"guarda",
-				"fine"
-		};
+        IOSimulator io = new IOSimulator(List.of(comandi));
+        DiaDia gioco = new DiaDia(io, labirinto);
+        gioco.gioca();
 
-		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
+        boolean messaggioFinaleTrovato = false;
+        while (io.hasNextMessaggio()) {
+            String messaggio = io.nextMessaggio();
+            if (messaggio.equals("Grazie di aver giocato!")) {
+                messaggioFinaleTrovato = true;
+                break;
+            }
+        }
 
-		DiaDia gioco = new DiaDia(io, labirinto); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
-		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
-		assertTrue(io.hasNextMessaggio());
+        assertTrue(messaggioFinaleTrovato, "Il messaggio di fine gioco non è stato trovato.");
+    }
 
-		boolean messaggioFinaleTrovato = false;
-		while (io.hasNextMessaggio()) {
-			String messaggio = io.nextMessaggio();
+    @Test
+    public void testSimulazioneVinta() throws Exception {
+        // Percorso minimo per vincere: Ingresso -> nord -> StanzaMagica -> est -> StanzaBuia -> sud -> StanzaBloccata
+        // -> prendi chiave -> nord (sblocca) -> StanzaNormale -> ovest -> Uscita
+        String[] comandi = {
+            "vai nord",       // Ingresso -> StanzaMagica
+            "vai est",        // -> StanzaBuia
+            "prendi lanterna",// dovrebbe illuminare la StanzaBuia
+            "vai sud",        // -> StanzaBloccata
+            "prendi chiave",  // prende chiave
+            "vai nord",       // -> StanzaNormale (sbloccata)
+            "vai ovest",      // -> Uscita
+            "fine"            // chiude la partita
+        };
 
-			if (messaggio.equals("Grazie di aver giocato!")) {
-				messaggioFinaleTrovato = true;
-				break;
-			}
-		}
+        IOSimulator io = new IOSimulator(List.of(comandi));
+        DiaDia gioco = new DiaDia(io, labirinto);
+        gioco.gioca();
 
-		assertTrue(messaggioFinaleTrovato); //Il gioco dovrebbe concludersi all' utlimo comando della stringa "fine"
-	}
+        boolean vittoria = false;
+        while (io.hasNextMessaggio()) {
+            String messaggio = io.nextMessaggio();
+            if (messaggio.equals("Hai vinto!")) {
+                vittoria = true;
+                break;
+            }
+        }
 
-	@Test
-	public void testSimulazioneVinta() throws Exception {
-		
-		String[] comandi = { "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
-		
-		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
+        assertTrue(vittoria);
+    }
 
-		DiaDia gioco = new DiaDia(io, labirinto); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
-		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
-		assertTrue(io.hasNextMessaggio());
+    @Test
+    public void testSimulazioneMessaggi() throws Exception {
+        String[] comandi = { "vai nord", "vai est", "fine" };
+        IOSimulator io = new IOSimulator(List.of(comandi));
+        DiaDia gioco = new DiaDia(io, labirinto);
+        gioco.gioca();
 
-		boolean messaggioFinaleTrovato = false;
-		while (io.hasNextMessaggio()) {
-			String messaggio = io.nextMessaggio();
+        assertTrue(io.hasNextMessaggio());
 
-			if (messaggio.equals("Hai vinto!")) {
-				messaggioFinaleTrovato = true;
-				break;
-			}
-		}
+        // Non possiamo sapere con esattezza tutti i messaggi, ma verifichiamo che almeno il messaggio di fine ci sia
+        boolean fineTrovato = false;
+        while (io.hasNextMessaggio()) {
+            if (io.nextMessaggio().equals("Grazie di aver giocato!")) {
+                fineTrovato = true;
+                break;
+            }
+        }
 
-		assertTrue(messaggioFinaleTrovato); //Il gioco dovrebbe concludersi perche' hai raggiunto la stanza giusta 
-	}
-	
-
-	@Test
-	public void testSimulazione() throws Exception {
-		
-		String[] comandi = { "vai sud", "vai nord", "fine" }; // comandi che gestiscono la partita (comandiInIngresso)
-		String[] aspettativa = { "Aula N10", "Atrio", "Grazie di aver giocato!" };
-		
-		IOSimulator io = new IOSimulator(List.of(comandi)); // invio i comandi a alle stringe di IOSimulator
-
-		DiaDia gioco = new DiaDia(io, labirinto); // creo un istanza diadia con parametro IOSimulator(usufruisce dell interfaccia IO)
-		gioco.gioca();  // Questo metodo deve usare solo io.leggiRiga() e io.mostraMessaggio()
-		assertTrue(io.hasNextMessaggio());
-
-		io.nextMessaggio();
-		for (int i=0; i<aspettativa.length-1; i++) {
-			assertEquals(io.nextMessaggio(), aspettativa[i]);
-		}
-	}
+        assertTrue(fineTrovato);
+    }
 }

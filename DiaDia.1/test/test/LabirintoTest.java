@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 public class LabirintoTest {
-	
-	private String VINCENTE = "LabCampusOne";
-	private  String INIZIALE = "Biblioteca";
+	//??????
+	private static final String VINCENTE = "LabCampusOne";
+	private static final String INIZIALE = "Biblioteca";
 	private Labirinto labirinto;
 	
 	@BeforeEach
@@ -22,8 +22,6 @@ public class LabirintoTest {
 				.addStanzaVincente("Biblioteca")
 				.addAdiacenza("LabCampusOne","Biblioteca","nord")
 				.getLabirinto();
-//		DiaDia gioco = new DiaDia(new IOConsole(), labirinto);
-//		gioco.gioca();
 	}
 
 	@Test

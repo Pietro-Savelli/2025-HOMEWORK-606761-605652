@@ -6,7 +6,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 public class Cane extends AbstractPersonaggio{
 	
 	Attrezzo attrezzo;
-	String ciboPreferito = "osso";
+	String ciboPreferito = "CiboPreferito";
 	public Cane(String nome, String presentazione) {
 		super(nome, presentazione);
 	}
@@ -33,6 +33,7 @@ public class Cane extends AbstractPersonaggio{
 		
 	    if (attrezzo.getNome().equals(ciboPreferito)) {
 	        partita.getStanzaCorrente().addAttrezzo(this.attrezzo);
+	        this.attrezzo = attrezzo;
 	        return "BAU BAU";
 	    }
 	    partita.getStanzaCorrente().addAttrezzo(attrezzo);
